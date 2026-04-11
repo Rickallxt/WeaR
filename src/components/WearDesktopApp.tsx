@@ -5,6 +5,14 @@ import { baseProfile, navItems, wardrobeItems, type ScreenKey, type UserProfile,
 import { buildWardrobeItem } from '../lib/wardrobeDrafts';
 import { readFileAsDataUrl } from '../lib/fileData';
 import {
+  loadOnboarded,
+  loadProfile,
+  loadWardrobe,
+  saveOnboarded,
+  saveProfile,
+  saveWardrobe,
+} from '../lib/persistence';
+import {
   fetchGenerationStatus,
   requestWardrobeIdentification,
   type GenerationStatus,
@@ -189,9 +197,9 @@ function DesktopWorkspace({
 export function WearDesktopApp() {
   const reduceMotion = useReducedMotion();
   const [showSplash, setShowSplash] = useState(true);
-  const [isOnboarded, setIsOnboarded] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>(baseProfile);
-  const [wardrobe, setWardrobe] = useState<WardrobeItem[]>(wardrobeItems);
+  const [isOnboarded, setIsOnboarded] = useState(() => loadOnboarded());
+  const [profile, setProfile] = useState<UserProfile>(() => loadProfile() ?? baseProfile);
+  const [wardrobe, setWardrobe] = useState<WardrobeItem[]>(() => loadWardrobe() ?? wardrobeItems);
   const [activeScreen, setActiveScreen] = useState<ScreenKey>('dashboard');
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus | null>(null);
   const [uploadReview, setUploadReview] = useState<UploadReviewState | null>(null);
@@ -229,6 +237,18 @@ export function WearDesktopApp() {
       ignore = true;
     };
   }, []);
+
+  useEffect(() => {
+    saveOnboarded(isOnboarded);
+  }, [isOnboarded]);
+
+  useEffect(() => {
+    saveProfile(profile);
+  }, [profile]);
+
+  useEffect(() => {
+    saveWardrobe(wardrobe);
+  }, [wardrobe]);
 
   function handleOnboardingComplete(nextProfile: UserProfile) {
     setProfile(nextProfile);
