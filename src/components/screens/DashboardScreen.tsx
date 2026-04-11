@@ -2,7 +2,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   alternateOutfits,
   savedCollections,
-  styleLogic,
   todayOutfit,
   type UserProfile,
   type WardrobeItem,
@@ -10,6 +9,50 @@ import {
 import { MetricCard, MotionCard, Panel, SectionKicker, SurfaceBadge, WardrobeMosaic } from '../Chrome';
 import { getWardrobeItemsForOutfit } from './wardrobeUtils';
 import { PieceList, ScreenHeader } from './shared';
+
+function buildWardrobeInsights(wardrobe: WardrobeItem[], profile: UserProfile): string[] {
+  const insights: string[] = [];
+  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
+  const totalCount = wardrobe.length;
+  const uploadCoverage = totalCount === 0 ? 0 : Math.round((uploadedCount / totalCount) * 100);
+
+  // Coverage insight
+  if (totalCount === 0) {
+    insights.push('Start by adding wardrobe pieces. Upload photos to unlock generation.');
+  } else if (uploadCoverage < 50) {
+    insights.push(
+      `${uploadedCount} of ${totalCount} pieces have photos mapped. Adding more unlocks stronger generation.`,
+    );
+  } else {
+    const categoryCounts = wardrobe.reduce<Record<string, number>>((acc, item) => {
+      acc[item.category] = (acc[item.category] ?? 0) + 1;
+      return acc;
+    }, {});
+    const topCategory = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0];
+    if (topCategory) {
+      insights.push(`Your ${topCategory[0].toLowerCase()} collection (${topCategory[1]} pieces) is your strongest mapped area.`);
+    }
+  }
+
+  // Fit + style insight from profile
+  if (profile.fitPreference) {
+    insights.push(
+      `${profile.fitPreference} fit logic is active. Outfits prioritise silhouettes that match your preference.`,
+    );
+  }
+
+  // Repeat / shopping insight
+  const repeatCount = wardrobe.filter((item) => item.status === 'Repeat').length;
+  if (repeatCount > 0) {
+    insights.push(
+      `${repeatCount} repeat anchor${repeatCount > 1 ? 's' : ''} identified. New shopping should stay secondary until these are fully exhausted.`,
+    );
+  } else {
+    insights.push('New shopping should stay secondary until the saved repeat formulas are exhausted.');
+  }
+
+  return insights;
+}
 
 function buildDashboardMetrics(wardrobe: WardrobeItem[]) {
   const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
@@ -51,6 +94,7 @@ export function DashboardScreen({
   const reduceMotion = useReducedMotion();
   const todayWardrobe = getWardrobeItemsForOutfit(wardrobe, todayOutfit.pieces);
   const dashboardMetrics = buildDashboardMetrics(wardrobe);
+  const wardrobeInsights = buildWardrobeInsights(wardrobe, profile);
   const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
 
   return (
@@ -103,9 +147,14 @@ export function DashboardScreen({
             <SectionKicker>Fit intelligence</SectionKicker>
             <p className="mt-4 text-[1.1rem] leading-8 text-[var(--text)]">{todayOutfit.silhouette}</p>
             <div className="mt-6 space-y-3">
-              {styleLogic.slice(0, 2).map((item) => (
-                <div key={item} className="rounded-[20px] bg-[rgba(248,244,238,0.85)] px-4 py-4">
-                  <p className="text-sm leading-7 text-[var(--muted)]">{item}</p>
+              <div className="rounded-[20px] bg-[rgba(248,244,238,0.85)] px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Fit mode</p>
+                <p className="mt-2 text-sm leading-7 text-[var(--text)]">{profile.fitPreference}</p>
+              </div>
+              {profile.occasions.slice(0, 1).map((occasion) => (
+                <div key={occasion} className="rounded-[20px] bg-[rgba(248,244,238,0.85)] px-4 py-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Primary occasion</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--text)]">{occasion}</p>
                 </div>
               ))}
             </div>
@@ -170,13 +219,9 @@ export function DashboardScreen({
               Your wardrobe is already stronger than it looks.
             </h3>
             <div className="mt-6 space-y-4">
-              {[
-                'Outerwear is carrying the most polish per wear right now.',
-                'You get the cleanest result when the base stays quiet and one detail adds lift.',
-                'New shopping should stay secondary until the saved repeat formulas are exhausted.',
-              ].map((item) => (
-                <div key={item} className="rounded-[22px] border border-white/80 bg-white/84 px-4 py-4">
-                  <p className="text-sm leading-7 text-[var(--text)]">{item}</p>
+              {wardrobeInsights.map((insight) => (
+                <div key={insight} className="rounded-[22px] border border-white/80 bg-white/84 px-4 py-4">
+                  <p className="text-sm leading-7 text-[var(--text)]">{insight}</p>
                 </div>
               ))}
             </div>
