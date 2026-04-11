@@ -52,14 +52,21 @@ export function WardrobeScreen({
   const [exampleSelection, setExampleSelection] = useState<string[]>([]);
   const deferredQuery = useDeferredValue(query);
   const [category, setCategory] = useState<'All' | 'Tops' | 'Bottoms' | 'Shoes' | 'Outerwear' | 'Accessories'>('All');
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'mine' | 'example'>('all');
   const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
   const existingIds = wardrobe.map((item) => item.id);
+  const myItemCount = wardrobe.filter((item) => item.source !== 'example').length;
+  const exampleItemCount = wardrobe.filter((item) => item.source === 'example').length;
 
   const filteredItems = wardrobe.filter((item) => {
     const matchesCategory = category === 'All' || item.category === category;
+    const matchesSource =
+      sourceFilter === 'all' ||
+      (sourceFilter === 'mine' && item.source !== 'example') ||
+      (sourceFilter === 'example' && item.source === 'example');
     const haystack = `${item.name} ${item.category} ${item.tags.join(' ')} ${item.material}`.toLowerCase();
     const matchesQuery = haystack.includes(deferredQuery.trim().toLowerCase());
-    return matchesCategory && matchesQuery;
+    return matchesCategory && matchesSource && matchesQuery;
   });
 
   function toggleExampleSelection(itemId: string) {
@@ -114,6 +121,31 @@ export function WardrobeScreen({
                   {item}
                 </button>
               ))}
+            </div>
+
+            <div className="mt-4">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">Source</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {([
+                  { key: 'all', label: `All (${wardrobe.length})` },
+                  { key: 'mine', label: `My items (${myItemCount})` },
+                  { key: 'example', label: `Examples (${exampleItemCount})` },
+                ] as const).map(({ key, label }) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSourceFilter(key)}
+                    className={cx(
+                      'rounded-full border px-4 py-2 text-sm transition duration-300',
+                      sourceFilter === key
+                        ? 'border-[rgba(200,223,113,0.5)] bg-[rgba(200,223,113,0.18)] text-[var(--text)]'
+                        : 'border-[rgba(24,24,29,0.08)] bg-white/80 text-[var(--muted)]',
+                    )}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="mt-6">
@@ -203,7 +235,13 @@ export function WardrobeScreen({
               <div className="mt-6 grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
                 {filteredItems.map((item) => (
                   <MotionCard key={item.id}>
-                    <Panel className="h-full p-4" variant="solid">
+                    <Panel
+                      className={cx(
+                        'h-full p-4',
+                        item.source === 'example' && 'border border-dashed border-[rgba(200,223,113,0.5)]',
+                      )}
+                      variant="solid"
+                    >
                       <ItemArtwork palette={item.palette} imageUrl={item.imageDataUrl} label={item.status} />
                       <div className="mt-4 flex items-start justify-between gap-4">
                         <div>
