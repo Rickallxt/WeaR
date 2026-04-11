@@ -48,8 +48,14 @@ export function ItemReviewModal({
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <SurfaceBadge tone={state.stage === 'error' ? 'default' : 'accent-soft'}>
-                    {state.stage === 'processing' ? 'Processing' : state.draft.detection?.mode ?? 'review'}
+                  <SurfaceBadge tone={state.stage === 'error' ? 'default' : state.draft.detection?.mode === 'openai' ? 'accent' : 'accent-soft'}>
+                    {state.stage === 'processing'
+                      ? 'Processing'
+                      : state.draft.detection?.mode === 'openai'
+                        ? 'AI detected'
+                        : state.draft.detection?.mode === 'mock'
+                          ? 'Auto-guessed'
+                          : 'Review'}
                   </SurfaceBadge>
                   <button type="button" onClick={onClose} className="button-secondary text-sm">
                     Close
@@ -83,13 +89,18 @@ export function ItemReviewModal({
                     <Panel className="p-5" variant="solid">
                       <SectionKicker>Detected summary</SectionKicker>
                       <div className="mt-4 flex flex-wrap gap-2">
-                        <SurfaceBadge tone="accent">
+                        <SurfaceBadge tone={state.draft.detection?.mode === 'openai' ? 'accent' : 'default'}>
                           {Math.round((state.draft.detection?.confidence ?? 0.7) * 100)}% confidence
                         </SurfaceBadge>
                         <SurfaceBadge>{state.draft.color}</SurfaceBadge>
                         <SurfaceBadge>{state.draft.material}</SurfaceBadge>
                       </div>
                       <p className="mt-4 text-sm leading-7 text-[var(--muted)]">{state.helperText}</p>
+                      {state.draft.detection?.mode === 'mock' && (
+                        <p className="mt-3 text-xs leading-6 text-[var(--muted)]">
+                          This was guessed from the file name. Review all fields before saving.
+                        </p>
+                      )}
                     </Panel>
                   </div>
 

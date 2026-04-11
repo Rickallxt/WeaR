@@ -6,6 +6,8 @@ import type {
   GeneratedWardrobeOption,
   GenerationStatus,
 } from '../../lib/generationApi';
+
+type ChatEntry = EventChatMessage & { mode?: 'openai' | 'demo' };
 import {
   requestEventChat,
   requestWardrobeImage,
@@ -66,13 +68,14 @@ export function GenerateScreen({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [exampleSelection, setExampleSelection] = useState<string[]>([]);
   const [chatInput, setChatInput] = useState('');
-  const [messages, setMessages] = useState<EventChatMessage[]>([
+  const [messages, setMessages] = useState<ChatEntry[]>([
     {
       role: 'assistant',
       content:
         "Tell me about the event, dress code, weather, and the feeling you want. I'll use that context to sharpen wardrobe-only recommendations.",
     },
   ]);
+  const [optionsMode, setOptionsMode] = useState<'openai' | 'demo' | null>(null);
   const [eventSummary, setEventSummary] = useState('No event context added yet.');
   const [options, setOptions] = useState<GeneratedWardrobeOption[]>([]);
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
@@ -121,7 +124,7 @@ export function GenerateScreen({
         userMessage: trimmed,
       });
 
-      setMessages((current) => [...current, { role: 'assistant', content: response.reply }]);
+      setMessages((current) => [...current, { role: 'assistant', content: response.reply, mode: response.mode }]);
       setEventSummary(response.summary);
     } catch (chatError) {
       const fallbackReply =
@@ -153,6 +156,7 @@ export function GenerateScreen({
 
       const nextOptions = response.options.length > 0 ? response.options : buildDemoOptions(selectedItems);
       setOptions(nextOptions);
+      setOptionsMode(response.mode);
       setSelectedOptionId(nextOptions[0]?.id ?? '');
       startTransition(() => setStep(nextOptions.length > 0 ? 'options' : 'select'));
     } catch (optionsError) {
@@ -464,6 +468,11 @@ export function GenerateScreen({
                   <p className="mt-4 text-[1.4rem] text-[var(--text)]">Choose the outfit option to generate</p>
                 </div>
                 <div className="flex flex-wrap gap-3">
+                  {optionsMode ? (
+                    <SurfaceBadge tone={optionsMode === 'openai' ? 'accent' : 'default'}>
+                      {optionsMode === 'openai' ? 'Live AI options' : 'Demo options'}
+                    </SurfaceBadge>
+                  ) : null}
                   <button type="button" onClick={() => resetGenerationFlow()} className="button-secondary text-sm">
                     Back to selection
                   </button>
@@ -569,9 +578,16 @@ export function GenerateScreen({
                   key={`${message.role}-${index}`}
                   className={`rounded-[22px] px-4 py-4 ${message.role === 'assistant' ? 'bg-[rgba(248,244,238,0.86)]' : 'bg-[rgba(152,161,255,0.12)]'}`}
                 >
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">
-                    {message.role === 'assistant' ? 'WeaR' : 'You'}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">
+                      {message.role === 'assistant' ? 'WeaR' : 'You'}
+                    </p>
+                    {message.role === 'assistant' && message.mode ? (
+                      <SurfaceBadge tone={message.mode === 'openai' ? 'accent' : 'default'}>
+                        {message.mode === 'openai' ? 'Live AI' : 'Demo'}
+                      </SurfaceBadge>
+                    ) : null}
+                  </div>
                   <p className="mt-3 text-sm leading-7 text-[var(--text)]">{message.content}</p>
                 </div>
               ))}
