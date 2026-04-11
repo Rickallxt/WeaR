@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.local
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+.env
+.vite-dev.log
+.vite-dev.err.log
+.edge-audit-profile
