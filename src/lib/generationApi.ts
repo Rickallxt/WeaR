@@ -23,8 +23,20 @@ export type WardrobeIdentification = ApiIdentificationResponse & {
   category: WardrobeCategory;
 };
 
+const API_ORIGIN =
+  typeof window !== 'undefined' && window.location.protocol === 'file:'
+    ? 'http://127.0.0.1:8787'
+    : '';
+
 async function requestJson<T>(input: RequestInfo, init?: RequestInit) {
-  const response = await fetch(input, init);
+  const url =
+    typeof input === 'string' && input.startsWith('/')
+      ? `${API_ORIGIN}${input}`
+      : input;
+  const response = await fetch(url, {
+    credentials: 'include',
+    ...init,
+  });
   const payload = (await response.json()) as T & { error?: string };
 
   if (!response.ok) {
@@ -35,7 +47,7 @@ async function requestJson<T>(input: RequestInfo, init?: RequestInit) {
 }
 
 export function fetchGenerationStatus() {
-  return requestJson<ApiGenerationStatus>('/api/openai/status');
+  return requestJson<ApiGenerationStatus>('/api/ai/status');
 }
 
 export function requestEventChat({
@@ -109,10 +121,12 @@ export function requestWardrobeImage({
 
 export function requestWardrobeIdentification({
   imageDataUrl,
+  mediaAssetId,
   fileName,
   existingItem,
 }: {
-  imageDataUrl: string;
+  imageDataUrl?: string;
+  mediaAssetId?: string;
   fileName: string;
   existingItem?: Partial<WardrobeItem> | null;
 }) {
@@ -121,6 +135,7 @@ export function requestWardrobeIdentification({
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       imageDataUrl,
+      mediaAssetId,
       fileName,
       existingItem,
     }),

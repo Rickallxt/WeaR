@@ -1,4 +1,3 @@
-import { createFashionMockImage } from '../lib/wardrobeVisuals';
 
 export type ScreenKey =
   | 'dashboard'
@@ -13,7 +12,36 @@ export type WardrobeCategory = 'Tops' | 'Bottoms' | 'Shoes' | 'Outerwear' | 'Acc
 export type WardrobeStatus = 'Core' | 'Occasion' | 'Repeat';
 export type WardrobeSource = 'seed' | 'example' | 'upload';
 export type WardrobeDetectionState = 'curated' | 'auto-detected' | 'reviewed' | 'error';
-export type WardrobeDetectionMode = 'curated' | 'mock' | 'openai' | 'manual';
+export type WardrobeDetectionMode = 'curated' | 'mock' | 'local' | 'openai' | 'manual';
+export type MediaAssetKind = 'wardrobe-upload' | 'generated-look';
+
+export type UserAccount = {
+  id: string;
+  email: string;
+  name: string;
+  onboarded: boolean;
+  createdAt: string;
+  importedLegacyData: boolean;
+};
+
+export type AuthSession = {
+  authenticated: boolean;
+  user: UserAccount | null;
+  expiresAt?: string;
+};
+
+export type MediaAsset = {
+  id: string;
+  ownerUserId: string;
+  kind: MediaAssetKind;
+  createdAt: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  linkedItemId: string | null;
+  previewUrl: string;
+  originalUrl: string;
+};
 
 export type NavItem = {
   key: ScreenKey;
@@ -46,6 +74,8 @@ export type WardrobeItem = {
   palette: string;
   status: WardrobeStatus;
   imageDataUrl?: string | null;
+  imageUrl?: string | null;
+  mediaAssetId?: string | null;
   source?: WardrobeSource;
   styleNote?: string;
   detection?: {
@@ -55,6 +85,10 @@ export type WardrobeItem = {
     note: string;
   };
 };
+
+export function resolveWardrobeImageSrc(item: Pick<WardrobeItem, 'imageUrl' | 'imageDataUrl'>) {
+  return item.imageUrl ?? item.imageDataUrl ?? null;
+}
 
 export type OutfitSuggestion = {
   id: string;
@@ -67,6 +101,7 @@ export type OutfitSuggestion = {
 };
 
 export type SavedCollection = {
+  id: string;
   title: string;
   count: number;
   vibe: string;
@@ -83,6 +118,37 @@ export const navItems: NavItem[] = [
   { key: 'saved', label: 'Saved looks', caption: 'Collections and pins', icon: 'bookmark' },
   { key: 'settings', label: 'Settings', caption: 'Profile and preferences', icon: 'settings' },
 ];
+
+// Mobile bottom tab bar — 5 tabs map to 7 screens
+export type TabKey = 'home' | 'wardrobe' | 'generate' | 'saved' | 'profile';
+
+export type MobileTab = {
+  key: TabKey;
+  label: string;
+  screen: ScreenKey;
+  icon: NavItem['icon'];
+};
+
+export const mobileTabs: MobileTab[] = [
+  { key: 'home',     label: 'Home',     screen: 'dashboard', icon: 'grid' },
+  { key: 'wardrobe', label: 'Closet',   screen: 'wardrobe',  icon: 'hanger' },
+  { key: 'generate', label: 'Generate', screen: 'generate',  icon: 'spark' },
+  { key: 'saved',    label: 'Saved',    screen: 'saved',     icon: 'bookmark' },
+  { key: 'profile',  label: 'Profile',  screen: 'profile',   icon: 'profile' },
+];
+
+// Maps a screen to its owning tab (for tab highlight state)
+export function getTabForScreen(screen: ScreenKey): TabKey {
+  switch (screen) {
+    case 'dashboard': return 'home';
+    case 'wardrobe':  return 'wardrobe';
+    case 'generate':  return 'generate';
+    case 'saved':     return 'saved';
+    case 'studio':    return 'profile';
+    case 'profile':   return 'profile';
+    case 'settings':  return 'profile';
+  }
+}
 
 export const baseProfile: UserProfile = {
   name: 'Avery',
@@ -108,14 +174,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Evening', 'Layering hero', 'Sharp shoulder'],
     palette: 'from-[#ebe2d8] via-[#fffaf4] to-[#dbe2ff]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Bone cropped bomber',
-      kind: 'bomber',
-      backdrop: ['#f7f0e8', '#eef1ff'],
-      garment: '#d8ccbf',
-      accent: '#f8f5ef',
-      hardware: '#6c738d',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1760126070359-5b82710274fe?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Structured cropped outer layer with a clean shoulder line.',
     detection: {
@@ -135,14 +194,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Lengthening', 'Work', 'Dinner'],
     palette: 'from-[#d7d8de] via-[#f7f5f1] to-[#e8ecf7]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Black column trouser',
-      kind: 'trouser',
-      backdrop: ['#f5f2ee', '#ecefff'],
-      garment: '#26272e',
-      accent: '#3f4454',
-      hardware: '#8d94a8',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1682997843688-94722786a722?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Long straight trouser with a quiet vertical line.',
     detection: {
@@ -162,14 +214,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Base layer', 'Warm weather', 'Quiet'],
     palette: 'from-[#efe7de] via-[#fffaf6] to-[#eef6dc]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Soft knit tank',
-      kind: 'tank',
-      backdrop: ['#f7efe8', '#eef5df'],
-      garment: '#d2c6ba',
-      accent: '#f8f3ec',
-      hardware: '#8e938d',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Close clean tank for quiet base-layer balance.',
     detection: {
@@ -189,14 +234,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Weekend', 'Night', 'Modern'],
     palette: 'from-[#dfe3ef] via-[#fbf8f4] to-[#f4ebff]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Silver low sneaker',
-      kind: 'sneaker',
-      backdrop: ['#f3f2f0', '#f2ecff'],
-      garment: '#d7dce3',
-      accent: '#ffffff',
-      hardware: '#8f95a8',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Low-profile metallic sneaker for a modern finish.',
     detection: {
@@ -216,14 +254,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Casual', 'Volume', 'Travel'],
     palette: 'from-[#d8deec] via-[#faf7f2] to-[#e8f1d8]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Dark rinse wide jean',
-      kind: 'jean',
-      backdrop: ['#edf2fb', '#f0f4de'],
-      garment: '#33405b',
-      accent: '#60708c',
-      hardware: '#d9dded',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Wide-leg denim that adds volume without losing polish.',
     detection: {
@@ -243,14 +274,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Travel', 'Transitional', 'Long line'],
     palette: 'from-[#e8ddcf] via-[#fffaf3] to-[#e5e9ff]',
     status: 'Occasion',
-    imageDataUrl: createFashionMockImage({
-      label: 'Light trench layer',
-      kind: 'trench',
-      backdrop: ['#f7efe7', '#eef0ff'],
-      garment: '#d5c4ae',
-      accent: '#ebe1d4',
-      hardware: '#70614f',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1560633030-e1625425787b?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Fluid trench built for travel and transitional layering.',
     detection: {
@@ -270,14 +294,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Work', 'Dinner', 'Polish'],
     palette: 'from-[#f2f3f6] via-[#ffffff] to-[#e9f2d9]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Clean white shirt',
-      kind: 'shirt',
-      backdrop: ['#f6f6f6', '#eef5df'],
-      garment: '#f4f5f6',
-      accent: '#ffffff',
-      hardware: '#9095a1',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Crisp poplin shirt for polished work and dinner looks.',
     detection: {
@@ -297,14 +314,7 @@ export const wardrobeItems: WardrobeItem[] = [
     tags: ['Travel', 'Finish', 'Hands-free'],
     palette: 'from-[#d8cec4] via-[#f8f4ef] to-[#ecebff]',
     status: 'Occasion',
-    imageDataUrl: createFashionMockImage({
-      label: 'Soft leather belt bag',
-      kind: 'bag',
-      backdrop: ['#f2ebe4', '#efefff'],
-      garment: '#5b4036',
-      accent: '#8a6658',
-      hardware: '#c7b18b',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'seed',
     styleNote: 'Compact accessory for hands-free travel and sharp finishing.',
     detection: {
@@ -358,6 +368,7 @@ export const alternateOutfits: OutfitSuggestion[] = [
 
 export const savedCollections: SavedCollection[] = [
   {
+    id: 'sc-1',
     title: 'After dark',
     count: 12,
     vibe: 'Quiet sharpness',
@@ -365,6 +376,7 @@ export const savedCollections: SavedCollection[] = [
     pins: ['Silver low sneaker', 'Black column trouser', 'Bone cropped bomber'],
   },
   {
+    id: 'sc-2',
     title: 'Studio week',
     count: 9,
     vibe: 'Clean relaxed',
@@ -372,6 +384,7 @@ export const savedCollections: SavedCollection[] = [
     pins: ['Light trench layer', 'Dark rinse wide jean', 'Clean white shirt'],
   },
   {
+    id: 'sc-3',
     title: 'Travel smart',
     count: 7,
     vibe: 'Layered utility',

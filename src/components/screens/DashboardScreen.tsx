@@ -3,115 +3,143 @@ import {
   alternateOutfits,
   savedCollections,
   todayOutfit,
+  type MediaAsset,
   type UserProfile,
   type WardrobeItem,
 } from '../../data/wearData';
+import type { GenerationStatus } from '../../lib/generationApi';
+import type { EventSession } from '../../lib/persistence';
 import { MetricCard, MotionCard, Panel, SectionKicker, SurfaceBadge, WardrobeMosaic } from '../Chrome';
 import { getWardrobeItemsForOutfit } from './wardrobeUtils';
-import { PieceList, ScreenHeader } from './shared';
-
-function buildWardrobeInsights(wardrobe: WardrobeItem[], profile: UserProfile): string[] {
-  const insights: string[] = [];
-  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
-  const totalCount = wardrobe.length;
-  const uploadCoverage = totalCount === 0 ? 0 : Math.round((uploadedCount / totalCount) * 100);
-
-  // Coverage insight
-  if (totalCount === 0) {
-    insights.push('Start by adding wardrobe pieces. Upload photos to unlock generation.');
-  } else if (uploadCoverage < 50) {
-    insights.push(
-      `${uploadedCount} of ${totalCount} pieces have photos mapped. Adding more unlocks stronger generation.`,
-    );
-  } else {
-    const categoryCounts = wardrobe.reduce<Record<string, number>>((acc, item) => {
-      acc[item.category] = (acc[item.category] ?? 0) + 1;
-      return acc;
-    }, {});
-    const topCategory = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0];
-    if (topCategory) {
-      insights.push(`Your ${topCategory[0].toLowerCase()} collection (${topCategory[1]} pieces) is your strongest mapped area.`);
-    }
-  }
-
-  // Fit + style insight from profile
-  if (profile.fitPreference) {
-    insights.push(
-      `${profile.fitPreference} fit logic is active. Outfits prioritise silhouettes that match your preference.`,
-    );
-  }
-
-  // Repeat / shopping insight
-  const repeatCount = wardrobe.filter((item) => item.status === 'Repeat').length;
-  if (repeatCount > 0) {
-    insights.push(
-      `${repeatCount} repeat anchor${repeatCount > 1 ? 's' : ''} identified. New shopping should stay secondary until these are fully exhausted.`,
-    );
-  } else {
-    insights.push('New shopping should stay secondary until the saved repeat formulas are exhausted.');
-  }
-
-  return insights;
-}
+import { PieceList } from './shared';
 
 function buildDashboardMetrics(wardrobe: WardrobeItem[]) {
-  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
+  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl || item.imageUrl)).length;
   const repeatCount = wardrobe.filter((item) => item.status === 'Repeat').length;
   const categoryCount = new Set(wardrobe.map((item) => item.category)).size;
   const uploadCoverage = wardrobe.length === 0 ? 0 : Math.round((uploadedCount / wardrobe.length) * 100);
 
   return [
-    {
-      label: 'Mapped pieces',
-      value: String(wardrobe.length),
-      detail: `${uploadedCount} wardrobe photos uploaded`,
-    },
-    {
-      label: 'Photo coverage',
-      value: `${uploadCoverage}%`,
-      detail: 'Enough visual inventory for wardrobe-first generation',
-    },
-    {
-      label: 'Repeat anchors',
-      value: String(repeatCount),
-      detail: 'Pieces already proving strongest in rotation',
-    },
-    {
-      label: 'Ready categories',
-      value: String(categoryCount),
-      detail: 'Mapped across layers, bottoms, shoes, and finishes',
-    },
+    { label: 'Pieces mapped', value: String(wardrobe.length), detail: `${uploadedCount} with photos` },
+    { label: 'Photo coverage', value: `${uploadCoverage}%`, detail: 'Visual inventory depth' },
+    { label: 'Repeat anchors', value: String(repeatCount), detail: 'Strongest in rotation' },
+    { label: 'Categories', value: String(categoryCount), detail: 'Layers, tops, shoes, finishes' },
   ];
+}
+
+function getWardrobeInsight(wardrobe: WardrobeItem[]): string {
+  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl || item.imageUrl)).length;
+  const totalCount = wardrobe.length;
+  if (totalCount === 0) return 'Add pieces to unlock AI generation.';
+  const coverage = Math.round((uploadedCount / totalCount) * 100);
+  if (coverage < 50) return `${uploadedCount} of ${totalCount} pieces have photos — add more to strengthen generation.`;
+  const cats = wardrobe.reduce<Record<string, number>>((acc, item) => {
+    acc[item.category] = (acc[item.category] ?? 0) + 1;
+    return acc;
+  }, {});
+  const top = Object.entries(cats).sort((a, b) => b[1] - a[1])[0];
+  return top ? `${top[0]} is your strongest mapped category with ${top[1]} pieces.` : 'Wardrobe is looking well mapped.';
 }
 
 export function DashboardScreen({
   profile,
   wardrobe,
+  generationStatus,
+  mediaAssets = [],
+  eventSession,
+  onGoGenerate,
+  onGoWardrobe,
 }: {
   profile: UserProfile;
   wardrobe: WardrobeItem[];
+  generationStatus: GenerationStatus | null;
+  mediaAssets?: MediaAsset[];
+  eventSession?: EventSession;
+  onGoGenerate?: () => void;
+  onGoWardrobe?: () => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const todayWardrobe = getWardrobeItemsForOutfit(wardrobe, todayOutfit.pieces);
   const dashboardMetrics = buildDashboardMetrics(wardrobe);
-  const wardrobeInsights = buildWardrobeInsights(wardrobe, profile);
-  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
+  const wardrobeInsight = getWardrobeInsight(wardrobe);
+  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl || item.imageUrl)).length;
+  const aiTone = generationStatus?.connected ? 'live' : 'fallback';
+  const aiLabel = generationStatus?.connected ? 'Local AI live' : 'Fallback mode';
+  const hasSession = (eventSession?.messages.length ?? 0) > 1;
+  const recentUploads = mediaAssets.slice(0, 6);
 
   return (
     <div className="space-y-6">
-      <ScreenHeader
-        eyebrow="Home"
-        title={`Good evening, ${profile.name}.`}
-        description="Your dashboard keeps today's wardrobe-first outfit, alternate combinations, style logic, and saved looks in one premium flow."
-        action={
-          <div className="flex flex-wrap gap-3">
-            <SurfaceBadge tone="accent-soft">{wardrobe.length} pieces mapped</SurfaceBadge>
-            <SurfaceBadge>{uploadedCount} photos ready</SurfaceBadge>
-            <SurfaceBadge tone="accent">Own wardrobe first</SurfaceBadge>
-          </div>
-        }
-      />
+      {/* Page heading */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="section-kicker">Home</p>
+          <h1 className="font-display mt-4 text-[clamp(1.8rem,7vw,2.618rem)] leading-[0.94] tracking-[-0.06em] text-[var(--text)] xl:text-[4.236rem]">
+            {greeting},<br />{profile.name}.
+          </h1>
+        </div>
+        <div className="no-scrollbar flex flex-wrap items-center gap-3 overflow-x-auto sm:flex-wrap">
+          <SurfaceBadge tone={aiTone}>{aiLabel}</SurfaceBadge>
+          <SurfaceBadge tone="accent-soft">{wardrobe.length} pieces</SurfaceBadge>
+          <SurfaceBadge>{uploadedCount} photos</SurfaceBadge>
+          {hasSession && onGoGenerate ? (
+            <button type="button" onClick={onGoGenerate} className="button-primary text-sm">
+              Continue session →
+            </button>
+          ) : onGoGenerate ? (
+            <button type="button" onClick={onGoGenerate} className="button-primary text-sm">
+              Start a look →
+            </button>
+          ) : null}
+          {onGoWardrobe ? (
+            <button type="button" onClick={onGoWardrobe} className="button-secondary text-sm">
+              Open wardrobe
+            </button>
+          ) : null}
+        </div>
+      </div>
 
+      {/* Recent uploads strip */}
+      {recentUploads.length > 0 ? (
+        <Panel className="p-5" variant="solid">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <SectionKicker>Upload library</SectionKicker>
+              <p className="mt-2 text-sm text-[var(--muted)]">{mediaAssets.length} photo{mediaAssets.length !== 1 ? 's' : ''} ready to attach</p>
+            </div>
+            {onGoWardrobe ? (
+              <button type="button" onClick={onGoWardrobe} className="button-secondary text-sm">
+                Manage wardrobe
+              </button>
+            ) : null}
+          </div>
+          <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+            {recentUploads.map((asset) => (
+              <div
+                key={asset.id}
+                className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-[14px] bg-[var(--surface)]"
+                style={{ border: '1px solid var(--line)' }}
+              >
+                <img src={asset.previewUrl} alt={asset.fileName} className="h-full w-full object-cover" />
+              </div>
+            ))}
+            {mediaAssets.length > 6 ? (
+              <button
+                type="button"
+                onClick={onGoWardrobe}
+                className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-[14px] text-xs text-[var(--muted)] transition hover:-translate-y-[1px]"
+                style={{ border: '1px solid var(--line)', background: 'var(--surface)' }}
+              >
+                +{mediaAssets.length - 6}
+              </button>
+            ) : null}
+          </div>
+        </Panel>
+      ) : null}
+
+      {/* Today's outfit + fit intelligence */}
       <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <MotionCard>
           <Panel className="relative overflow-hidden p-6 xl:p-8" variant="glass">
@@ -119,19 +147,17 @@ export function DashboardScreen({
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.92),transparent_40%)]" />
             <div className="relative grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
               <div>
-                <SectionKicker>Today's recommendation</SectionKicker>
-                <h2 className="mt-4 font-display text-[2.2rem] leading-[0.96] tracking-[-0.06em] text-[var(--text)] xl:text-[3rem]">
+                <SectionKicker>Today's look</SectionKicker>
+                <h2 className="mt-4 font-display text-[1.618rem] leading-[1.2] tracking-[-0.05em] text-[var(--text)] xl:text-[2.618rem]">
                   {todayOutfit.title}
                 </h2>
-                <p className="mt-4 text-[1rem] leading-8 text-[var(--text)]/80">{todayOutfit.vibe}</p>
-                <p className="mt-6 max-w-[30rem] text-[0.98rem] leading-7 text-[var(--muted)]">{todayOutfit.note}</p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  <SurfaceBadge tone="accent">Built from owned pieces</SurfaceBadge>
-                  <SurfaceBadge>{profile.fitPreference} fit logic</SurfaceBadge>
-                  <SurfaceBadge>{profile.occasions[0]}</SurfaceBadge>
+                <p className="mt-4 text-[1rem] leading-[1.618] text-[var(--text)]/80">{todayOutfit.vibe}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <SurfaceBadge tone="accent">From owned pieces</SurfaceBadge>
+                  {profile.fitPreference ? <SurfaceBadge>{profile.fitPreference} fit</SurfaceBadge> : null}
+                  {profile.occasions?.[0] ? <SurfaceBadge>{profile.occasions[0]}</SurfaceBadge> : null}
                 </div>
               </div>
-
               <div className="grid gap-4">
                 <Panel className="p-4" variant="solid">
                   <WardrobeMosaic items={todayWardrobe} label="WeaR look" />
@@ -144,36 +170,36 @@ export function DashboardScreen({
 
         <div className="grid gap-6">
           <Panel className="p-6" variant="solid">
-            <SectionKicker>Fit intelligence</SectionKicker>
-            <p className="mt-4 text-[1.1rem] leading-8 text-[var(--text)]">{todayOutfit.silhouette}</p>
-            <div className="mt-6 space-y-3">
-              <div className="rounded-[20px] bg-[rgba(248,244,238,0.85)] px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Fit mode</p>
-                <p className="mt-2 text-sm leading-7 text-[var(--text)]">{profile.fitPreference}</p>
-              </div>
-              {profile.occasions.slice(0, 1).map((occasion) => (
-                <div key={occasion} className="rounded-[20px] bg-[rgba(248,244,238,0.85)] px-4 py-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Primary occasion</p>
-                  <p className="mt-2 text-sm leading-7 text-[var(--text)]">{occasion}</p>
+            <div className="flex items-center justify-between gap-3">
+              <SectionKicker>Fit intelligence</SectionKicker>
+              <SurfaceBadge tone={aiTone}>{generationStatus?.imageModel ?? 'Collage render'}</SurfaceBadge>
+            </div>
+            <p className="mt-4 text-[1rem] leading-[1.618] text-[var(--text)]">{todayOutfit.silhouette}</p>
+            <div className="mt-5 space-y-3">
+              {profile.fitPreference ? (
+                <div className="rounded-[18px] px-4 py-3" style={{ background: 'var(--surface-high)' }}>
+                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted-strong)]">Fit mode</p>
+                  <p className="mt-2 text-sm text-[var(--text)]">{profile.fitPreference}</p>
                 </div>
-              ))}
+              ) : null}
+              <div className="rounded-[18px] px-4 py-3" style={{ background: 'var(--surface-high)' }}>
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted-strong)]">Wardrobe insight</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text)]">{wardrobeInsight}</p>
+              </div>
             </div>
           </Panel>
 
           <Panel className="p-6" variant="soft">
             <div className="flex items-center justify-between gap-3">
-              <div>
-                <SectionKicker>Saved looks</SectionKicker>
-                <p className="mt-3 text-[1.15rem] text-[var(--text)]">Pinned for quick repeat</p>
-              </div>
+              <SectionKicker>Saved looks</SectionKicker>
               <SurfaceBadge tone="accent-soft">{savedCollections.length} collections</SurfaceBadge>
             </div>
-            <div className="mt-5 grid gap-3">
+            <div className="mt-4 space-y-3">
               {savedCollections.slice(0, 2).map((collection) => (
-                <div key={collection.title} className="rounded-[22px] bg-white/84 p-4">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">{collection.vibe}</p>
-                  <p className="mt-2 text-[1.02rem] text-[var(--text)]">{collection.title}</p>
-                  <p className="mt-3 text-sm text-[var(--muted)]">{collection.count} looks pinned</p>
+                <div key={collection.title} className="rounded-[20px] p-4" style={{ background: 'var(--surface-strong)' }}>
+                  <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">{collection.vibe}</p>
+                  <p className="mt-2 text-[1rem] text-[var(--text)]">{collection.title}</p>
+                  <p className="mt-2 text-sm text-[var(--muted)]">{collection.count} looks pinned</p>
                 </div>
               ))}
             </div>
@@ -181,28 +207,28 @@ export function DashboardScreen({
         </div>
       </div>
 
+      {/* Metrics */}
       <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
         {dashboardMetrics.map((item) => (
           <MetricCard key={item.label} value={item.value} label={item.label} detail={item.detail} />
         ))}
       </div>
 
+      {/* Alternates */}
       <div className="grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
         <Panel className="p-6 xl:p-8" variant="soft">
           <div className="flex items-center justify-between">
-            <div>
-              <SectionKicker>Alternates</SectionKicker>
-              <p className="mt-4 text-[1.4rem] text-[var(--text)]">Same wardrobe, different energy</p>
-            </div>
+            <SectionKicker>Alternates</SectionKicker>
             <SurfaceBadge>3 ready swaps</SurfaceBadge>
           </div>
+          <p className="mt-3 text-[1.1rem] text-[var(--text)]">Same wardrobe, different energy</p>
           <div className="mt-6 grid gap-4 xl:grid-cols-3">
             {alternateOutfits.map((outfit) => (
               <MotionCard key={outfit.id}>
                 <Panel className="h-full p-4" variant="solid">
                   <WardrobeMosaic items={getWardrobeItemsForOutfit(wardrobe, outfit.pieces)} label={outfit.vibe} />
                   <p className="mt-4 text-[1rem] text-[var(--text)]">{outfit.title}</p>
-                  <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{outfit.note}</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{outfit.note}</p>
                 </Panel>
               </MotionCard>
             ))}
@@ -214,17 +240,18 @@ export function DashboardScreen({
           transition={reduceMotion ? undefined : { duration: 7, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }}
         >
           <Panel className="p-6 xl:p-8" variant="glass">
-            <SectionKicker>Wardrobe guidance</SectionKicker>
-            <h3 className="mt-4 font-display text-[2rem] tracking-[-0.05em] text-[var(--text)]">
-              Your wardrobe is already stronger than it looks.
+            <SectionKicker>Daily ritual</SectionKicker>
+            <h3 className="font-display mt-4 text-[1.618rem] tracking-[-0.04em] text-[var(--text)] xl:text-[2rem]">
+              WeaR is built for the morning check-in.
             </h3>
-            <div className="mt-6 space-y-4">
-              {wardrobeInsights.map((insight) => (
-                <div key={insight} className="rounded-[22px] border border-white/80 bg-white/84 px-4 py-4">
-                  <p className="text-sm leading-7 text-[var(--text)]">{insight}</p>
-                </div>
-              ))}
-            </div>
+            <p className="mt-4 text-[1rem] leading-[1.618] text-[var(--muted)]">
+              Tell it where you're going and it builds from what you own. No shopping prompts. No friction.
+            </p>
+            {onGoGenerate ? (
+              <button type="button" onClick={onGoGenerate} className="button-primary mt-6 text-sm">
+                {hasSession ? 'Continue your last session' : "What's the occasion?"}
+              </button>
+            ) : null}
           </Panel>
         </motion.div>
       </div>

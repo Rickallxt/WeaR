@@ -6,13 +6,15 @@ export function Sidebar({
   activeScreen,
   onSelect,
   profile,
+  onOpenPalette,
 }: {
   activeScreen: ScreenKey;
   onSelect: (screen: ScreenKey) => void;
   profile: UserProfile;
+  onOpenPalette?: () => void;
 }) {
   return (
-    <aside className="flex w-full shrink-0 flex-col border-b border-white/70 p-4 lg:w-[284px] lg:border-b-0 lg:border-r lg:p-5">
+    <aside className="flex w-full shrink-0 flex-col border-b p-4 lg:w-[284px] lg:border-b-0 lg:p-5" style={{ borderColor: 'var(--line)' }}>
       <div className="flex items-center justify-between">
         <WindowDots />
         <SurfaceBadge tone="accent-soft">Desktop app</SurfaceBadge>
@@ -37,17 +39,19 @@ export function Sidebar({
               className={cx(
                 'flex items-center gap-4 rounded-[22px] px-4 py-4 text-left transition duration-300',
                 active
-                  ? 'bg-[linear-gradient(135deg,rgba(255,255,255,0.86),rgba(255,255,255,0.62))] shadow-[0_16px_42px_rgba(17,18,23,0.08)]'
-                  : 'bg-transparent hover:bg-white/52',
+                  ? 'shadow-[0_16px_42px_rgba(17,18,23,0.08)]'
+                  : 'bg-transparent hover:bg-[var(--surface-high)]',
               )}
+            style={active ? { background: 'var(--surface-highest)' } : undefined}
             >
               <div
                 className={cx(
                   'flex h-11 w-11 items-center justify-center rounded-[16px] border',
                   active
                     ? 'border-[rgba(143,150,255,0.28)] bg-[rgba(143,150,255,0.14)]'
-                    : 'border-[rgba(24,24,29,0.08)] bg-white/72',
+                    : 'border-[rgba(73,68,84,0.3)]',
                 )}
+                style={!active ? { background: 'var(--surface)' } : undefined}
               >
                 <AppGlyph name={item.icon} active={active} />
               </div>
@@ -56,15 +60,34 @@ export function Sidebar({
                 <p className={cx('text-[0.98rem]', active ? 'text-[var(--text)]' : 'text-[var(--muted)]')}>
                   {item.label}
                 </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--muted)]">{item.caption}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--muted-strong)]">{item.caption}</p>
               </div>
             </button>
           );
         })}
       </nav>
 
-      <Panel className="mt-auto p-5" variant="solid">
-        <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">Current styling profile</p>
+      {/* Command palette shortcut */}
+      {onOpenPalette ? (
+        <button
+          type="button"
+          onClick={onOpenPalette}
+          className="mt-4 flex items-center justify-between rounded-[18px] px-4 py-3 transition-colors hover:bg-[var(--surface-high)]"
+          style={{ border: '1px solid var(--line)' }}
+          title="Open command palette (Ctrl+K)"
+        >
+          <span className="text-xs" style={{ color: 'var(--muted)' }}>Command palette</span>
+          <kbd
+            className="flex items-center gap-1 rounded-[8px] border px-2 py-1 text-[0.6rem] font-medium"
+            style={{ borderColor: 'var(--line)', color: 'var(--muted)', background: 'var(--surface)' }}
+          >
+            ⌘K
+          </kbd>
+        </button>
+      ) : null}
+
+      <Panel className="mt-4 p-5" variant="solid">
+        <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">Current styling profile</p>
         <p className="mt-4 text-xl text-[var(--text)]">{profile.name}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <SurfaceBadge>{profile.path}</SurfaceBadge>

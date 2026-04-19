@@ -17,7 +17,7 @@ export type DetectedWardrobeDraft = {
   styleNote: string;
   confidence: number;
   note: string;
-  mode: Extract<WardrobeDetectionMode, 'mock' | 'openai'>;
+  mode: Extract<WardrobeDetectionMode, 'mock' | 'local' | 'openai'>;
 };
 
 const colorPairs: Record<string, string> = {
@@ -59,16 +59,18 @@ function normalizeTags(tags: string[]) {
 
 export function buildWardrobeItem({
   id,
-  imageDataUrl,
+  imageSrc,
   detection,
   source,
   existingItem,
+  mediaAssetId,
 }: {
   id: string;
-  imageDataUrl: string;
+  imageSrc: string;
   detection: DetectedWardrobeDraft;
   source: WardrobeSource;
   existingItem?: WardrobeItem | null;
+  mediaAssetId?: string | null;
 }) {
   const status: WardrobeStatus =
     existingItem?.status ??
@@ -80,7 +82,7 @@ export function buildWardrobeItem({
       Accessories: 'Occasion',
     }[detection.category] as WardrobeStatus);
 
-  const state: WardrobeDetectionState = detection.mode === 'openai' ? 'reviewed' : 'auto-detected';
+  const state: WardrobeDetectionState = detection.mode === 'mock' ? 'auto-detected' : 'reviewed';
 
   return {
     id,
@@ -92,7 +94,9 @@ export function buildWardrobeItem({
     tags: normalizeTags(detection.tags),
     palette: existingItem?.palette ?? paletteFromColor(detection.color),
     status,
-    imageDataUrl,
+    imageUrl: imageSrc,
+    imageDataUrl: imageSrc.startsWith('data:') ? imageSrc : existingItem?.imageDataUrl ?? null,
+    mediaAssetId: mediaAssetId ?? existingItem?.mediaAssetId ?? null,
     source,
     styleNote: detection.styleNote,
     detection: {

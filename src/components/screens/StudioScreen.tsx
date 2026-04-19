@@ -47,7 +47,7 @@ export function StudioScreen({
             <div className="space-y-4">
               <PieceList outfit={todayOutfit} />
               <Panel className="p-5" variant="solid">
-                <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">Why it works</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">Why it works</p>
                 <p className="mt-4 text-[1rem] leading-8 text-[var(--text)]">{todayOutfit.silhouette}</p>
                 <p className="mt-4 text-sm leading-7 text-[var(--muted)]">{todayOutfit.note}</p>
               </Panel>
@@ -63,7 +63,8 @@ export function StudioScreen({
                 <button
                   key={item}
                   type="button"
-                  className="rounded-full border border-[rgba(24,24,29,0.08)] bg-white/82 px-4 py-2.5 text-sm text-[var(--text)] transition duration-300 hover:-translate-y-[1px] hover:border-[rgba(143,150,255,0.3)]"
+                  className="rounded-full px-4 py-2.5 text-sm transition duration-300 hover:-translate-y-[1px]"
+                  style={{ background: 'var(--surface-high)', color: 'var(--text)', border: '1px solid var(--line)', minHeight: 'var(--touch-target)' }}
                 >
                   {item}
                 </button>
@@ -71,20 +72,6 @@ export function StudioScreen({
             </div>
           </Panel>
 
-          <Panel className="p-6" variant="soft">
-            <SectionKicker>Body-aware notes</SectionKicker>
-            <div className="mt-5 space-y-3">
-              {[
-                'Keep the waist readable without tightening every piece.',
-                'Use the bomber to sharpen the shoulder and frame the torso.',
-                'The long trouser does more for your proportions than a louder shoe choice.',
-              ].map((item) => (
-                <div key={item} className="rounded-[20px] bg-white/82 px-4 py-4">
-                  <p className="text-sm leading-7 text-[var(--text)]">{item}</p>
-                </div>
-              ))}
-            </div>
-          </Panel>
         </div>
       </div>
 

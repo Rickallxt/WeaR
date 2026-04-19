@@ -1,5 +1,10 @@
 # CLAUDE HANDOFF — Lead Intelligence / Outfit System
 
+## Update
+
+Read `docs/CODEX_CHANGE_NOTE_2026-04-13.md` first for the latest current-state handoff.
+This file is still useful as a baseline product-direction document, but parts of it predate the current mobile redesign and local-auth/mobile architecture work.
+
 ## ROLE
 
 You are the implementation engineer.

@@ -1,5 +1,6 @@
 node_modules
 dist
+dist-electron
 .DS_Store
 *.local
 *.tsbuildinfo
@@ -9,3 +10,19 @@ vite.config.d.ts
 .vite-dev.log
 .vite-dev.err.log
 .edge-audit-profile
+graphify-out/cache/
+
+# Runtime logs
+vite.log
+*.log
+.dev-stdout.log
+.dev-stderr.log
+
+# Local data & temp
+.wear-local/
+.tmp/
+.tmp-edge/
+.skill-build/
+
+# Claude Code internals
+.claude/worktrees/

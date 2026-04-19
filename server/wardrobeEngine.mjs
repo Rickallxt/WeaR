@@ -78,17 +78,54 @@ export function buildFallbackOptions(selectedItems, eventSummary) {
 }
 
 export function buildFallbackChat({ userMessage, selectedItems }) {
-  const selectedNames = safeSelectedItems(selectedItems)
+  const msg = userMessage.toLowerCase();
+  const names = safeSelectedItems(selectedItems)
     .slice(0, 3)
-    .map((item) => item.name)
-    .join(', ');
+    .map((item) => item.name);
+
+  const wardrobeNote =
+    names.length > 0
+      ? `With ${names.join(', ')} already selected, I'll build the paths around those anchors.`
+      : "Select wardrobe photos when you're ready and I'll sharpen the recommendation.";
+
+  let eventAdvice = '';
+  if (/black.?tie|gala|formal/i.test(msg)) {
+    eventAdvice =
+      'For a formal occasion, clean contrasts and a refined silhouette do the work. One strong outer layer over a close-fit base is the most reliable formula.';
+  } else if (/work|office|meeting|interview|professional/i.test(msg)) {
+    eventAdvice =
+      'For a professional setting, structure at the shoulder and a quiet base creates authority without effort. Avoid anything that reads too casual below the waist.';
+  } else if (/dinner|date|restaurant/i.test(msg)) {
+    eventAdvice =
+      'For dinner, one elevated piece is enough — a sharp outer layer or a refined shoe lifts the whole look. The rest stays quiet and intentional.';
+  } else if (/rooftop|outdoor|terrace/i.test(msg)) {
+    eventAdvice =
+      'For an outdoor setting, lighter layers and breathable fabrics keep the look practical without losing sharpness. A clean top-to-shoe line matters most.';
+  } else if (/brunch|weekend|casual|relaxed/i.test(msg)) {
+    eventAdvice =
+      'For a relaxed setting, one intentional piece with clean lines around it is all you need. Avoid stacking too many casual items — it reads unintentional fast.';
+  } else if (/wedding|ceremony|celebration/i.test(msg)) {
+    eventAdvice =
+      "For a celebration, event-appropriate colour and a clean fit take priority. Your owned pieces likely have more range here than you think — I'll find the best path.";
+  } else if (/travel|transit|airport/i.test(msg)) {
+    eventAdvice =
+      'For travel, a layered system with consistent tones reads sharp in motion. Prioritise comfort through fit rather than through loose, unstructured pieces.';
+  } else if (/smart.?casual|semi.?formal/i.test(msg)) {
+    eventAdvice =
+      'Smart casual is best solved by mixing one structured piece with one relaxed piece — not two of either. That tension is what makes it feel intentional.';
+  } else {
+    eventAdvice =
+      "I've captured that as the active event context and will keep recommendations aligned to it. The wardrobe-first path stays primary regardless of the occasion.";
+  }
+
+  const tempNote = /warm|hot|summer|humid/i.test(msg)
+    ? ' Lighter layers and breathable fabrics will take priority.'
+    : /cold|cool|autumn|winter|fall/i.test(msg)
+      ? " I'll lean into outer layers and heavier materials to keep it seasonally right."
+      : '';
 
   return {
-    reply:
-      `Got it. I'll treat this as the active event context and keep the styling relevant to it. ` +
-      (selectedNames
-        ? `I'll prioritize pieces like ${selectedNames}.`
-        : "Upload or select wardrobe photos and I'll tighten the recommendation further."),
+    reply: `${eventAdvice}${tempNote} ${wardrobeNote}`,
     summary: userMessage,
     mode: 'demo',
   };
@@ -157,7 +194,7 @@ export function buildSvgCollage(selectedItems, title) {
 export function buildFallbackImage({ selectedItems, option }) {
   return {
     imageDataUrl: buildSvgCollage(selectedItems, option?.title ?? 'WeaR wardrobe preview'),
-    revisedPrompt: option?.title ? `Demo mode preview using ${option.title}.` : 'Demo mode preview.',
-    mode: 'demo',
+    revisedPrompt: option?.title ? `Local collage preview using ${option.title}.` : 'Local collage preview.',
+    mode: 'local',
   };
 }

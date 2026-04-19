@@ -25,7 +25,7 @@ export function ProfileScreen({ profile }: { profile: UserProfile }) {
               ['Styling path', profile.path],
             ].map(([label, value]) => (
               <Panel key={label} className="p-4" variant="solid">
-                <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">{label}</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">{label}</p>
                 <p className="mt-3 text-[1rem] text-[var(--text)]">{value}</p>
               </Panel>
             ))}
@@ -36,7 +36,7 @@ export function ProfileScreen({ profile }: { profile: UserProfile }) {
           <SectionKicker>Favored silhouettes</SectionKicker>
           <div className="mt-5 space-y-4">
             {styleLogic.map((item) => (
-              <div key={item} className="rounded-[22px] bg-white/82 px-4 py-4">
+              <div key={item} className="rounded-[22px] px-4 py-4" style={{ background: 'var(--surface-strong)' }}>
                 <p className="text-sm leading-7 text-[var(--text)]">{item}</p>
               </div>
             ))}
@@ -49,12 +49,12 @@ export function ProfileScreen({ profile }: { profile: UserProfile }) {
           <SectionKicker>Color tendencies</SectionKicker>
           <div className="mt-5 grid gap-3">
             {colorTendencies.map((item) => (
-              <div key={item.name} className="flex items-center justify-between rounded-[20px] bg-[rgba(248,244,238,0.82)] px-4 py-4">
+              <div key={item.name} className="flex items-center justify-between rounded-[20px] px-4 py-4" style={{ background: 'var(--surface-high)' }}>
                 <div className="flex items-center gap-3">
-                  <span className="h-5 w-5 rounded-full border border-white/90" style={{ backgroundColor: item.hex }} />
+                  <span className="h-5 w-5 rounded-full" style={{ backgroundColor: item.hex, border: '1px solid var(--line)' }} />
                   <span className="text-sm text-[var(--text)]">{item.name}</span>
                 </div>
-                <span className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">{item.hex}</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-[var(--muted-strong)]">{item.hex}</span>
               </div>
             ))}
           </div>
@@ -71,13 +71,13 @@ export function ProfileScreen({ profile }: { profile: UserProfile }) {
           </div>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <Panel className="p-5" variant="solid">
-              <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">Most flattering formula</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">Most flattering formula</p>
               <p className="mt-4 text-[1rem] leading-8 text-[var(--text)]">
                 Structured outer layer, quieter base, longer trouser line, and one cleaner modern finish.
               </p>
             </Panel>
             <Panel className="p-5" variant="solid">
-              <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">What to avoid</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted-strong)]">What to avoid</p>
               <p className="mt-4 text-[1rem] leading-8 text-[var(--text)]">
                 Too many loud details at once. Your wardrobe looks strongest when shape leads and accessories stay controlled.
               </p>

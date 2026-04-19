@@ -21,7 +21,7 @@ export type ApiGenerationStatus = {
 export type ApiChatResponse = {
   reply: string;
   summary: string;
-  mode: 'openai' | 'demo';
+  mode: 'local' | 'demo';
 };
 
 // ─── Options ─────────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ export type ApiWardrobeOption = {
 
 export type ApiOptionsResponse = {
   options: ApiWardrobeOption[];
-  mode: 'openai' | 'demo';
+  mode: 'local' | 'demo';
 };
 
 // ─── Image generation ────────────────────────────────────────────────────────
@@ -45,7 +45,7 @@ export type ApiOptionsResponse = {
 export type ApiImageResponse = {
   imageDataUrl: string;
   revisedPrompt?: string;
-  mode: 'openai' | 'demo';
+  mode: 'local' | 'demo';
 };
 
 // ─── Identification ──────────────────────────────────────────────────────────
@@ -60,11 +60,76 @@ export type ApiIdentificationResponse = {
   styleNote: string;
   confidence: number;
   note: string;
-  mode: 'openai' | 'mock';
+  mode: 'local' | 'mock';
 };
 
 // ─── Error ───────────────────────────────────────────────────────────────────
 
 export type ApiErrorResponse = {
   error: string;
+};
+
+// User account and persistence
+
+export type ApiUserAccount = {
+  id: string;
+  email: string;
+  name: string;
+  onboarded: boolean;
+  createdAt: string;
+  importedLegacyData: boolean;
+};
+
+export type ApiSessionResponse =
+  | {
+      authenticated: true;
+      user: ApiUserAccount;
+      expiresAt?: string;
+      session?: { expiresAt?: string };
+    }
+  | {
+      authenticated: false;
+      user: null;
+    };
+
+export type ApiProfileResponse = {
+  profile: Record<string, unknown> | null;
+  onboarded: boolean;
+  importedLegacyData: boolean;
+};
+
+export type ApiWardrobeResponse = {
+  wardrobe: Record<string, unknown>[];
+};
+
+export type ApiCollectionsResponse = {
+  collections: Record<string, unknown>[];
+};
+
+export type ApiEventSessionResponse = {
+  messages: { role: string; content: string; mode?: string }[];
+  eventSummary: string;
+};
+
+export type ApiMediaAsset = {
+  id: string;
+  ownerUserId: string;
+  kind: 'wardrobe-upload' | 'generated-look';
+  createdAt: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  linkedItemId: string | null;
+  previewUrl: string;
+  originalUrl: string;
+};
+
+export type ApiMediaListResponse = {
+  media: ApiMediaAsset[];
+};
+
+export type ApiPasswordResetResponse = {
+  ok: boolean;
+  devResetToken?: string;
+  expiresAt?: string;
 };

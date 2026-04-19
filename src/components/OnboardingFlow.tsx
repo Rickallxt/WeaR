@@ -8,6 +8,7 @@ import {
   type UserProfile,
 } from '../data/wearData';
 import { cx } from '../lib/cx';
+import { useMobileLayout } from '../hooks/useMobileLayout';
 import { Panel, SectionKicker, SurfaceBadge, WindowDots } from './Chrome';
 
 const transition = { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const };
@@ -36,7 +37,7 @@ function ToggleChip({
         'rounded-full border px-4 py-2.5 text-sm transition duration-300',
         active
           ? 'border-[rgba(143,150,255,0.4)] bg-[rgba(143,150,255,0.12)] text-[var(--text)] shadow-[0_0_0_6px_rgba(143,150,255,0.08)]'
-          : 'border-[rgba(24,24,29,0.08)] bg-white/76 text-[var(--muted)] hover:text-[var(--text)]',
+          : 'border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)]',
       )}
     >
       {label}
@@ -49,6 +50,7 @@ export function OnboardingFlow({
 }: {
   onComplete: (profile: UserProfile) => void;
 }) {
+  const isMobile = useMobileLayout();
   const [step, setStep] = useState(0);
   const [profile, setProfile] = useState<UserProfile>(baseProfile);
 
@@ -74,7 +76,7 @@ export function OnboardingFlow({
 
   function getStepMessage(currentStep: number) {
     if (currentStep === 0 && !profile.name.trim()) {
-      return 'Add your first name so WeaR can personalize the desktop experience.';
+      return 'Add your first name so WeaR can personalize the experience.';
     }
 
     if (currentStep === 1) {
@@ -126,50 +128,68 @@ export function OnboardingFlow({
   }
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[1600px] items-center justify-center px-4 py-5 lg:px-6">
+    <div className={cx('mx-auto flex min-h-screen w-full items-center justify-center px-4 py-5 lg:px-6', isMobile ? 'max-w-[40rem]' : 'max-w-[1600px]')}>
       <Panel className="grid min-h-[calc(100vh-2.5rem)] w-full overflow-hidden lg:grid-cols-[0.86fr_1.14fr]" variant="glass">
         <div className="relative flex flex-col overflow-hidden border-b border-white/70 p-6 lg:border-b-0 lg:border-r lg:p-8 xl:p-10">
           <div className="flex items-center justify-between">
-            <WindowDots />
+            {isMobile ? (
+              <SurfaceBadge tone="accent-soft">Setup</SurfaceBadge>
+            ) : (
+              <WindowDots />
+            )}
             <SurfaceBadge tone="accent-soft">Onboarding</SurfaceBadge>
           </div>
 
-          <div className="mt-10">
+          <div className={cx('mt-10', isMobile && 'mt-6')}>
             <SectionKicker>WeaR</SectionKicker>
-            <h1 className="font-display mt-5 max-w-[11ch] text-[2.8rem] leading-[0.97] tracking-[-0.07em] text-[var(--text)] xl:text-[4rem]">
+            <h1 className={cx('font-display mt-5 max-w-[11ch] leading-[0.97] tracking-[-0.07em] text-[var(--text)] xl:text-[4rem]', isMobile ? 'text-[2.15rem]' : 'text-[2.8rem]')}>
               Dress the wardrobe you already own.
             </h1>
-            <p className="mt-5 max-w-[30rem] text-[1.02rem] leading-8 text-[var(--muted)]">
+            <p className={cx('mt-5 max-w-[30rem] text-[1.02rem] text-[var(--muted)]', isMobile ? 'leading-7' : 'leading-8')}>
               This setup stays light. WeaR uses your proportions, fit preference, taste, and occasion needs to build stronger outfits from the clothes already in your closet.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-3">
-            {steps.map((item, index) => (
-              <div
-                key={item.label}
-                className={cx(
-                  'rounded-[22px] border px-4 py-4 transition duration-300',
-                  index === step
-                    ? 'border-[rgba(143,150,255,0.36)] bg-[rgba(255,255,255,0.78)] shadow-[0_12px_40px_rgba(17,18,23,0.06)]'
-                    : 'border-[rgba(255,255,255,0.68)] bg-[rgba(255,255,255,0.46)]',
-                )}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">{item.label}</p>
-                    <p className="mt-2 text-[0.98rem] leading-6 text-[var(--text)]">{item.title}</p>
-                  </div>
-                  <span className="font-display text-[1.6rem] tracking-[-0.06em] text-[var(--text)]">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+          {isMobile ? (
+            <div className="mt-6 rounded-[1.4rem] border px-4 py-4" style={{ borderColor: 'var(--line)', background: 'var(--surface)' }}>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Current step</p>
+                  <p className="mt-2 text-sm text-[var(--text)]">{steps[step].label}</p>
                 </div>
+                <span className="font-display text-[1.5rem] tracking-[-0.06em] text-[var(--text)]">
+                  {String(step + 1).padStart(2, '0')}
+                </span>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="mt-10 grid gap-3">
+              {steps.map((item, index) => (
+                <div
+                  key={item.label}
+                  className={cx(
+                    'rounded-[22px] border px-4 py-4 transition duration-300',
+                    index === step
+                      ? 'border-[rgba(143,150,255,0.36)] bg-[var(--surface)] shadow-[0_12px_40px_rgba(17,18,23,0.06)]'
+                      : 'border-[var(--line)] bg-[var(--surface)]',
+                  )}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">{item.label}</p>
+                      <p className="mt-2 text-[0.98rem] leading-6 text-[var(--text)]">{item.title}</p>
+                    </div>
+                    <span className="font-display text-[1.6rem] tracking-[-0.06em] text-[var(--text)]">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
-          <Panel className="mt-auto p-5" variant="solid">
-            <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Live summary</p>
+          <Panel className={cx('mt-auto p-5', isMobile && 'mt-6')} variant="solid">
+            <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Live summary</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <SurfaceBadge>{profile.path}</SurfaceBadge>
               <SurfaceBadge tone="accent">{profile.fitPreference}</SurfaceBadge>
@@ -184,18 +204,18 @@ export function OnboardingFlow({
           </Panel>
         </div>
 
-        <div className="flex min-h-[48rem] flex-col p-6 lg:p-8 xl:p-10">
+        <div className={cx('flex flex-col p-6 lg:p-8 xl:p-10', isMobile ? 'min-h-0' : 'min-h-[48rem]')}>
           <div className="flex items-center justify-between gap-4">
             <div>
               <SectionKicker>Step {String(step + 1).padStart(2, '0')}</SectionKicker>
-              <h2 className="mt-4 text-[2rem] leading-tight tracking-[-0.04em] text-[var(--text)] xl:text-[2.5rem]">
+              <h2 className={cx('mt-4 leading-tight tracking-[-0.04em] text-[var(--text)] xl:text-[2.5rem]', isMobile ? 'text-[1.65rem]' : 'text-[2rem]')}>
                 {steps[step].title}
               </h2>
             </div>
             <span className="text-sm text-[var(--muted)]">{step + 1} / {steps.length}</span>
           </div>
 
-          <div className="mt-6 h-2 overflow-hidden rounded-full bg-white/60">
+          <div className="mt-6 h-2 overflow-hidden rounded-full bg-[var(--line)]">
             <motion.div
               className="h-full rounded-full bg-[linear-gradient(90deg,var(--accent),rgba(197,223,99,0.96))]"
               animate={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -217,7 +237,7 @@ export function OnboardingFlow({
                   <div className="grid h-full gap-4 xl:grid-cols-[1.02fr_0.98fr]">
                     <Panel className="flex flex-col justify-between p-6 xl:p-8">
                       <div>
-                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Start clean</p>
+                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Start clean</p>
                         <h3 className="mt-4 font-display text-[2.3rem] tracking-[-0.06em] text-[var(--text)]">
                           Welcome to WeaR
                         </h3>
@@ -227,20 +247,20 @@ export function OnboardingFlow({
                       </div>
 
                       <div className="mt-8 space-y-4">
-                        <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted)]">
+                        <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">
                           First name
                         </label>
                         <input
                           value={profile.name}
                           onChange={(event) => setProfile((current) => ({ ...current, name: event.target.value }))}
                           placeholder="Enter your first name"
-                          className="h-14 w-full rounded-full border border-[rgba(24,24,29,0.08)] bg-white px-5 text-[var(--text)] outline-none ring-0 transition focus:border-[rgba(143,150,255,0.5)] focus:shadow-[0_0_0_8px_rgba(143,150,255,0.08)]"
+                          className="h-14 w-full rounded-full border border-[var(--line)] bg-[var(--surface)] px-5 text-[var(--text)] outline-none ring-0 transition focus:border-[rgba(143,150,255,0.5)] focus:shadow-[0_0_0_8px_rgba(143,150,255,0.08)]"
                         />
                       </div>
                     </Panel>
 
                     <Panel className="p-6 xl:p-8" variant="solid">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Path</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Path</p>
                       <div className="mt-5 grid gap-3">
                         {(['Women', 'Men', 'Style-neutral'] as const).map((item) => (
                           <button
@@ -251,7 +271,7 @@ export function OnboardingFlow({
                               'rounded-[22px] border px-5 py-4 text-left transition duration-300',
                               profile.path === item
                                 ? 'border-[rgba(143,150,255,0.38)] bg-[rgba(143,150,255,0.12)]'
-                                : 'border-[rgba(24,24,29,0.08)] bg-[rgba(248,244,238,0.7)]',
+                                : 'border-[var(--line)] bg-[var(--surface)]',
                             )}
                           >
                             <p className="text-lg text-[var(--text)]">{item}</p>
@@ -272,29 +292,29 @@ export function OnboardingFlow({
                     <Panel className="p-6 xl:p-8">
                       <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                          <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Height (cm)</label>
+                          <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Height (cm)</label>
                           <input
                             type="number"
                             inputMode="numeric"
                             value={profile.height}
                             onChange={(event) => setProfile((current) => ({ ...current, height: event.target.value }))}
-                            className="mt-3 h-14 w-full rounded-full border border-[rgba(24,24,29,0.08)] bg-white px-5 text-[var(--text)] outline-none focus:border-[rgba(143,150,255,0.5)]"
+                            className="mt-3 h-14 w-full rounded-full border border-[var(--line)] bg-[var(--surface)] px-5 text-[var(--text)] outline-none focus:border-[rgba(143,150,255,0.5)]"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Weight (kg)</label>
+                          <label className="block text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Weight (kg)</label>
                           <input
                             type="number"
                             inputMode="numeric"
                             value={profile.weight}
                             onChange={(event) => setProfile((current) => ({ ...current, weight: event.target.value }))}
-                            className="mt-3 h-14 w-full rounded-full border border-[rgba(24,24,29,0.08)] bg-white px-5 text-[var(--text)] outline-none focus:border-[rgba(143,150,255,0.5)]"
+                            className="mt-3 h-14 w-full rounded-full border border-[var(--line)] bg-[var(--surface)] px-5 text-[var(--text)] outline-none focus:border-[rgba(143,150,255,0.5)]"
                           />
                         </div>
                       </div>
 
                       <div className="mt-8">
-                        <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Shoulder line</p>
+                        <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Shoulder line</p>
                         <div className="mt-4 flex flex-wrap gap-3">
                           {['Balanced shoulder', 'Sharper shoulder', 'Softer shoulder'].map((item) => (
                             <ToggleChip
@@ -308,7 +328,7 @@ export function OnboardingFlow({
                       </div>
 
                       <div className="mt-8">
-                        <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Leg line</p>
+                        <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Leg line</p>
                         <div className="mt-4 flex flex-wrap gap-3">
                           {['Longer leg line', 'Balanced line', 'Shorter leg line'].map((item) => (
                             <ToggleChip
@@ -323,14 +343,14 @@ export function OnboardingFlow({
                     </Panel>
 
                     <Panel className="p-6 xl:p-8" variant="solid">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">What this changes</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">What this changes</p>
                       <div className="mt-5 space-y-4">
                         {[
                           'How strongly WeaR leans into longer lines versus cropped proportions',
                           'Whether structure should come from shoulders, waist, or drape',
                           'How volume is distributed so your look feels intentional, not accidental',
                         ].map((item) => (
-                          <div key={item} className="rounded-[20px] border border-[rgba(24,24,29,0.08)] bg-[rgba(248,244,238,0.78)] px-4 py-4">
+                          <div key={item} className="rounded-[20px] border border-[var(--line)] bg-[var(--surface)] px-4 py-4">
                             <p className="text-[0.98rem] leading-7 text-[var(--text)]">{item}</p>
                           </div>
                         ))}
@@ -350,7 +370,7 @@ export function OnboardingFlow({
                           'rounded-[24px] border p-6 text-left transition duration-300',
                           profile.fitPreference === fit
                             ? 'border-[rgba(143,150,255,0.38)] bg-[rgba(143,150,255,0.12)] shadow-[0_18px_48px_rgba(17,18,23,0.06)]'
-                            : 'border-[rgba(24,24,29,0.08)] bg-white/82',
+                            : 'border-[var(--line)] bg-[var(--surface)]',
                         )}
                       >
                         <p className="font-display text-[2rem] tracking-[-0.06em] text-[var(--text)]">{fit}</p>
@@ -368,7 +388,7 @@ export function OnboardingFlow({
                 {step === 3 && (
                   <div className="grid gap-4 xl:grid-cols-[1.06fr_0.94fr]">
                     <Panel className="p-6 xl:p-8">
-                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Select your style language</p>
+                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Select your style language</p>
                       <div className="mt-5 flex flex-wrap gap-3">
                         {onboardingStyleOptions.map((item) => (
                           <ToggleChip
@@ -382,10 +402,10 @@ export function OnboardingFlow({
                     </Panel>
 
                     <Panel className="p-6 xl:p-8" variant="solid">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Current mix</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Current mix</p>
                       <div className="mt-5 space-y-3">
                         {profile.stylePreferences.map((item) => (
-                          <div key={item} className="rounded-[20px] bg-[rgba(248,244,238,0.86)] px-4 py-3 text-[var(--text)]">
+                          <div key={item} className="rounded-[20px] border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--text)]">
                             {item}
                           </div>
                         ))}
@@ -397,7 +417,7 @@ export function OnboardingFlow({
                 {step === 4 && (
                   <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
                     <Panel className="p-6 xl:p-8">
-                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Where should WeaR help most?</p>
+                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Where should WeaR help most?</p>
                       <div className="mt-5 flex flex-wrap gap-3">
                         {onboardingOccasions.map((item) => (
                           <ToggleChip
@@ -411,10 +431,10 @@ export function OnboardingFlow({
                     </Panel>
 
                     <Panel className="p-6 xl:p-8" variant="solid">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Preview result</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Preview result</p>
                       <div className="mt-5 space-y-3">
                         {profile.occasions.map((item) => (
-                          <div key={item} className="rounded-[20px] border border-[rgba(24,24,29,0.08)] bg-white px-4 py-3 text-[var(--text)]">
+                          <div key={item} className="rounded-[20px] border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--text)]">
                             {item}
                           </div>
                         ))}
@@ -426,7 +446,7 @@ export function OnboardingFlow({
                 {step === 5 && (
                   <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
                     <Panel className="p-6 xl:p-8">
-                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">Confidence goal</p>
+                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Confidence goal</p>
                       <div className="mt-5 grid gap-3">
                         {confidenceGoals.map((item) => (
                           <button
@@ -437,7 +457,7 @@ export function OnboardingFlow({
                               'rounded-[22px] border px-5 py-4 text-left transition duration-300',
                               profile.confidenceGoal === item
                                 ? 'border-[rgba(143,150,255,0.38)] bg-[rgba(143,150,255,0.12)]'
-                                : 'border-[rgba(24,24,29,0.08)] bg-white/82',
+                                : 'border-[var(--line)] bg-[var(--surface)]',
                             )}
                           >
                             <p className="text-[0.98rem] leading-7 text-[var(--text)]">{item}</p>
@@ -447,7 +467,7 @@ export function OnboardingFlow({
                     </Panel>
 
                     <Panel className="p-6 xl:p-8" variant="solid">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">You are ready</p>
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">You are ready</p>
                       <h3 className="mt-4 font-display text-[2rem] tracking-[-0.06em] text-[var(--text)]">
                         WeaR will open with wardrobe-first recommendations.
                       </h3>
@@ -468,7 +488,7 @@ export function OnboardingFlow({
             </AnimatePresence>
           </div>
 
-          <div className="mt-8 flex items-center justify-between gap-4">
+          <div className={cx('mt-8 flex items-center justify-between gap-4', isMobile && 'sticky bottom-0 -mx-6 bg-[linear-gradient(180deg,transparent,var(--bg)_22%)] px-6 pb-2 pt-4')}>
             <div className="min-h-6 text-sm text-[var(--muted)]">
               {stepMessage || 'You can adjust all of this later in Style Profile.'}
             </div>
@@ -480,7 +500,7 @@ export function OnboardingFlow({
                 'rounded-full border px-5 py-3 text-sm transition duration-300',
                 step === 0
                   ? 'cursor-not-allowed border-[rgba(24,24,29,0.05)] text-[rgba(97,100,111,0.45)]'
-                  : 'border-[rgba(24,24,29,0.08)] bg-white/74 text-[var(--text)] hover:-translate-y-[1px]',
+                  : 'border-[var(--line)] bg-[var(--surface)] text-[var(--text)] hover:-translate-y-[1px]',
               )}
               disabled={step === 0}
             >

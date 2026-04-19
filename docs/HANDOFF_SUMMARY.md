@@ -1,5 +1,10 @@
 # WeaR Handoff Summary
 
+## Update
+
+Read `docs/CODEX_CHANGE_NOTE_2026-04-13.md` first for the latest implemented state.
+This summary reflects an older baseline and should not be treated as the most current source of truth on mobile UX or theme direction.
+
 ## Repository Purpose
 
 WeaR is a premium desktop-first fashion-tech prototype focused on wardrobe-first styling. The current repository delivers a high-fidelity front-end experience with a lightweight Node API layer for AI-assisted event chat, outfit optioning, item identification, and outfit image generation.

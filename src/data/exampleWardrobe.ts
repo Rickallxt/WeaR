@@ -1,5 +1,4 @@
 import type { WardrobeItem } from './wearData';
-import { createFashionMockImage } from '../lib/wardrobeVisuals';
 
 export const exampleWardrobeItems: WardrobeItem[] = [
   {
@@ -12,14 +11,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Streetwear', 'Evening', 'Sharp shoulder'],
     palette: 'from-[#d7dae5] via-[#f7f5f1] to-[#ecebff]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Graphite city bomber',
-      kind: 'bomber',
-      backdrop: ['#eff1f7', '#f3efff'],
-      garment: '#3a3e4d',
-      accent: '#5b6177',
-      hardware: '#c8ccda',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Premium demo outerwear for clean night-out styling.',
     detection: {
@@ -39,14 +31,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Work', 'Minimal', 'Polish'],
     palette: 'from-[#f4f1ed] via-[#ffffff] to-[#edf5df]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Ivory poplin shirt',
-      kind: 'shirt',
-      backdrop: ['#f6f2eb', '#eef5df'],
-      garment: '#f3efe8',
-      accent: '#ffffff',
-      hardware: '#9da2af',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1602810316693-3667c854239a?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Clean minimal shirt that anchors sharper wardrobe formulas.',
     detection: {
@@ -66,14 +51,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Base layer', 'Warm weather', 'Quiet luxury'],
     palette: 'from-[#ede5dc] via-[#fff8f3] to-[#edf2df]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Stone rib tank',
-      kind: 'tank',
-      backdrop: ['#f7efe7', '#eef4df'],
-      garment: '#d4c7bb',
-      accent: '#f9f3ec',
-      hardware: '#8f928d',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1536992266094-82847e1fd431?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Quiet base layer with a premium rib texture feel.',
     detection: {
@@ -93,14 +71,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Dinner', 'Office', 'Lengthening'],
     palette: 'from-[#d9dde3] via-[#f6f4f0] to-[#eef0ff]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Charcoal pleated trouser',
-      kind: 'trouser',
-      backdrop: ['#f0f2f6', '#ecefff'],
-      garment: '#30333c',
-      accent: '#575d6d',
-      hardware: '#b9bfcd',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Long clean trouser for sharper silhouette control.',
     detection: {
@@ -120,14 +91,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Casual', 'Weekend', 'Volume'],
     palette: 'from-[#dae1ef] via-[#faf7f3] to-[#eaf1dc]',
     status: 'Repeat',
-    imageDataUrl: createFashionMockImage({
-      label: 'Deep indigo jean',
-      kind: 'jean',
-      backdrop: ['#eef2fb', '#edf3df'],
-      garment: '#364562',
-      accent: '#60728d',
-      hardware: '#d8ddea',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Relaxed denim demo piece for off-duty outfit building.',
     detection: {
@@ -147,14 +111,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Modern', 'Weekend', 'Sport-luxe'],
     palette: 'from-[#edf0f6] via-[#fbf8f4] to-[#f1eaff]',
     status: 'Core',
-    imageDataUrl: createFashionMockImage({
-      label: 'Pearl runner',
-      kind: 'sneaker',
-      backdrop: ['#f4f4f3', '#f3ecff'],
-      garment: '#d8dde3',
-      accent: '#ffffff',
-      hardware: '#9aa0af',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Sleek shoe option that keeps the outfit young and polished.',
     detection: {
@@ -174,14 +131,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Travel', 'Layering', 'Classic'],
     palette: 'from-[#e8ded0] via-[#fff8f2] to-[#e9edff]',
     status: 'Occasion',
-    imageDataUrl: createFashionMockImage({
-      label: 'Sand trench coat',
-      kind: 'trench',
-      backdrop: ['#f7efe7', '#edf0ff'],
-      garment: '#d4c1a7',
-      accent: '#ebdfcf',
-      hardware: '#725d49',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Longline outerwear example for travel and elevated layering.',
     detection: {
@@ -201,14 +151,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Finish', 'Evening', 'Luxury'],
     palette: 'from-[#dfd5cd] via-[#f8f4ef] to-[#efefff]',
     status: 'Occasion',
-    imageDataUrl: createFashionMockImage({
-      label: 'Espresso mini bag',
-      kind: 'bag',
-      backdrop: ['#f1ebe5', '#efefff'],
-      garment: '#5a4036',
-      accent: '#8c675a',
-      hardware: '#c7af89',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1537440437066-c585a62baf1f?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Compact accessory demo piece to finish a wardrobe formula.',
     detection: {
@@ -228,14 +171,7 @@ export const exampleWardrobeItems: WardrobeItem[] = [
     tags: ['Dinner', 'Formal casual', 'Sharp finish'],
     palette: 'from-[#d8dae1] via-[#f8f5f0] to-[#eceeff]',
     status: 'Occasion',
-    imageDataUrl: createFashionMockImage({
-      label: 'Ink loafer',
-      kind: 'loafer',
-      backdrop: ['#eeeff4', '#ecefff'],
-      garment: '#24262d',
-      accent: '#4b4f5d',
-      hardware: '#b6bbca',
-    }),
+    imageDataUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=720&q=80',
     source: 'example',
     styleNote: 'Sharper shoe option for event-aware wardrobe styling.',
     detection: {
