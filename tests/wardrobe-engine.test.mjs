@@ -7,6 +7,7 @@ import {
   optionCountForItems,
   parseJsonFromText,
 } from '../server/wardrobeEngine.mjs';
+import { buildFallbackIdentification } from '../server/wardrobeIdentify.mjs';
 
 const sampleItems = [
   { id: 'w1', name: 'Bone cropped bomber', imageDataUrl: 'data:image/png;base64,abc' },
@@ -39,7 +40,7 @@ test('buildFallbackChat keeps the event summary and wardrobe context', () => {
   });
 
   assert.equal(chat.summary, 'Outdoor wedding at sunset');
-  assert.match(chat.reply, /Outdoor wedding at sunset|prioritize pieces/i);
+  assert.match(chat.reply, /prioritize pieces/i);
   assert.match(chat.reply, /Bone cropped bomber/);
 });
 
@@ -60,4 +61,35 @@ test('buildFallbackImage always returns a renderable data URL', () => {
   assert.match(filledImage.imageDataUrl, /^data:image\/svg\+xml;base64,/);
   assert.equal(emptyImage.mode, 'demo');
   assert.equal(filledImage.revisedPrompt, 'Demo mode preview using Event-ready edit.');
+});
+
+test('buildFallbackIdentification infers wardrobe traits from the upload name', () => {
+  const identification = buildFallbackIdentification({
+    fileName: 'ivory-poplin-shirt.jpg',
+    existingItem: null,
+  });
+
+  assert.equal(identification.category, 'Tops');
+  assert.equal(identification.color, 'Ivory');
+  assert.equal(identification.material, 'Cotton');
+  assert.equal(identification.mode, 'mock');
+  assert.match(identification.styleNote, /top/i);
+});
+
+test('buildFallbackIdentification respects existing wardrobe context when available', () => {
+  const identification = buildFallbackIdentification({
+    fileName: 'new-upload.png',
+    existingItem: {
+      name: 'Graphite city bomber',
+      category: 'Outerwear',
+      fit: 'Structured relaxed',
+      material: 'Technical cotton',
+      source: 'upload',
+    },
+  });
+
+  assert.equal(identification.name, 'Graphite City Bomber');
+  assert.equal(identification.category, 'Outerwear');
+  assert.equal(identification.fit, 'Structured relaxed');
+  assert.match(identification.tags.join(' '), /Uploaded piece/);
 });

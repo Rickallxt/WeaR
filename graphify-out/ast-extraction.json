@@ -1,0 +1,5480 @@
+{
+  "nodes": [
+    {
+      "id": "capacitor_config",
+      "label": "capacitor.config.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\capacitor.config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "eslint_config",
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "vite_config",
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\vite.config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "wear_launch",
+      "label": "WeaR-Launch.ps1",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\WeaR-Launch.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "wear_launch_test_serverrunning",
+      "label": "Test-ServerRunning()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\WeaR-Launch.ps1",
+      "source_location": "L6"
+    },
+    {
+      "id": "rebuild_graphify",
+      "label": "rebuild_graphify.py",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "rebuild_graphify_cleanup_cache",
+      "label": "_cleanup_cache()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L18"
+    },
+    {
+      "id": "rebuild_graphify_write_readme",
+      "label": "_write_readme()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L31"
+    },
+    {
+      "id": "rebuild_graphify_rebuild",
+      "label": "rebuild()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L52"
+    },
+    {
+      "id": "rebuild_graphify_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L122"
+    },
+    {
+      "id": "app",
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\App.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "appentry",
+      "label": "AppEntry.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\AppEntry.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "appentry_appentry",
+      "label": "AppEntry()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\AppEntry.tsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "main",
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\main.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "vite_env_d",
+      "label": "vite-env.d.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\vite-env.d.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "achievementtoast",
+      "label": "AchievementToast.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AchievementToast.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "authscreen",
+      "label": "AuthScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "authscreen_handlesubmit",
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L40"
+    },
+    {
+      "id": "chrome",
+      "label": "Chrome.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "chrome_materialicon",
+      "label": "MaterialIcon()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "chrome_appglyph",
+      "label": "AppGlyph()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L66"
+    },
+    {
+      "id": "chrome_panel",
+      "label": "Panel()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L173"
+    },
+    {
+      "id": "commandpalette",
+      "label": "CommandPalette.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\CommandPalette.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "commandpalette_handlekeydown",
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\CommandPalette.tsx",
+      "source_location": "L109"
+    },
+    {
+      "id": "demowardroberack",
+      "label": "DemoWardrobeRack.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\DemoWardrobeRack.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "demowardroberack_demowardroberack",
+      "label": "DemoWardrobeRack()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\DemoWardrobeRack.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "itemreviewmodal",
+      "label": "ItemReviewModal.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "itemreviewmodal_buildguidancetext",
+      "label": "buildGuidanceText()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "itemreviewmodal_async",
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L117"
+    },
+    {
+      "id": "legacyimportprompt",
+      "label": "LegacyImportPrompt.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\LegacyImportPrompt.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "legacyimportprompt_legacyimportprompt",
+      "label": "LegacyImportPrompt()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\LegacyImportPrompt.tsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "medialibrarymodal",
+      "label": "MediaLibraryModal.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\MediaLibraryModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "onboardingflow",
+      "label": "OnboardingFlow.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "onboardingflow_togglechip",
+      "label": "ToggleChip()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "onboardingflow_togglepreference",
+      "label": "togglePreference()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L66"
+    },
+    {
+      "id": "onboardingflow_getstepmessage",
+      "label": "getStepMessage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L77"
+    },
+    {
+      "id": "onboardingflow_nextstep",
+      "label": "nextStep()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L113"
+    },
+    {
+      "id": "onboardingflow_previousstep",
+      "label": "previousStep()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L126"
+    },
+    {
+      "id": "onboardingflow_cx",
+      "label": "cx()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L499"
+    },
+    {
+      "id": "sidebar",
+      "label": "Sidebar.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sidebar_cx",
+      "label": "cx()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "splashscreen",
+      "label": "SplashScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\SplashScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "wearappruntime",
+      "label": "WearAppRuntime.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "wearappruntime_createdraftfromidentification",
+      "label": "createDraftFromIdentification()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L77"
+    },
+    {
+      "id": "wearappruntime_appheader",
+      "label": "AppHeader()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L100"
+    },
+    {
+      "id": "wearappruntime_bootstrap",
+      "label": "bootstrap()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L353"
+    },
+    {
+      "id": "wearappruntime_handlekeydown",
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L392"
+    },
+    {
+      "id": "wearappruntime_loaduserdata",
+      "label": "loadUserData()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L425"
+    },
+    {
+      "id": "wearappruntime_scheduleuploadmessage",
+      "label": "scheduleUploadMessage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L441"
+    },
+    {
+      "id": "wearappruntime_persistprofile",
+      "label": "persistProfile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L449"
+    },
+    {
+      "id": "wearappruntime_persistcollections",
+      "label": "persistCollections()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L461"
+    },
+    {
+      "id": "wearappruntime_persisteventsession",
+      "label": "persistEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L466"
+    },
+    {
+      "id": "wearappruntime_persistwardrobe",
+      "label": "persistWardrobe()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L471"
+    },
+    {
+      "id": "wearappruntime_handleauthaction",
+      "label": "handleAuthAction()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L476"
+    },
+    {
+      "id": "wearappruntime_handlesignout",
+      "label": "handleSignOut()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L493"
+    },
+    {
+      "id": "wearappruntime_runuploadreviewfrommedia",
+      "label": "runUploadReviewFromMedia()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L503"
+    },
+    {
+      "id": "wearappruntime_handleuploadphoto",
+      "label": "handleUploadPhoto()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L588"
+    },
+    {
+      "id": "wearappruntime_handleuploadnewitem",
+      "label": "handleUploadNewItem()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L595"
+    },
+    {
+      "id": "wearappruntime_handlecreatefrommedia",
+      "label": "handleCreateFromMedia()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L601"
+    },
+    {
+      "id": "wearappruntime_handleaddexampleitems",
+      "label": "handleAddExampleItems()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L608"
+    },
+    {
+      "id": "wearappruntime_handlereviewchange",
+      "label": "handleReviewChange()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L619"
+    },
+    {
+      "id": "wearappruntime_handlereviewconfirm",
+      "label": "handleReviewConfirm()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L641"
+    },
+    {
+      "id": "wearappruntime_handledeletemediaasset",
+      "label": "handleDeleteMediaAsset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L677"
+    },
+    {
+      "id": "wearappruntime_handlelegacyimport",
+      "label": "handleLegacyImport()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L688"
+    },
+    {
+      "id": "wearappruntime_handledismissachievement",
+      "label": "handleDismissAchievement()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L723"
+    },
+    {
+      "id": "wearappruntime_async",
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L810"
+    },
+    {
+      "id": "weardesktopapp",
+      "label": "WearDesktopApp.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "weardesktopapp_createdraftfromidentification",
+      "label": "createDraftFromIdentification()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L57"
+    },
+    {
+      "id": "weardesktopapp_appheader",
+      "label": "AppHeader()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L77"
+    },
+    {
+      "id": "weardesktopapp_desktopworkspace",
+      "label": "DesktopWorkspace()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L132"
+    },
+    {
+      "id": "weardesktopapp_handlekeydown",
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L319"
+    },
+    {
+      "id": "weardesktopapp_handledismissachievement",
+      "label": "handleDismissAchievement()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L332"
+    },
+    {
+      "id": "weardesktopapp_handleonboardingcomplete",
+      "label": "handleOnboardingComplete()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L340"
+    },
+    {
+      "id": "weardesktopapp_handlescreenchange",
+      "label": "handleScreenChange()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L348"
+    },
+    {
+      "id": "weardesktopapp_scheduleuploadmessage",
+      "label": "scheduleUploadMessage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L352"
+    },
+    {
+      "id": "weardesktopapp_runuploadreview",
+      "label": "runUploadReview()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L360"
+    },
+    {
+      "id": "weardesktopapp_handleuploadphoto",
+      "label": "handleUploadPhoto()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L413"
+    },
+    {
+      "id": "weardesktopapp_handleuploadnewitem",
+      "label": "handleUploadNewItem()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L417"
+    },
+    {
+      "id": "weardesktopapp_handleaddexampleitems",
+      "label": "handleAddExampleItems()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L421"
+    },
+    {
+      "id": "weardesktopapp_handlereviewchange",
+      "label": "handleReviewChange()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L432"
+    },
+    {
+      "id": "weardesktopapp_handlereviewconfirm",
+      "label": "handleReviewConfirm()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L439"
+    },
+    {
+      "id": "bottomsheet",
+      "label": "BottomSheet.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomSheet.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "bottomtabbar",
+      "label": "BottomTabBar.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomTabBar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "bottomtabbar_triggerhaptic",
+      "label": "triggerHaptic()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomTabBar.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "mobilechatscreen",
+      "label": "MobileChatScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "mobilechatscreen_toggle",
+      "label": "toggle()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "mobilechatscreen_handlefileinput",
+      "label": "handleFileInput()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L243"
+    },
+    {
+      "id": "mobilechatscreen_handlewardrobeconfirm",
+      "label": "handleWardrobeConfirm()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L259"
+    },
+    {
+      "id": "mobilechatscreen_removeattachment",
+      "label": "removeAttachment()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L274"
+    },
+    {
+      "id": "mobilecompanionscreens",
+      "label": "MobileCompanionScreens.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "mobilecompanionscreens_buildnewcollection",
+      "label": "buildNewCollection()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "mobilecompanionscreens_handlereset",
+      "label": "handleReset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L386"
+    },
+    {
+      "id": "mobilecompanionscreens_handlesignout",
+      "label": "handleSignOut()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L393"
+    },
+    {
+      "id": "mobileheader",
+      "label": "MobileHeader.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileHeader.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "mobileworkspace",
+      "label": "MobileWorkspace.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "mobileworkspace_handlestartchat",
+      "label": "handleStartChat()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L78"
+    },
+    {
+      "id": "mobileworkspace_handlechatsend",
+      "label": "handleChatSend()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L103"
+    },
+    {
+      "id": "mobileworkspace_sendaireply",
+      "label": "sendAiReply()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L124"
+    },
+    {
+      "id": "mobilezeroui",
+      "label": "MobileZeroUI.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "mobilezeroui_builddaypart",
+      "label": "buildDayPart()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L32"
+    },
+    {
+      "id": "mobilezeroui_buildweathercue",
+      "label": "buildWeatherCue()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "mobilezeroui_buildeventlabel",
+      "label": "buildEventLabel()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L46"
+    },
+    {
+      "id": "mobilezeroui_buildherosuggestions",
+      "label": "buildHeroSuggestions()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L53"
+    },
+    {
+      "id": "mobilezeroui_builddecisiongroups",
+      "label": "buildDecisionGroups()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L81"
+    },
+    {
+      "id": "dashboardscreen",
+      "label": "DashboardScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "dashboardscreen_builddashboardmetrics",
+      "label": "buildDashboardMetrics()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L16"
+    },
+    {
+      "id": "dashboardscreen_getwardrobeinsight",
+      "label": "getWardrobeInsight()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L30"
+    },
+    {
+      "id": "desktopscreens",
+      "label": "DesktopScreens.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DesktopScreens.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "generatescreen",
+      "label": "GenerateScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "generatescreen_builddemooptions",
+      "label": "buildDemoOptions()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "generatescreen_resetgenerationflow",
+      "label": "resetGenerationFlow()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L161"
+    },
+    {
+      "id": "generatescreen_handleclearsession",
+      "label": "handleClearSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L168"
+    },
+    {
+      "id": "generatescreen_handlesendchat",
+      "label": "handleSendChat()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L178"
+    },
+    {
+      "id": "generatescreen_handlechatkeydown",
+      "label": "handleChatKeyDown()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L211"
+    },
+    {
+      "id": "generatescreen_handlechipclick",
+      "label": "handleChipClick()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L218"
+    },
+    {
+      "id": "generatescreen_handlebuildoptions",
+      "label": "handleBuildOptions()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L223"
+    },
+    {
+      "id": "generatescreen_handlegenerateimage",
+      "label": "handleGenerateImage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L255"
+    },
+    {
+      "id": "generatescreen_toggleselection",
+      "label": "toggleSelection()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L282"
+    },
+    {
+      "id": "generatescreen_toggleexampleselection",
+      "label": "toggleExampleSelection()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L289"
+    },
+    {
+      "id": "generatescreen_handleaddselectedexamples",
+      "label": "handleAddSelectedExamples()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L295"
+    },
+    {
+      "id": "generatescreen_handleitemupload",
+      "label": "handleItemUpload()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L304"
+    },
+    {
+      "id": "generatescreen_handlenewupload",
+      "label": "handleNewUpload()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L315"
+    },
+    {
+      "id": "generatescreen_async",
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L574"
+    },
+    {
+      "id": "profilescreen",
+      "label": "ProfileScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\ProfileScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "savedlooksscreen",
+      "label": "SavedLooksScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "savedlooksscreen_newcollection",
+      "label": "newCollection()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "savedlooksscreen_handlesave",
+      "label": "handleSave()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L38"
+    },
+    {
+      "id": "savedlooksscreen_handlekeydown",
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L43"
+    },
+    {
+      "id": "savedlooksscreen_handleupdate",
+      "label": "handleUpdate()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L154"
+    },
+    {
+      "id": "savedlooksscreen_handledelete",
+      "label": "handleDelete()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L158"
+    },
+    {
+      "id": "savedlooksscreen_handlecreate",
+      "label": "handleCreate()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L162"
+    },
+    {
+      "id": "settingsscreen",
+      "label": "SettingsScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "settingsscreen_handlerequestreset",
+      "label": "handleRequestReset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L26"
+    },
+    {
+      "id": "settingsscreen_handlesignout",
+      "label": "handleSignOut()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L36"
+    },
+    {
+      "id": "shared",
+      "label": "shared.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "shared_screenheader",
+      "label": "ScreenHeader()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "studioscreen",
+      "label": "StudioScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\StudioScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "wardrobescreen",
+      "label": "WardrobeScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "wardrobescreen_formatsourcelabel",
+      "label": "formatSourceLabel()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "wardrobescreen_formatdetectionlabel",
+      "label": "formatDetectionLabel()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "wardrobescreen_detectiontone",
+      "label": "detectionTone()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "wardrobescreen_toggleexampleselection",
+      "label": "toggleExampleSelection()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L73"
+    },
+    {
+      "id": "wardrobescreen_handleaddselectedexamples",
+      "label": "handleAddSelectedExamples()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L79"
+    },
+    {
+      "id": "wardrobescreen_cx",
+      "label": "cx()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L114"
+    },
+    {
+      "id": "wardrobeutils",
+      "label": "wardrobeUtils.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\wardrobeUtils.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "wardrobeutils_getwardrobeitemsforoutfit",
+      "label": "getWardrobeItemsForOutfit()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\wardrobeUtils.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "examplewardrobe",
+      "label": "exampleWardrobe.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\data\\exampleWardrobe.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "weardata",
+      "label": "wearData.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\data\\wearData.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "weardata_resolvewardrobeimagesrc",
+      "label": "resolveWardrobeImageSrc()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\data\\wearData.ts",
+      "source_location": "L89"
+    },
+    {
+      "id": "weardata_gettabforscreen",
+      "label": "getTabForScreen()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\data\\wearData.ts",
+      "source_location": "L141"
+    },
+    {
+      "id": "useandroidkeyboard",
+      "label": "useAndroidKeyboard.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useAndroidKeyboard.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "useandroidkeyboard_useandroidkeyboard",
+      "label": "useAndroidKeyboard()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useAndroidKeyboard.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "usemobilelayout",
+      "label": "useMobileLayout.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "usemobilelayout_checkisnative",
+      "label": "checkIsNative()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "usemobilelayout_checkismobile",
+      "label": "checkIsMobile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "usemobilelayout_usemobilelayout",
+      "label": "useMobileLayout()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "achievements",
+      "label": "achievements.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "achievements_loadunlockedachievements",
+      "label": "loadUnlockedAchievements()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L87"
+    },
+    {
+      "id": "achievements_saveunlockedachievements",
+      "label": "saveUnlockedAchievements()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L95"
+    },
+    {
+      "id": "achievements_checknewachievements",
+      "label": "checkNewAchievements()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L102"
+    },
+    {
+      "id": "apicontract",
+      "label": "apiContract.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\apiContract.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "appclient",
+      "label": "appClient.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "appclient_requestjson",
+      "label": "requestJson()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "appclient_tosession",
+      "label": "toSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L38"
+    },
+    {
+      "id": "appclient_getsession",
+      "label": "getSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "appclient_signup",
+      "label": "signUp()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L54"
+    },
+    {
+      "id": "appclient_signin",
+      "label": "signIn()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "appclient_signout",
+      "label": "signOut()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L72"
+    },
+    {
+      "id": "appclient_requestpasswordreset",
+      "label": "requestPasswordReset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L76"
+    },
+    {
+      "id": "appclient_resetpassword",
+      "label": "resetPassword()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L83"
+    },
+    {
+      "id": "appclient_getprofile",
+      "label": "getProfile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L92"
+    },
+    {
+      "id": "appclient_saveprofile",
+      "label": "saveProfile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L96"
+    },
+    {
+      "id": "appclient_getwardrobe",
+      "label": "getWardrobe()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L107"
+    },
+    {
+      "id": "appclient_savewardrobe",
+      "label": "saveWardrobe()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L112"
+    },
+    {
+      "id": "appclient_getcollections",
+      "label": "getCollections()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L119"
+    },
+    {
+      "id": "appclient_savecollections",
+      "label": "saveCollections()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L124"
+    },
+    {
+      "id": "appclient_geteventsession",
+      "label": "getEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L131"
+    },
+    {
+      "id": "appclient_saveeventsession",
+      "label": "saveEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L135"
+    },
+    {
+      "id": "appclient_getmediaassets",
+      "label": "getMediaAssets()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L142"
+    },
+    {
+      "id": "appclient_uploadmediaasset",
+      "label": "uploadMediaAsset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L147"
+    },
+    {
+      "id": "appclient_updatemediaasset",
+      "label": "updateMediaAsset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L160"
+    },
+    {
+      "id": "appclient_deletemediaasset",
+      "label": "deleteMediaAsset()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L167"
+    },
+    {
+      "id": "chatstate",
+      "label": "chatState.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\chatState.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "cx",
+      "label": "cx.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\cx.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "cx_cx",
+      "label": "cx()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\cx.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "filedata",
+      "label": "fileData.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\fileData.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "filedata_readfileasdataurl",
+      "label": "readFileAsDataUrl()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\fileData.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "generationapi",
+      "label": "generationApi.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "generationapi_requestjson",
+      "label": "requestJson()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "generationapi_fetchgenerationstatus",
+      "label": "fetchGenerationStatus()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L40"
+    },
+    {
+      "id": "generationapi_requesteventchat",
+      "label": "requestEventChat()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L44"
+    },
+    {
+      "id": "generationapi_requestwardrobeoptions",
+      "label": "requestWardrobeOptions()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L67"
+    },
+    {
+      "id": "generationapi_requestwardrobeimage",
+      "label": "requestWardrobeImage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L90"
+    },
+    {
+      "id": "generationapi_requestwardrobeidentification",
+      "label": "requestWardrobeIdentification()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L113"
+    },
+    {
+      "id": "persistence",
+      "label": "persistence.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "persistence_readjson",
+      "label": "readJson()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "persistence_writejson",
+      "label": "writeJson()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L25"
+    },
+    {
+      "id": "persistence_loadonboarded",
+      "label": "loadOnboarded()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L34"
+    },
+    {
+      "id": "persistence_saveonboarded",
+      "label": "saveOnboarded()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L38"
+    },
+    {
+      "id": "persistence_loadprofile",
+      "label": "loadProfile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L42"
+    },
+    {
+      "id": "persistence_saveprofile",
+      "label": "saveProfile()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L46"
+    },
+    {
+      "id": "persistence_loadwardrobe",
+      "label": "loadWardrobe()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "persistence_savewardrobe",
+      "label": "saveWardrobe()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L54"
+    },
+    {
+      "id": "persistence_loadcollections",
+      "label": "loadCollections()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L58"
+    },
+    {
+      "id": "persistence_savecollections",
+      "label": "saveCollections()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L62"
+    },
+    {
+      "id": "persistence_loadeventsession",
+      "label": "loadEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L66"
+    },
+    {
+      "id": "persistence_saveeventsession",
+      "label": "saveEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L70"
+    },
+    {
+      "id": "persistence_cleareventsession",
+      "label": "clearEventSession()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L74"
+    },
+    {
+      "id": "persistence_readlegacysnapshot",
+      "label": "readLegacySnapshot()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L82"
+    },
+    {
+      "id": "persistence_haslegacysnapshot",
+      "label": "hasLegacySnapshot()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L92"
+    },
+    {
+      "id": "persistence_clearlegacysnapshot",
+      "label": "clearLegacySnapshot()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L103"
+    },
+    {
+      "id": "theme",
+      "label": "theme.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "theme_inittheme",
+      "label": "initTheme()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "theme_usetheme",
+      "label": "useTheme()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L33"
+    },
+    {
+      "id": "wardrobedrafts",
+      "label": "wardrobeDrafts.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "wardrobedrafts_slug",
+      "label": "slug()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L42"
+    },
+    {
+      "id": "wardrobedrafts_palettefromcolor",
+      "label": "paletteFromColor()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L46"
+    },
+    {
+      "id": "wardrobedrafts_normalizetags",
+      "label": "normalizeTags()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "wardrobedrafts_buildwardrobeitem",
+      "label": "buildWardrobeItem()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "wardrobedrafts_stringifytags",
+      "label": "stringifyTags()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L111"
+    },
+    {
+      "id": "wardrobedrafts_parsetags",
+      "label": "parseTags()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L115"
+    },
+    {
+      "id": "wardrobevisuals",
+      "label": "wardrobeVisuals.ts",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "wardrobevisuals_svgtodataurl",
+      "label": "svgToDataUrl()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "wardrobevisuals_garmentmarkup",
+      "label": "garmentMarkup()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "wardrobevisuals_createfashionmockimage",
+      "label": "createFashionMockImage()",
+      "file_type": "code",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L75"
+    }
+  ],
+  "edges": [
+    {
+      "source": "capacitor_config",
+      "target": "cli",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\capacitor.config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config",
+      "target": "js",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config",
+      "target": "globals",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config",
+      "target": "eslint_plugin_react_hooks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config",
+      "target": "eslint_plugin_react_refresh",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config",
+      "target": "typescript_eslint",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\eslint.config.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config",
+      "target": "vite",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\vite.config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config",
+      "target": "plugin_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\vite.config.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config",
+      "target": "vite",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\vite.config.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "wear_launch",
+      "target": "wear_launch_test_serverrunning",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\WeaR-Launch.ps1",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "argparse",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "shutil",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_analyze",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_build",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_cluster",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_detect",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_export",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_extract",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_report",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "graphify_wiki",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "rebuild_graphify_cleanup_cache",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "rebuild_graphify_write_readme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "rebuild_graphify_rebuild",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify",
+      "target": "rebuild_graphify_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify_rebuild",
+      "target": "rebuild_graphify_write_readme",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify_rebuild",
+      "target": "rebuild_graphify_cleanup_cache",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "rebuild_graphify_main",
+      "target": "rebuild_graphify_rebuild",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\scripts\\rebuild_graphify.py",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "appentry",
+      "target": "wearappruntime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\AppEntry.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "appentry",
+      "target": "appentry_appentry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\AppEntry.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "main",
+      "target": "client",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\main.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "main",
+      "target": "app",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\main.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "main",
+      "target": "theme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\main.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "main",
+      "target": "index_css",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\main.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "achievementtoast",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AchievementToast.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "achievementtoast",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AchievementToast.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "achievementtoast",
+      "target": "achievements",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AchievementToast.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "achievementtoast",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AchievementToast.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "authscreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "authscreen",
+      "target": "usemobilelayout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "authscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "authscreen",
+      "target": "authscreen_handlesubmit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\AuthScreen.tsx",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "cx",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "chrome_materialicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "chrome_appglyph",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "chrome",
+      "target": "chrome_panel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Chrome.tsx",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "commandpalette",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\CommandPalette.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "commandpalette",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\CommandPalette.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "commandpalette",
+      "target": "commandpalette_handlekeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\CommandPalette.tsx",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "demowardroberack",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\DemoWardrobeRack.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "demowardroberack",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\DemoWardrobeRack.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "demowardroberack",
+      "target": "demowardroberack_demowardroberack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\DemoWardrobeRack.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "wardrobedrafts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "filedata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "itemreviewmodal_buildguidancetext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "itemreviewmodal",
+      "target": "itemreviewmodal_async",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\ItemReviewModal.tsx",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "legacyimportprompt",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\LegacyImportPrompt.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "legacyimportprompt",
+      "target": "legacyimportprompt_legacyimportprompt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\LegacyImportPrompt.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "medialibrarymodal",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\MediaLibraryModal.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "medialibrarymodal",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\MediaLibraryModal.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "medialibrarymodal",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\MediaLibraryModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "cx",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "usemobilelayout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_togglechip",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_togglepreference",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_getstepmessage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_nextstep",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_previousstep",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "onboardingflow",
+      "target": "onboardingflow_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\OnboardingFlow.tsx",
+      "source_location": "L499",
+      "weight": 1.0
+    },
+    {
+      "source": "sidebar",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sidebar",
+      "target": "cx",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "sidebar",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "sidebar",
+      "target": "sidebar_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\Sidebar.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "splashscreen",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\SplashScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "examplewardrobe",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wardrobedrafts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "appclient",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "achievements",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "achievementtoast",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "authscreen",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "commandpalette",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "itemreviewmodal",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "legacyimportprompt",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "mobileworkspace",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "onboardingflow",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "sidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "splashscreen",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "usemobilelayout",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "desktopscreens",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_createdraftfromidentification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_appheader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_bootstrap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlekeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L392",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_loaduserdata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L425",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_scheduleuploadmessage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L441",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_persistprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L449",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_persistcollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L461",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_persisteventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L466",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_persistwardrobe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L471",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handleauthaction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L476",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlesignout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L493",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_runuploadreviewfrommedia",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L503",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handleuploadphoto",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L588",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handleuploadnewitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L595",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlecreatefrommedia",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L601",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handleaddexampleitems",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L608",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlereviewchange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L619",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlereviewconfirm",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L641",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handledeletemediaasset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L677",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handlelegacyimport",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L688",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_handledismissachievement",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L723",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime",
+      "target": "wearappruntime_async",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L810",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_bootstrap",
+      "target": "wearappruntime_loaduserdata",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L359",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handleauthaction",
+      "target": "wearappruntime_loaduserdata",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L484",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handlesignout",
+      "target": "wearappruntime_handleauthaction",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L494",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_runuploadreviewfrommedia",
+      "target": "wearappruntime_createdraftfromidentification",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L531",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handleuploadphoto",
+      "target": "wearappruntime_runuploadreviewfrommedia",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L592",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handleuploadnewitem",
+      "target": "wearappruntime_runuploadreviewfrommedia",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L598",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handlecreatefrommedia",
+      "target": "wearappruntime_runuploadreviewfrommedia",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L605",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handleaddexampleitems",
+      "target": "wearappruntime_scheduleuploadmessage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L616",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handlereviewconfirm",
+      "target": "wearappruntime_persistwardrobe",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L666",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handlereviewconfirm",
+      "target": "wearappruntime_scheduleuploadmessage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L673",
+      "weight": 1.0
+    },
+    {
+      "source": "wearappruntime_handledeletemediaasset",
+      "target": "wearappruntime_scheduleuploadmessage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearAppRuntime.tsx",
+      "source_location": "L680",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "examplewardrobe",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "wardrobedrafts",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "filedata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "achievements",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "achievementtoast",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "commandpalette",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "itemreviewmodal",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "onboardingflow",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "sidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "splashscreen",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "generatescreen",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "desktopscreens",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_createdraftfromidentification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_appheader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_desktopworkspace",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handlekeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handledismissachievement",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L332",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handleonboardingcomplete",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L340",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handlescreenchange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L348",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_scheduleuploadmessage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_runuploadreview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L360",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handleuploadphoto",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L413",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handleuploadnewitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L417",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handleaddexampleitems",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L421",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handlereviewchange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp",
+      "target": "weardesktopapp_handlereviewconfirm",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L439",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp_runuploadreview",
+      "target": "weardesktopapp_createdraftfromidentification",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L382",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp_handleuploadphoto",
+      "target": "weardesktopapp_runuploadreview",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L414",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp_handleuploadnewitem",
+      "target": "weardesktopapp_runuploadreview",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L418",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp_handleaddexampleitems",
+      "target": "weardesktopapp_scheduleuploadmessage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L429",
+      "weight": 1.0
+    },
+    {
+      "source": "weardesktopapp_handlereviewconfirm",
+      "target": "weardesktopapp_scheduleuploadmessage",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\WearDesktopApp.tsx",
+      "source_location": "L459",
+      "weight": 1.0
+    },
+    {
+      "source": "bottomsheet",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomSheet.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "bottomsheet",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomSheet.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "bottomtabbar",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomTabBar.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "bottomtabbar",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomTabBar.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "bottomtabbar",
+      "target": "bottomtabbar_triggerhaptic",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\BottomTabBar.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "chatstate",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "mobilechatscreen_toggle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "mobilechatscreen_handlefileinput",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "mobilechatscreen_handlewardrobeconfirm",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L259",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilechatscreen",
+      "target": "mobilechatscreen_removeattachment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileChatScreen.tsx",
+      "source_location": "L274",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "theme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "wardrobeutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "mobilecompanionscreens_buildnewcollection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "mobilecompanionscreens_handlereset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L386",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilecompanionscreens",
+      "target": "mobilecompanionscreens_handlesignout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileCompanionScreens.tsx",
+      "source_location": "L393",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileheader",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileHeader.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileheader",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileHeader.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "chatstate",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "bottomtabbar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobilechatscreen",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobilecompanionscreens",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobileheader",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobilezeroui",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobileworkspace_handlestartchat",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobileworkspace_handlechatsend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace",
+      "target": "mobileworkspace_sendaireply",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace_handlestartchat",
+      "target": "mobileworkspace_sendaireply",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "mobileworkspace_handlechatsend",
+      "target": "mobileworkspace_sendaireply",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileWorkspace.tsx",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "wardrobeutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "mobilezeroui_builddaypart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "mobilezeroui_buildweathercue",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "mobilezeroui_buildeventlabel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "mobilezeroui_buildherosuggestions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui",
+      "target": "mobilezeroui_builddecisiongroups",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui_buildherosuggestions",
+      "target": "mobilezeroui_buildeventlabel",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui_buildherosuggestions",
+      "target": "mobilezeroui_builddaypart",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "mobilezeroui_buildherosuggestions",
+      "target": "mobilezeroui_buildweathercue",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\mobile\\MobileZeroUI.tsx",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "wardrobeutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "dashboardscreen_builddashboardmetrics",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboardscreen",
+      "target": "dashboardscreen_getwardrobeinsight",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\DashboardScreen.tsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "persistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generationapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "demowardroberack",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_builddemooptions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_resetgenerationflow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handleclearsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlesendchat",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlechatkeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlechipclick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlebuildoptions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlegenerateimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_toggleselection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_toggleexampleselection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L289",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handleaddselectedexamples",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handleitemupload",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L304",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_handlenewupload",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_async",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L574",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen",
+      "target": "generatescreen_async",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L642",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_handleclearsession",
+      "target": "generatescreen_resetgenerationflow",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_handlechatkeydown",
+      "target": "generatescreen_handlesendchat",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_handlechipclick",
+      "target": "generatescreen_handlesendchat",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_handlebuildoptions",
+      "target": "generatescreen_builddemooptions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_toggleselection",
+      "target": "generatescreen_resetgenerationflow",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L283",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_handleitemupload",
+      "target": "generatescreen_resetgenerationflow",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L308",
+      "weight": 1.0
+    },
+    {
+      "source": "generatescreen_async",
+      "target": "generatescreen_handleitemupload",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\GenerateScreen.tsx",
+      "source_location": "L577",
+      "weight": 1.0
+    },
+    {
+      "source": "profilescreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\ProfileScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "profilescreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\ProfileScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "profilescreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\ProfileScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "wardrobeutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_newcollection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_handlesave",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_handlekeydown",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_handleupdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_handledelete",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen",
+      "target": "savedlooksscreen_handlecreate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen_handlekeydown",
+      "target": "savedlooksscreen_handlesave",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "savedlooksscreen_handlecreate",
+      "target": "savedlooksscreen_newcollection",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SavedLooksScreen.tsx",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "theme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "settingsscreen_handlerequestreset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "settingsscreen",
+      "target": "settingsscreen_handlesignout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\SettingsScreen.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "shared",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "shared",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "shared",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "shared",
+      "target": "shared_screenheader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\shared.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "studioscreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\StudioScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "studioscreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\StudioScreen.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "studioscreen",
+      "target": "wardrobeutils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\StudioScreen.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "studioscreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\StudioScreen.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "cx",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "chrome",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "demowardroberack",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "shared",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_formatsourcelabel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_formatdetectionlabel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_detectiontone",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_toggleexampleselection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_handleaddselectedexamples",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobescreen",
+      "target": "wardrobescreen_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\WardrobeScreen.tsx",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobeutils",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\wardrobeUtils.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobeutils",
+      "target": "wardrobeutils_getwardrobeitemsforoutfit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\components\\screens\\wardrobeUtils.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "examplewardrobe",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\data\\exampleWardrobe.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "weardata",
+      "target": "weardata_resolvewardrobeimagesrc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\data\\wearData.ts",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "weardata",
+      "target": "weardata_gettabforscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\data\\wearData.ts",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "useandroidkeyboard",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useAndroidKeyboard.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "useandroidkeyboard",
+      "target": "useandroidkeyboard_useandroidkeyboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useAndroidKeyboard.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "usemobilelayout",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "usemobilelayout",
+      "target": "usemobilelayout_checkisnative",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "usemobilelayout",
+      "target": "usemobilelayout_checkismobile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "usemobilelayout",
+      "target": "usemobilelayout_usemobilelayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "usemobilelayout_checkismobile",
+      "target": "usemobilelayout_checkisnative",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\hooks\\useMobileLayout.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "achievements",
+      "target": "achievements_loadunlockedachievements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "achievements",
+      "target": "achievements_saveunlockedachievements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "achievements",
+      "target": "achievements_checknewachievements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\achievements.ts",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "apicontract",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "filedata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_requestjson",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_tosession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_getsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_signup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_signin",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_signout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_requestpasswordreset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_resetpassword",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_getprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_saveprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_getwardrobe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_savewardrobe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_getcollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_savecollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_geteventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_saveeventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_getmediaassets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_uploadmediaasset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_updatemediaasset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient",
+      "target": "appclient_deletemediaasset",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_getsession",
+      "target": "appclient_tosession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_signup",
+      "target": "appclient_tosession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_signin",
+      "target": "appclient_tosession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_signout",
+      "target": "appclient_tosession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_requestpasswordreset",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_resetpassword",
+      "target": "appclient_tosession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_getprofile",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_saveprofile",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_savewardrobe",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_savecollections",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_geteventsession",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_saveeventsession",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_uploadmediaasset",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "appclient_updatemediaasset",
+      "target": "appclient_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\appClient.ts",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "cx",
+      "target": "cx_cx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\cx.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "filedata",
+      "target": "filedata_readfileasdataurl",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\fileData.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "apicontract",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_requestjson",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_fetchgenerationstatus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_requesteventchat",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_requestwardrobeoptions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_requestwardrobeimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi",
+      "target": "generationapi_requestwardrobeidentification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi_fetchgenerationstatus",
+      "target": "generationapi_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi_requesteventchat",
+      "target": "generationapi_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi_requestwardrobeoptions",
+      "target": "generationapi_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi_requestwardrobeimage",
+      "target": "generationapi_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "generationapi_requestwardrobeidentification",
+      "target": "generationapi_requestjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\generationApi.ts",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_readjson",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_writejson",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_loadonboarded",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_saveonboarded",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_loadprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_saveprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_loadwardrobe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_savewardrobe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_loadcollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_savecollections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_loadeventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_saveeventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_cleareventsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_readlegacysnapshot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_haslegacysnapshot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence",
+      "target": "persistence_clearlegacysnapshot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_loadonboarded",
+      "target": "persistence_readjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_saveonboarded",
+      "target": "persistence_writejson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_loadprofile",
+      "target": "persistence_readjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_saveprofile",
+      "target": "persistence_writejson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_loadwardrobe",
+      "target": "persistence_readjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_savewardrobe",
+      "target": "persistence_writejson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_loadcollections",
+      "target": "persistence_readjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_savecollections",
+      "target": "persistence_writejson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_loadeventsession",
+      "target": "persistence_readjson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_saveeventsession",
+      "target": "persistence_writejson",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_readlegacysnapshot",
+      "target": "persistence_loadonboarded",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_readlegacysnapshot",
+      "target": "persistence_loadprofile",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_readlegacysnapshot",
+      "target": "persistence_loadwardrobe",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_readlegacysnapshot",
+      "target": "persistence_loadcollections",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_readlegacysnapshot",
+      "target": "persistence_loadeventsession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "persistence_haslegacysnapshot",
+      "target": "persistence_readlegacysnapshot",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\persistence.ts",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "theme",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "theme",
+      "target": "theme_inittheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "theme",
+      "target": "theme_usetheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\theme.ts",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "weardata",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_slug",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_palettefromcolor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_normalizetags",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_buildwardrobeitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_stringifytags",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts",
+      "target": "wardrobedrafts_parsetags",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts_palettefromcolor",
+      "target": "wardrobedrafts_slug",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts_buildwardrobeitem",
+      "target": "wardrobedrafts_normalizetags",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts_buildwardrobeitem",
+      "target": "wardrobedrafts_palettefromcolor",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobedrafts_parsetags",
+      "target": "wardrobedrafts_normalizetags",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeDrafts.ts",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobevisuals",
+      "target": "wardrobevisuals_svgtodataurl",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobevisuals",
+      "target": "wardrobevisuals_garmentmarkup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobevisuals",
+      "target": "wardrobevisuals_createfashionmockimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobevisuals_createfashionmockimage",
+      "target": "wardrobevisuals_garmentmarkup",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "wardrobevisuals_createfashionmockimage",
+      "target": "wardrobevisuals_svgtodataurl",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "D:\\Claude WeaR\\src\\lib\\wardrobeVisuals.ts",
+      "source_location": "L118",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

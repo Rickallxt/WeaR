@@ -1,16 +1,35 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { startTransition, useEffect, useState } from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 import { exampleWardrobeItems } from '../data/exampleWardrobe';
-import { baseProfile, navItems, wardrobeItems, type ScreenKey, type UserProfile, type WardrobeItem } from '../data/wearData';
+import { baseProfile, navItems, savedCollections, wardrobeItems, type SavedCollection, type ScreenKey, type UserProfile, type WardrobeItem } from '../data/wearData';
 import { buildWardrobeItem } from '../lib/wardrobeDrafts';
 import { readFileAsDataUrl } from '../lib/fileData';
+import {
+  loadCollections,
+  loadOnboarded,
+  loadProfile,
+  loadWardrobe,
+  saveCollections,
+  saveOnboarded,
+  saveProfile,
+  saveWardrobe,
+} from '../lib/persistence';
 import {
   fetchGenerationStatus,
   requestWardrobeIdentification,
   type GenerationStatus,
   type WardrobeIdentification,
 } from '../lib/generationApi';
+import {
+  checkNewAchievements,
+  loadUnlockedAchievements,
+  saveUnlockedAchievements,
+  type Achievement,
+  type AchievementId,
+} from '../lib/achievements';
 import { Panel, SurfaceBadge } from './Chrome';
+import { AchievementToast } from './AchievementToast';
+import { CommandPalette } from './CommandPalette';
 import { ItemReviewModal } from './ItemReviewModal';
 import { OnboardingFlow } from './OnboardingFlow';
 import { Sidebar } from './Sidebar';
@@ -48,7 +67,7 @@ function createDraftFromIdentification({
 }) {
   return buildWardrobeItem({
     id: existingItem?.id ?? targetItemId ?? `upload-${Date.now()}`,
-    imageDataUrl,
+    imageSrc: imageDataUrl,
     detection,
     source: 'upload',
     existingItem,
@@ -61,31 +80,44 @@ function AppHeader({
   generationStatus,
   onGoHome,
   onGoGenerate,
+  onOpenPalette,
 }: {
   activeScreen: ScreenKey;
   wardrobe: WardrobeItem[];
   generationStatus: GenerationStatus | null;
   onGoHome: () => void;
   onGoGenerate: () => void;
+  onOpenPalette: () => void;
 }) {
   const activeMeta = navItems.find((item) => item.key === activeScreen);
-  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl)).length;
+  const uploadedCount = wardrobe.filter((item) => Boolean(item.imageDataUrl || item.imageUrl)).length;
   const connectionLabel = generationStatus
     ? generationStatus.connected
-      ? 'OpenAI connected'
-      : 'Demo mode'
-    : 'Checking AI connection';
+      ? 'Local AI ready'
+      : 'Fallback mode'
+    : 'Checking local AI';
 
   return (
-    <div className="flex flex-col gap-4 border-b border-white/70 px-5 py-5 xl:flex-row xl:items-center xl:justify-between xl:px-6">
+    <div
+      className="flex flex-col gap-4 px-5 py-5 xl:flex-row xl:items-center xl:justify-between xl:px-6"
+      style={{ borderBottom: '1px solid var(--line)' }}
+    >
       <div>
-        <p className="text-xs uppercase tracking-[0.22em] text-[var(--muted)]">WeaR app shell</p>
-        <p className="mt-2 text-[1.02rem] text-[var(--text)]">{activeMeta?.caption}</p>
+        <p className="text-xs uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>WeaR app shell</p>
+        <p className="mt-2 text-[1.02rem]" style={{ color: 'var(--text)' }}>{activeMeta?.caption}</p>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
         <SurfaceBadge tone={generationStatus?.connected ? 'accent' : 'default'}>{connectionLabel}</SurfaceBadge>
         <SurfaceBadge>{uploadedCount}/{wardrobe.length} item photos mapped</SurfaceBadge>
+        <button
+          type="button"
+          onClick={onOpenPalette}
+          className="button-secondary text-sm"
+          title="Open command palette"
+        >
+          <span className="mr-2 opacity-60">⌘</span>K
+        </button>
         <button type="button" onClick={onGoHome} className="button-secondary text-sm">
           Open dashboard
         </button>
@@ -100,26 +132,40 @@ function AppHeader({
 function DesktopWorkspace({
   profile,
   wardrobe,
+  collections,
   generationStatus,
   activeScreen,
   onScreenChange,
   onUploadPhoto,
   onUploadNewItem,
   onAddExampleItems,
+  onCollectionsChange,
+  onOpenPalette,
 }: {
   profile: UserProfile;
   wardrobe: WardrobeItem[];
+  collections: SavedCollection[];
   generationStatus: GenerationStatus | null;
   activeScreen: ScreenKey;
   onScreenChange: (screen: ScreenKey) => void;
   onUploadPhoto: (itemId: string, file: File) => Promise<void>;
   onUploadNewItem: (file: File) => Promise<void>;
   onAddExampleItems: (itemIds: string[]) => void;
+  onCollectionsChange: (collections: SavedCollection[]) => void;
+  onOpenPalette: () => void;
 }) {
   function renderScreen() {
     switch (activeScreen) {
       case 'dashboard':
-        return <DashboardScreen profile={profile} wardrobe={wardrobe} />;
+        return (
+          <DashboardScreen
+            profile={profile}
+            wardrobe={wardrobe}
+            generationStatus={generationStatus}
+            onGoGenerate={() => onScreenChange('generate')}
+            onGoWardrobe={() => onScreenChange('wardrobe')}
+          />
+        );
       case 'wardrobe':
         return (
           <WardrobeScreen
@@ -147,7 +193,13 @@ function DesktopWorkspace({
       case 'profile':
         return <ProfileScreen profile={profile} />;
       case 'saved':
-        return <SavedLooksScreen wardrobe={wardrobe} />;
+        return (
+          <SavedLooksScreen
+            wardrobe={wardrobe}
+            collections={collections}
+            onCollectionsChange={onCollectionsChange}
+          />
+        );
       default:
         return <SettingsScreen profile={profile} />;
     }
@@ -156,7 +208,12 @@ function DesktopWorkspace({
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1640px] items-center justify-center px-4 py-5 lg:px-6">
       <Panel className="flex min-h-[calc(100vh-2.5rem)] w-full flex-col overflow-hidden lg:flex-row" variant="glass">
-        <Sidebar activeScreen={activeScreen} onSelect={onScreenChange} profile={profile} />
+        <Sidebar
+          activeScreen={activeScreen}
+          onSelect={onScreenChange}
+          profile={profile}
+          onOpenPalette={onOpenPalette}
+        />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <AppHeader
@@ -165,6 +222,7 @@ function DesktopWorkspace({
             generationStatus={generationStatus}
             onGoHome={() => onScreenChange('dashboard')}
             onGoGenerate={() => onScreenChange('generate')}
+            onOpenPalette={onOpenPalette}
           />
 
           <div className="flex-1 overflow-y-auto px-5 py-5 xl:px-6 xl:py-6">
@@ -189,46 +247,95 @@ function DesktopWorkspace({
 export function WearDesktopApp() {
   const reduceMotion = useReducedMotion();
   const [showSplash, setShowSplash] = useState(true);
-  const [isOnboarded, setIsOnboarded] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>(baseProfile);
-  const [wardrobe, setWardrobe] = useState<WardrobeItem[]>(wardrobeItems);
+  const [isOnboarded, setIsOnboarded] = useState(() => loadOnboarded());
+  const [profile, setProfile] = useState<UserProfile>(() => loadProfile() ?? baseProfile);
+  const [wardrobe, setWardrobe] = useState<WardrobeItem[]>(() => loadWardrobe() ?? wardrobeItems);
   const [activeScreen, setActiveScreen] = useState<ScreenKey>('dashboard');
+  const [collections, setCollections] = useState<SavedCollection[]>(() => loadCollections() ?? savedCollections);
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus | null>(null);
   const [uploadReview, setUploadReview] = useState<UploadReviewState | null>(null);
   const [uploadMessage, setUploadMessage] = useState('');
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [pendingAchievement, setPendingAchievement] = useState<Achievement | null>(null);
+  const unlockedRef = useRef<Set<AchievementId>>(loadUnlockedAchievements());
+  const achievementQueueRef = useRef<Achievement[]>([]);
 
+  // Splash timer
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       setShowSplash(false);
     }, reduceMotion ? 850 : 2100);
-
     return () => window.clearTimeout(timeoutId);
   }, [reduceMotion]);
 
+  // Generation status
   useEffect(() => {
     let ignore = false;
-
     fetchGenerationStatus()
-      .then((status) => {
-        if (!ignore) {
-          setGenerationStatus(status);
-        }
-      })
+      .then((status) => { if (!ignore) setGenerationStatus(status); })
       .catch(() => {
         if (!ignore) {
           setGenerationStatus({
             connected: false,
-            textModel: 'Demo mode',
-            imageModel: 'Demo render',
-            message: 'OpenAI backend not connected yet.',
+            textModel: 'Fallback mode',
+            imageModel: 'Local collage render',
+            message: 'Local AI backend not connected yet.',
           });
         }
       });
-
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, []);
+
+  // Persistence
+  useEffect(() => { saveOnboarded(isOnboarded); }, [isOnboarded]);
+  useEffect(() => { saveProfile(profile); }, [profile]);
+  useEffect(() => { saveWardrobe(wardrobe); }, [wardrobe]);
+  useEffect(() => { saveCollections(collections); }, [collections]);
+
+  // Achievement checks on wardrobe change — defer setState to avoid cascading renders
+  useEffect(() => {
+    const stats = {
+      totalPieces: wardrobe.length,
+      piecesWithPhotos: wardrobe.filter((i) => Boolean(i.imageDataUrl || i.imageUrl)).length,
+      generationCount: 0,
+      repeatCount: wardrobe.filter((i) => i.status === 'Repeat').length,
+    };
+    const newOnes = checkNewAchievements(stats, unlockedRef.current);
+    if (newOnes.length === 0) return;
+    newOnes.forEach((a) => unlockedRef.current.add(a.id));
+    saveUnlockedAchievements(unlockedRef.current);
+    achievementQueueRef.current.push(...newOnes);
+    const id = window.setTimeout(() => {
+      setPendingAchievement((current) => {
+        if (current) return current;
+        return achievementQueueRef.current.shift() ?? null;
+      });
+    }, 600);
+    return () => window.clearTimeout(id);
+  }, [wardrobe]);
+
+  // Global Ctrl+K / Cmd+K keyboard shortcut
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setPaletteOpen((open) => !open);
+      }
+      if (e.key === 'Escape' && paletteOpen) {
+        setPaletteOpen(false);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [paletteOpen]);
+
+  function handleDismissAchievement() {
+    setPendingAchievement(null);
+    const next = achievementQueueRef.current.shift();
+    if (next) {
+      window.setTimeout(() => setPendingAchievement(next), 300);
+    }
+  }
 
   function handleOnboardingComplete(nextProfile: UserProfile) {
     setProfile(nextProfile);
@@ -239,9 +346,7 @@ export function WearDesktopApp() {
   }
 
   function handleScreenChange(screen: ScreenKey) {
-    startTransition(() => {
-      setActiveScreen(screen);
-    });
+    startTransition(() => { setActiveScreen(screen); });
   }
 
   function scheduleUploadMessage(message: string) {
@@ -252,13 +357,7 @@ export function WearDesktopApp() {
     }, 2600);
   }
 
-  async function runUploadReview({
-    targetItemId,
-    file,
-  }: {
-    targetItemId: string | null;
-    file: File;
-  }) {
+  async function runUploadReview({ targetItemId, file }: { targetItemId: string | null; file: File }) {
     const imageDataUrl = await readFileAsDataUrl(file);
     const existingItem = targetItemId ? wardrobe.find((item) => item.id === targetItemId) ?? null : null;
     const fallbackDetection: WardrobeIdentification = {
@@ -280,34 +379,19 @@ export function WearDesktopApp() {
       stage: 'processing',
       fileName: file.name,
       imageDataUrl,
-      draft: createDraftFromIdentification({
-        detection: fallbackDetection,
-        imageDataUrl,
-        existingItem,
-        targetItemId,
-      }),
+      draft: createDraftFromIdentification({ detection: fallbackDetection, imageDataUrl, existingItem, targetItemId }),
       helperText: 'WeaR is reading the upload to detect its category, color, fit, and material.',
     });
 
     try {
-      const detection = await requestWardrobeIdentification({
-        imageDataUrl,
-        fileName: file.name,
-        existingItem,
-      });
-
+      const detection = await requestWardrobeIdentification({ imageDataUrl, fileName: file.name, existingItem });
       setUploadReview({
         visible: true,
         targetItemId,
         stage: 'review',
         fileName: file.name,
         imageDataUrl,
-        draft: createDraftFromIdentification({
-          detection,
-          imageDataUrl,
-          existingItem,
-          targetItemId,
-        }),
+        draft: createDraftFromIdentification({ detection, imageDataUrl, existingItem, targetItemId }),
         helperText: detection.note,
       });
     } catch (error) {
@@ -317,12 +401,7 @@ export function WearDesktopApp() {
         stage: 'error',
         fileName: file.name,
         imageDataUrl,
-        draft: createDraftFromIdentification({
-          detection: fallbackDetection,
-          imageDataUrl,
-          existingItem,
-          targetItemId,
-        }),
+        draft: createDraftFromIdentification({ detection: fallbackDetection, imageDataUrl, existingItem, targetItemId }),
         helperText:
           error instanceof Error
             ? `${error.message} Review the fallback details and adjust anything that looks off.`
@@ -341,11 +420,7 @@ export function WearDesktopApp() {
 
   function handleAddExampleItems(itemIds: string[]) {
     const nextItems = exampleWardrobeItems.filter((item) => itemIds.includes(item.id));
-
-    if (nextItems.length === 0) {
-      return;
-    }
-
+    if (nextItems.length === 0) return;
     startTransition(() => {
       setWardrobe((current) =>
         current.concat(nextItems.filter((item) => !current.some((existing) => existing.id === item.id))),
@@ -356,25 +431,13 @@ export function WearDesktopApp() {
 
   function handleReviewChange(patch: Partial<WardrobeItem>) {
     setUploadReview((current) => {
-      if (!current) {
-        return current;
-      }
-
-      return {
-        ...current,
-        draft: {
-          ...current.draft,
-          ...patch,
-        },
-      };
+      if (!current) return current;
+      return { ...current, draft: { ...current.draft, ...patch } };
     });
   }
 
   function handleReviewConfirm() {
-    if (!uploadReview) {
-      return;
-    }
-
+    if (!uploadReview) return;
     const reviewedItem: WardrobeItem = {
       ...uploadReview.draft,
       source: 'upload',
@@ -385,17 +448,14 @@ export function WearDesktopApp() {
         note: uploadReview.helperText,
       },
     };
-
     startTransition(() => {
       setWardrobe((current) => {
         if (uploadReview.targetItemId) {
           return current.map((item) => (item.id === uploadReview.targetItemId ? reviewedItem : item));
         }
-
         return [reviewedItem, ...current];
       });
     });
-
     scheduleUploadMessage(`${reviewedItem.name} saved to your wardrobe.`);
     setUploadReview(null);
   }
@@ -412,12 +472,15 @@ export function WearDesktopApp() {
           <DesktopWorkspace
             profile={profile}
             wardrobe={wardrobe}
+            collections={collections}
             generationStatus={generationStatus}
             activeScreen={activeScreen}
             onScreenChange={handleScreenChange}
             onUploadPhoto={handleUploadPhoto}
             onUploadNewItem={handleUploadNewItem}
             onAddExampleItems={handleAddExampleItems}
+            onCollectionsChange={setCollections}
+            onOpenPalette={() => setPaletteOpen(true)}
           />
         ) : (
           <OnboardingFlow onComplete={handleOnboardingComplete} />
@@ -440,6 +503,17 @@ export function WearDesktopApp() {
         onConfirm={handleReviewConfirm}
       />
 
+      {/* Command palette */}
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        onNavigate={handleScreenChange}
+      />
+
+      {/* Achievement toast */}
+      <AchievementToast achievement={pendingAchievement} onDismiss={handleDismissAchievement} />
+
+      {/* Upload confirmation toast */}
       <AnimatePresence>
         {uploadMessage ? (
           <motion.div
@@ -449,7 +523,7 @@ export function WearDesktopApp() {
             exit={{ opacity: 0, y: 16 }}
           >
             <Panel className="px-5 py-3" variant="solid">
-              <p className="text-sm text-[var(--text)]">{uploadMessage}</p>
+              <p className="text-sm" style={{ color: 'var(--text)' }}>{uploadMessage}</p>
             </Panel>
           </motion.div>
         ) : null}

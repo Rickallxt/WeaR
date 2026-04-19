@@ -1,47 +1,42 @@
 import type { UserProfile, WardrobeCategory, WardrobeItem } from '../data/wearData';
+import type {
+  ApiChatResponse,
+  ApiGenerationStatus,
+  ApiIdentificationResponse,
+  ApiImageResponse,
+  ApiOptionsResponse,
+  ApiWardrobeOption,
+} from './apiContract';
 
 export type EventChatMessage = {
   role: 'user' | 'assistant';
   content: string;
 };
 
-export type GeneratedWardrobeOption = {
-  id: string;
-  title: string;
-  vibe: string;
-  rationale: string;
-  itemIds: string[];
-  eventFit: string;
-};
+export type GeneratedWardrobeOption = ApiWardrobeOption;
 
-export type GenerationStatus = {
-  connected: boolean;
-  textModel: string;
-  imageModel: string;
-  message: string;
-};
+export type GenerationStatus = ApiGenerationStatus;
 
-export type GeneratedWardrobeImage = {
-  imageDataUrl: string;
-  revisedPrompt?: string;
-  mode: 'openai' | 'demo';
-};
+export type GeneratedWardrobeImage = ApiImageResponse;
 
-export type WardrobeIdentification = {
-  name: string;
+export type WardrobeIdentification = ApiIdentificationResponse & {
   category: WardrobeCategory;
-  color: string;
-  fit: string;
-  material: string;
-  tags: string[];
-  styleNote: string;
-  confidence: number;
-  note: string;
-  mode: 'openai' | 'mock';
 };
+
+const API_ORIGIN =
+  typeof window !== 'undefined' && window.location.protocol === 'file:'
+    ? 'http://127.0.0.1:8787'
+    : '';
 
 async function requestJson<T>(input: RequestInfo, init?: RequestInit) {
-  const response = await fetch(input, init);
+  const url =
+    typeof input === 'string' && input.startsWith('/')
+      ? `${API_ORIGIN}${input}`
+      : input;
+  const response = await fetch(url, {
+    credentials: 'include',
+    ...init,
+  });
   const payload = (await response.json()) as T & { error?: string };
 
   if (!response.ok) {
@@ -52,7 +47,7 @@ async function requestJson<T>(input: RequestInfo, init?: RequestInit) {
 }
 
 export function fetchGenerationStatus() {
-  return requestJson<GenerationStatus>('/api/openai/status');
+  return requestJson<ApiGenerationStatus>('/api/ai/status');
 }
 
 export function requestEventChat({
@@ -66,11 +61,7 @@ export function requestEventChat({
   messages: EventChatMessage[];
   userMessage: string;
 }) {
-  return requestJson<{
-    reply: string;
-    summary: string;
-    mode: 'openai' | 'demo';
-  }>('/api/wardrobe/chat', {
+  return requestJson<ApiChatResponse>('/api/wardrobe/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -93,10 +84,7 @@ export function requestWardrobeOptions({
   eventSummary: string;
   messages: EventChatMessage[];
 }) {
-  return requestJson<{
-    options: GeneratedWardrobeOption[];
-    mode: 'openai' | 'demo';
-  }>('/api/wardrobe/options', {
+  return requestJson<ApiOptionsResponse>('/api/wardrobe/options', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -119,7 +107,7 @@ export function requestWardrobeImage({
   option: GeneratedWardrobeOption;
   eventSummary: string;
 }) {
-  return requestJson<GeneratedWardrobeImage>('/api/wardrobe/generate-image', {
+  return requestJson<ApiImageResponse>('/api/wardrobe/generate-image', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -133,18 +121,21 @@ export function requestWardrobeImage({
 
 export function requestWardrobeIdentification({
   imageDataUrl,
+  mediaAssetId,
   fileName,
   existingItem,
 }: {
-  imageDataUrl: string;
+  imageDataUrl?: string;
+  mediaAssetId?: string;
   fileName: string;
   existingItem?: Partial<WardrobeItem> | null;
 }) {
-  return requestJson<WardrobeIdentification>('/api/wardrobe/identify', {
+  return requestJson<ApiIdentificationResponse>('/api/wardrobe/identify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       imageDataUrl,
+      mediaAssetId,
       fileName,
       existingItem,
     }),

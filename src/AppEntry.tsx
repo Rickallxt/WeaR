@@ -1,6 +1,6 @@
-import { WearDesktopApp } from './components/WearDesktopApp';
+import { WearAppRuntime } from './components/WearAppRuntime';
 
 export default function AppEntry() {
-  return <WearDesktopApp />;
+  return <WearAppRuntime />;
 }
 

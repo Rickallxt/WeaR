@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeaR — S25 Ultra Preview</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #080808;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-app-region: drag;
+      user-select: none;
+    }
+
+    /* ── Ambient glow ── */
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 500px 400px at 50% 50%,
+          rgba(208,188,255,0.07) 0%,
+          rgba(79,219,200,0.03) 55%,
+          transparent 100%);
+    }
+
+    /* ── S25 Ultra device body ── */
+    .device {
+      position: relative;
+      width: 418px;
+      height: 912px;
+      border-radius: 52px;
+      flex-shrink: 0;
+
+      background: linear-gradient(
+        168deg,
+        #1c1b1f 0%,
+        #111013 30%,
+        #0f0e11 55%,
+        #171519 80%,
+        #1c1b1e 100%
+      );
+
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.09),
+        inset -1px 0  0 rgba(255,255,255,0.03),
+        inset  0 -1px 0 rgba(255,255,255,0.05),
+        0 0 0 1px #050505,
+        0 60px 160px rgba(0,0,0,0.98),
+        0 24px 64px  rgba(0,0,0,0.75),
+        0  6px 20px  rgba(0,0,0,0.55);
+    }
+
+    /* Titanium shimmer overlay */
+    .device::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 52px;
+      background: linear-gradient(
+        128deg,
+        rgba(230,225,220,0.08) 0%,
+        rgba(160,155,150,0.02) 28%,
+        transparent 50%,
+        rgba(180,175,170,0.03) 82%,
+        rgba(225,220,215,0.07) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* ── Screen area ── */
+    .screen-wrapper {
+      position: absolute;
+      top: 11px;
+      left: 8px;
+      right: 8px;
+      bottom: 11px;
+      border-radius: 44px;
+      overflow: hidden;
+      background: #000;
+      -webkit-app-region: no-drag;
+      box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.06);
+    }
+
+    iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Android status bar — overlaid on top of iframe ── */
+    .status-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px 0 24px;
+      z-index: 20;
+      pointer-events: none;
+      /* Transparent — the app's own dark bg shows through */
+      background: transparent;
+    }
+
+    .status-time {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.01em;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Signal bars */
+    .signal {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5px;
+      height: 11px;
+    }
+    .signal span {
+      display: block;
+      width: 2.5px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 1px;
+    }
+    .signal span:nth-child(1) { height: 3px; }
+    .signal span:nth-child(2) { height: 5px; }
+    .signal span:nth-child(3) { height: 7.5px; }
+    .signal span:nth-child(4) { height: 11px; }
+
+    /* WiFi icon */
+    .wifi {
+      position: relative;
+      width: 13px;
+      height: 10px;
+    }
+    .wifi::before,
+    .wifi::after,
+    .wifi-dot {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.85);
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+    }
+    .wifi::before {
+      width: 13px; height: 13px;
+      top: -1px; left: 0;
+    }
+    .wifi::after {
+      width: 7px; height: 7px;
+      top: 2px; left: 3px;
+    }
+    .wifi-inner {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 50%;
+      bottom: 0; left: 5px;
+    }
+
+    /* Battery */
+    .battery {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .battery-body {
+      width: 22px;
+      height: 11px;
+      border: 1.5px solid rgba(255,255,255,0.75);
+      border-radius: 2.5px;
+      padding: 2px;
+      position: relative;
+    }
+    .battery-fill {
+      width: 72%;
+      height: 100%;
+      background: rgba(255,255,255,0.82);
+      border-radius: 1px;
+    }
+    .battery-tip {
+      width: 2px;
+      height: 5px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 0 1px 1px 0;
+    }
+
+    /* ── Camera punch-hole ── */
+    .camera-hole {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 13px;
+      height: 13px;
+      background: #030203;
+      border-radius: 50%;
+      z-index: 30;
+      box-shadow:
+        0 0 0 1.5px rgba(0,0,0,0.95),
+        0 0 8px rgba(0,0,0,0.8),
+        inset 0 0 4px rgba(0,0,0,0.9);
+      -webkit-app-region: no-drag;
+    }
+    .camera-hole::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px; height: 6px;
+      background: radial-gradient(circle at 32% 32%, #1e243a, #060508);
+      border-radius: 50%;
+      box-shadow: 0 0 3px rgba(50,90,200,0.3);
+    }
+
+    /* ── Home indicator (gesture bar) ── */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: rgba(255,255,255,0.28);
+      border-radius: 2px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* Subtle screen-edge gradient top (to blend status bar) */
+    .screen-top-fade {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50px;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.45) 0%,
+        transparent 100%
+      );
+      z-index: 15;
+      pointer-events: none;
+      border-radius: 44px 44px 0 0;
+    }
+
+    /* Bottom gradient — blends home indicator */
+    .screen-bottom-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 44px;
+      background: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5) 0%,
+        transparent 100%
+      );
+      z-index: 15;
+      pointer-events: none;
+      border-radius: 0 0 44px 44px;
+    }
+
+    /* ── Side buttons — RIGHT ── */
+    .btn { position: absolute; border-radius: 0 3px 3px 0; }
+    .btn-right { right: -3.5px; background: linear-gradient(90deg, #151417, #201e22); box-shadow: 2px 0 4px rgba(0,0,0,0.7), inset -1px 0 0 rgba(255,255,255,0.04); }
+    .btn-vol-up  { top: 220px; width: 4px; height: 62px; }
+    .btn-vol-dn  { top: 298px; width: 4px; height: 62px; }
+    .btn-power   { top: 420px; width: 4px; height: 88px; }
+
+    /* ── S Pen slot ── */
+    .spen-slot {
+      position: absolute;
+      bottom: 4px;
+      left: 14px;
+      width: 5px;
+      height: 7px;
+      background: #0a0909;
+      border-radius: 1px 1px 3px 3px;
+      box-shadow: inset 0 0 2px rgba(0,0,0,0.9);
+    }
+
+    /* ── USB-C ── */
+    .usb-port {
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38px;
+      height: 7px;
+      background: #0a0909;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.95);
+    }
+
+    /* ── Speaker grills ── */
+    .speaker {
+      position: absolute;
+      bottom: 5px;
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+    .speaker.left  { left:  58px; }
+    .speaker.right { right: 58px; }
+    .speaker span {
+      display: block;
+      width: 2px;
+      height: 5px;
+      background: #0d0c0f;
+      border-radius: 1.5px;
+    }
+
+    /* ── Topbar with close button ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      -webkit-app-region: drag;
+      z-index: 100;
+    }
+    .win-label {
+      font-size: 10px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .close-btn {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #3a3840;
+      border: none;
+      cursor: default;
+      -webkit-app-region: no-drag;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .close-btn:hover { background: #ff5f57; }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <!-- Window chrome (invisible drag region + close) -->
+  <div class="topbar">
+    <span class="win-label">WeaR Preview</span>
+    <button class="close-btn" id="closeBtn" title="Close"></button>
+  </div>
+
+  <!-- Samsung Galaxy S25 Ultra -->
+  <div class="device">
+
+    <!-- Screen content area -->
+    <div class="screen-wrapper" id="screenWrapper">
+
+      <!-- App iframe -->
+      <iframe id="appFrame" src="" allow="camera; microphone; clipboard-read; clipboard-write"></iframe>
+
+      <!-- Overlays (on top of iframe) -->
+      <div class="screen-top-fade"></div>
+      <div class="screen-bottom-fade"></div>
+
+      <!-- Android status bar -->
+      <div class="status-bar">
+        <span class="status-time" id="clock">9:41</span>
+        <div class="status-icons">
+          <!-- Signal -->
+          <div class="signal">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <!-- WiFi -->
+          <div class="wifi" style="position:relative;width:14px;height:11px;margin-top:1px;">
+            <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+              <path d="M7 9.5C7.55228 9.5 8 9.05228 8 8.5C8 7.94772 7.55228 7.5 7 7.5C6.44772 7.5 6 7.94772 6 8.5C6 9.05228 6.44772 9.5 7 9.5Z" fill="rgba(255,255,255,0.88)"/>
+              <path d="M4.3 7.2C4.9 6.5 5.9 6 7 6C8.1 6 9.1 6.5 9.7 7.2" stroke="rgba(255,255,255,0.88)" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M2.1 4.9C3.2 3.7 5 2.9 7 2.9C9 2.9 10.8 3.7 11.9 4.9" stroke="rgba(255,255,255,0.88)" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M0.5 2.8C2 1.1 4.4 0 7 0C9.6 0 12 1.1 13.5 2.8" stroke="rgba(255,255,255,0.88)" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <!-- Battery -->
+          <div class="battery">
+            <div class="battery-body">
+              <div class="battery-fill"></div>
+            </div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home indicator -->
+      <div class="home-indicator"></div>
+
+    </div><!-- /screen-wrapper -->
+
+    <!-- Camera punch-hole (above screen) -->
+    <div class="camera-hole"></div>
+
+    <!-- Side buttons -->
+    <div class="btn btn-right btn-vol-up"></div>
+    <div class="btn btn-right btn-vol-dn"></div>
+    <div class="btn btn-right btn-power"></div>
+
+    <!-- Bottom hardware -->
+    <div class="spen-slot"></div>
+    <div class="usb-port"></div>
+    <div class="speaker left">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="speaker right">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+  </div><!-- /device -->
+
+  <script>
+    /* ── Load app into iframe ── */
+    const hash = location.hash.slice(1);
+    const appUrl = hash ? decodeURIComponent(hash) : 'http://localhost:5173';
+    document.getElementById('appFrame').src = appUrl;
+
+    /* ── Live clock ── */
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    /* ── Close button ── */
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      window.close();
+    });
+  </script>
+</body>
+</html>
