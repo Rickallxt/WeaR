@@ -1,11 +1,13 @@
 # Community 14
 
-> 2 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- **useAndroidKeyboard.ts** (1 connections) — `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
-- **useAndroidKeyboard()** (1 connections) — `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
+- **main.tsx** (4 connections) — `D:\Claude WeaR\src\main.tsx`
+- **App.tsx** (1 connections) — `D:\Claude WeaR\src\App.tsx`
+- **createWindow()** (1 connections) — `D:\Claude WeaR\electron\main.mjs`
+- **startApiServer()** (1 connections) — `D:\Claude WeaR\electron\main.mjs`
 
 ## Relationships
 
@@ -13,11 +15,13 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
+- `D:\Claude WeaR\electron\main.mjs`
+- `D:\Claude WeaR\src\App.tsx`
+- `D:\Claude WeaR\src\main.tsx`
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

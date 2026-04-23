@@ -2,11 +2,14 @@
 export type ScreenKey =
   | 'dashboard'
   | 'wardrobe'
+  | 'chat'
   | 'generate'
   | 'studio'
   | 'profile'
   | 'saved'
   | 'settings';
+
+export type CanonicalScreenKey = Exclude<ScreenKey, 'generate'>;
 
 export type WardrobeCategory = 'Tops' | 'Bottoms' | 'Shoes' | 'Outerwear' | 'Accessories';
 export type WardrobeStatus = 'Core' | 'Occasion' | 'Repeat';
@@ -43,6 +46,24 @@ export type MediaAsset = {
   originalUrl: string;
 };
 
+export type FacePhotoAngle = 'front' | 'left-side' | 'right-side';
+
+export type FacePhoto = {
+  angle: FacePhotoAngle;
+  label: string;
+  imageDataUrl: string;
+  capturedAt: string;
+};
+
+export type ApprovedLookMemory = {
+  id: string;
+  title: string;
+  eventSummary: string;
+  itemIds: string[];
+  imageDataUrl?: string;
+  approvedAt: string;
+};
+
 export type NavItem = {
   key: ScreenKey;
   label: string;
@@ -61,6 +82,9 @@ export type UserProfile = {
   stylePreferences: string[];
   occasions: string[];
   confidenceGoal: string;
+  facePhotos: FacePhoto[];
+  approvedLooks: ApprovedLookMemory[];
+  tasteNotes: string[];
 };
 
 export type WardrobeItem = {
@@ -73,6 +97,9 @@ export type WardrobeItem = {
   tags: string[];
   palette: string;
   status: WardrobeStatus;
+  inLaundry?: boolean;
+  laundrySince?: string;
+  lastWornAt?: string;
   imageDataUrl?: string | null;
   imageUrl?: string | null;
   mediaAssetId?: string | null;
@@ -109,6 +136,17 @@ export type SavedCollection = {
   pins: string[];
 };
 
+export type SavedOutfit = {
+  id: string;
+  name: string;
+  itemIds: string[];
+  createdAt: string;
+  coverImageDataUrl?: string;
+  vibe?: string;
+  timesWorn: number;
+  lastWornAt?: string;
+};
+
 export const navItems: NavItem[] = [
   { key: 'dashboard', label: 'Home', caption: 'Today, saved, insights', icon: 'grid' },
   { key: 'wardrobe', label: 'Wardrobe', caption: 'Closet builder', icon: 'hanger' },
@@ -137,12 +175,18 @@ export const mobileTabs: MobileTab[] = [
   { key: 'profile',  label: 'Profile',  screen: 'profile',   icon: 'profile' },
 ];
 
+// Keep `generate` as a temporary alias while mobile moves to `chat` and the
+// desktop shell still points at the legacy styling route.
+export function normalizeScreenKey(screen: ScreenKey): CanonicalScreenKey {
+  return screen === 'generate' ? 'chat' : screen;
+}
+
 // Maps a screen to its owning tab (for tab highlight state)
 export function getTabForScreen(screen: ScreenKey): TabKey {
-  switch (screen) {
+  switch (normalizeScreenKey(screen)) {
     case 'dashboard': return 'home';
     case 'wardrobe':  return 'wardrobe';
-    case 'generate':  return 'generate';
+    case 'chat':      return 'generate';
     case 'saved':     return 'saved';
     case 'studio':    return 'profile';
     case 'profile':   return 'profile';
@@ -161,7 +205,22 @@ export const baseProfile: UserProfile = {
   stylePreferences: ['Clean minimal', 'Luxury', 'Streetwear'],
   occasions: ['Work', 'Dinner', 'Weekend city'],
   confidenceGoal: 'Look more intentional without buying more.',
+  facePhotos: [],
+  approvedLooks: [],
+  tasteNotes: [],
 };
+
+export function withProfileDefaults(profile?: Partial<UserProfile> | null): UserProfile {
+  return {
+    ...baseProfile,
+    ...(profile ?? {}),
+    stylePreferences: profile?.stylePreferences ?? baseProfile.stylePreferences,
+    occasions: profile?.occasions ?? baseProfile.occasions,
+    facePhotos: profile?.facePhotos ?? [],
+    approvedLooks: profile?.approvedLooks ?? [],
+    tasteNotes: profile?.tasteNotes ?? [],
+  };
+}
 
 export const wardrobeItems: WardrobeItem[] = [
   {

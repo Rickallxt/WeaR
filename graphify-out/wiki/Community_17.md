@@ -1,10 +1,12 @@
 # Community 17
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- **vite.config.ts** (0 connections) — `D:\Claude WeaR\vite.config.ts`
+- **dev.mjs** (2 connections) — `D:\Claude WeaR\dev.mjs`
+- **shutdown()** (1 connections) — `D:\Claude WeaR\dev.mjs`
+- **startProcess()** (1 connections) — `D:\Claude WeaR\dev.mjs`
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\vite.config.ts`
+- `D:\Claude WeaR\dev.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

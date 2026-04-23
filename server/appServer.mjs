@@ -9,6 +9,7 @@ import {
   parseJsonFromText,
 } from './wardrobeEngine.mjs';
 import { buildFallbackIdentification } from './wardrobeIdentify.mjs';
+import { generateWithFreeImageProvider, getFreeImageProviderStatus } from './freeImageProviders.mjs';
 import {
   chatOutputSchema,
   optionsOutputSchema,
@@ -32,10 +33,10 @@ import { createLocalDevAdapter } from './localDataAdapter.mjs';
 
 const port = Number(process.env.PORT ?? 8787);
 const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL ?? 'http://127.0.0.1:11434').replace(/\/+$/, '');
-const CHAT_MODEL = process.env.OLLAMA_CHAT_MODEL ?? 'gemma3:latest';
+const CHAT_MODEL = process.env.OLLAMA_CHAT_MODEL ?? 'qwen3.5:latest';
 const LOGIC_MODEL = process.env.OLLAMA_LOGIC_MODEL ?? 'qwen2.5-coder:7b';
 const VISION_MODEL = process.env.OLLAMA_VISION_MODEL ?? 'gemma3:latest';
-const IMAGE_RENDERER = process.env.LOCAL_IMAGE_RENDERER ?? 'wardrobe-collage';
+const OLLAMA_KEEP_ALIVE = process.env.OLLAMA_KEEP_ALIVE ?? '10m';
 const REQUEST_TIMEOUT_MS = Number(process.env.LOCAL_AI_TIMEOUT_MS ?? 120000);
 const SESSION_COOKIE = 'wear_session';
 const SESSION_MAX_AGE = 60 * 60 * 24 * 14;
@@ -205,6 +206,8 @@ function hasModel(models, modelName) {
 }
 
 async function getAiStatus() {
+  const imageStatus = await getFreeImageProviderStatus({ env: process.env });
+
   try {
     const payload = await fetchJson(`${OLLAMA_BASE_URL}/api/tags`, { method: 'GET' });
     const models = Array.isArray(payload.models) ? payload.models : [];
@@ -219,34 +222,33 @@ async function getAiStatus() {
       return {
         connected: false,
         textModel: `${CHAT_MODEL} + ${LOGIC_MODEL}`,
-        imageModel: IMAGE_RENDERER,
+        imageModel: imageStatus.label,
         message: `Ollama is running, but these required local models are missing: ${missing
           .map((entry) => `${entry.label}=${entry.value}`)
-          .join(', ')}.`,
+          .join(', ')}. ${imageStatus.message}`,
       };
     }
 
     return {
       connected: true,
       textModel: `${CHAT_MODEL} + ${LOGIC_MODEL}`,
-      imageModel: IMAGE_RENDERER,
-      message:
-        'Local Ollama models are active for event chat, outfit logic, and upload identification. Outfit previews use an on-device collage render.',
+      imageModel: imageStatus.label,
+      message: `Local Ollama models are active for event chat, outfit logic, and upload identification. ${imageStatus.message}`,
     };
   } catch (error) {
     return {
       connected: false,
       textModel: `${CHAT_MODEL} + ${LOGIC_MODEL}`,
-      imageModel: IMAGE_RENDERER,
+      imageModel: imageStatus.label,
       message:
         error instanceof Error
-          ? `Local AI is unavailable right now: ${error.message}`
-          : 'Local AI is unavailable right now.',
+          ? `Local AI is unavailable right now: ${error.message}. ${imageStatus.message}`
+          : `Local AI is unavailable right now. ${imageStatus.message}`,
     };
   }
 }
 
-async function ollamaGenerate({ model, prompt, format, images }) {
+async function ollamaGenerate({ model, prompt, format, images, think = false }) {
   const payload = await fetchJson(`${OLLAMA_BASE_URL}/api/generate`, {
     method: 'POST',
     body: JSON.stringify({
@@ -254,6 +256,11 @@ async function ollamaGenerate({ model, prompt, format, images }) {
       prompt,
       format,
       images,
+      // Qwen 3.5 enables thinking by default in Ollama; disabling it here keeps
+      // structured JSON in `response` instead of the reasoning-only `thinking` field.
+      think,
+      // Keeping the local model warm avoids reload churn while the user is in a chat session.
+      keep_alive: OLLAMA_KEEP_ALIVE,
       stream: false,
     }),
   });
@@ -374,8 +381,45 @@ async function handleOptions(body) {
   }
 }
 
-async function handleImage(body) {
-  return buildFallbackImage(body);
+async function resolveImageItems(userId, selectedItems = []) {
+  return Promise.all(
+    selectedItems.map(async (item) => {
+      if (typeof item?.imageDataUrl === 'string' && item.imageDataUrl.startsWith('data:image')) {
+        return item;
+      }
+
+      if (!item?.mediaAssetId) {
+        return item;
+      }
+
+      try {
+        return {
+          ...item,
+          imageDataUrl: await adapter.readMediaDataUrl(userId, item.mediaAssetId),
+        };
+      } catch {
+        return item;
+      }
+    }),
+  );
+}
+
+async function handleImage(userId, body) {
+  const selectedItems = await resolveImageItems(userId, body.selectedItems);
+  const normalizedBody = { ...body, selectedItems };
+
+  // External local engines are optional: if ComfyUI/LocalAI is absent or misconfigured,
+  // the wardrobe collage remains the reliable zero-cost render path.
+  try {
+    return await generateWithFreeImageProvider({
+      env: process.env,
+      appRoot,
+      body: normalizedBody,
+      selectedItems,
+    });
+  } catch {
+    return buildFallbackImage(normalizedBody);
+  }
 }
 
 async function handleIdentify(userId, body) {
@@ -701,7 +745,7 @@ export const server = createServer(async (req, res) => {
       if (!currentSession) return;
       const body = await readBody(req, imageRequestSchema, res);
       if (!body) return;
-      json(res, 200, await handleImage(body));
+      json(res, 200, await handleImage(currentSession.user.id, body));
       return;
     }
 

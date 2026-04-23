@@ -1,14 +1,20 @@
 # Community 10
 
-> 5 nodes · cohesion 0.70
+> 11 nodes · cohesion 0.27
 
 ## Key Concepts
 
-- **rebuild_graphify.py** (4 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
-- **rebuild()** (4 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
-- **_cleanup_cache()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
-- **main()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
-- **_write_readme()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **wardrobeEngine.mjs** (10 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **safeSelectedItems()** (4 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **buildFallbackOptions()** (3 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **buildSvgCollage()** (3 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **buildFallbackChat()** (2 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **buildFallbackImage()** (2 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **optionCountForItems()** (2 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **buildSlotMarkup()** (1 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **extractImageResult()** (1 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **extractOutputText()** (1 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
+- **parseJsonFromText()** (1 connections) — `D:\Claude WeaR\server\wardrobeEngine.mjs`
 
 ## Relationships
 
@@ -16,11 +22,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- `D:\Claude WeaR\server\wardrobeEngine.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,8 +1,8 @@
 {
   "graphify_mode": "code-structural",
-  "nodes": 225,
-  "edges": 371,
-  "communities": 20,
-  "code_files": 54,
-  "wiki_articles": 30
+  "nodes": 316,
+  "edges": 499,
+  "communities": 30,
+  "code_files": 73,
+  "wiki_articles": 40
 }

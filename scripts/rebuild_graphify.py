@@ -11,8 +11,11 @@ from graphify.cluster import cluster, score_all
 from graphify.detect import detect
 from graphify.export import to_html, to_json
 import graphify.extract as gextract
+import graphify.detect as gdetect
 from graphify.report import generate
 from graphify.wiki import to_wiki
+
+gdetect.CODE_EXTENSIONS.update({".mjs", ".cjs"})
 
 
 def _cleanup_cache(cache_dir: Path) -> None:
@@ -49,6 +52,51 @@ Refresh:
     (out_dir / "README.md").write_text(content, encoding="utf-8")
 
 
+def _prepare_extraction_paths(root: Path, code_files: list[Path]) -> tuple[list[Path], dict[str, str], Path]:
+    converted_dir = root / ".tmp" / "graphify-mjs-as-js"
+    shutil.rmtree(converted_dir, ignore_errors=True)
+
+    extraction_paths: list[Path] = []
+    source_map: dict[str, str] = {}
+    for path in code_files:
+        if path.suffix.lower() not in {".mjs", ".cjs"}:
+            extraction_paths.append(path)
+            continue
+
+        try:
+            rel_path = path.resolve().relative_to(root)
+        except ValueError:
+            rel_path = Path(path.name)
+
+        mirror_path = (converted_dir / rel_path).with_suffix(".js")
+        mirror_path.parent.mkdir(parents=True, exist_ok=True)
+        mirror_path.write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+        extraction_paths.append(mirror_path)
+        source_map[str(mirror_path.resolve())] = str(path.resolve())
+
+    return extraction_paths, source_map, converted_dir
+
+
+def _restore_mirrored_sources(value, source_map: dict[str, str]):
+    if isinstance(value, list):
+        for item in value:
+            _restore_mirrored_sources(item, source_map)
+        return
+
+    if not isinstance(value, dict):
+        return
+
+    source_file = value.get("source_file")
+    if source_file in source_map:
+        original = source_map[source_file]
+        value["source_file"] = original
+        if str(value.get("label", "")).endswith(".js"):
+            value["label"] = Path(original).name
+
+    for item in value.values():
+        _restore_mirrored_sources(item, source_map)
+
+
 def rebuild(root: Path) -> dict[str, int]:
     root = root.resolve()
     out_dir = root / "graphify-out"
@@ -65,7 +113,10 @@ def rebuild(root: Path) -> dict[str, int]:
     # in this repo, so we bypass cache writes and keep the graph outputs checked in.
     gextract.load_cached = lambda *args, **kwargs: None
     gextract.save_cached = lambda *args, **kwargs: None
-    extraction = gextract.extract(code_files)
+    extraction_paths, source_map, converted_dir = _prepare_extraction_paths(root, code_files)
+    extraction = gextract.extract(extraction_paths)
+    _restore_mirrored_sources(extraction, source_map)
+    shutil.rmtree(converted_dir, ignore_errors=True)
     (out_dir / "ast-extraction.json").write_text(json.dumps(extraction, indent=2), encoding="utf-8")
 
     graph = build_from_json(extraction)

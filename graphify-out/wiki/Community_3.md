@@ -1,30 +1,33 @@
 # Community 3
 
-> 21 nodes · cohesion 0.16
+> 24 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- **appClient.ts** (23 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **requestJson()** (10 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **toSession()** (6 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getEventSession()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getProfile()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getSession()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **requestPasswordReset()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **resetPassword()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **saveCollections()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **saveEventSession()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **saveProfile()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **saveWardrobe()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **signIn()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **signOut()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **signUp()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **updateMediaAsset()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **uploadMediaAsset()** (2 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **deleteMediaAsset()** (1 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getCollections()** (1 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getMediaAssets()** (1 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
-- **getWardrobe()** (1 connections) — `D:\Claude WeaR\src\lib\appClient.ts`
+- **persistence.ts** (30 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **readJson()** (8 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **readLegacySnapshot()** (8 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **writeJson()** (8 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadOutfits()** (5 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadCollections()** (4 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadWardrobe()** (4 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadEventSession()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadOnboarded()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **loadProfile()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **migrateCollectionsToOutfits()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveWardrobe()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **toggleLaundry()** (3 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **hasLegacySnapshot()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **normalizeNameKey()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveCollections()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveEventSession()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveOnboarded()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveOutfits()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **saveProfile()** (2 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **clearEventSession()** (1 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **clearLegacySnapshot()** (1 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **parseTimestamp()** (1 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
+- **pruneStaleLaundryItems()** (1 connections) — `D:\Claude WeaR\src\lib\persistence.ts`
 
 ## Relationships
 
@@ -32,11 +35,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\lib\appClient.ts`
+- `D:\Claude WeaR\src\lib\persistence.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 71 (100%)
+- EXTRACTED: 103 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

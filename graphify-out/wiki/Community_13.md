@@ -1,11 +1,16 @@
 # Community 13
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.52
 
 ## Key Concepts
 
-- **WeaR-Launch.ps1** (1 connections) — `D:\Claude WeaR\WeaR-Launch.ps1`
-- **Test-ServerRunning()** (1 connections) — `D:\Claude WeaR\WeaR-Launch.ps1`
+- **rebuild_graphify.py** (6 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **rebuild()** (6 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **_cleanup_cache()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **main()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **_prepare_extraction_paths()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **_restore_mirrored_sources()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
+- **_write_readme()** (2 connections) — `D:\Claude WeaR\scripts\rebuild_graphify.py`
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\WeaR-Launch.ps1`
+- `D:\Claude WeaR\scripts\rebuild_graphify.py`
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

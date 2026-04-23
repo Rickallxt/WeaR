@@ -1,10 +1,11 @@
 # Community 19
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- **BottomSheet.tsx** (0 connections) — `D:\Claude WeaR\src\components\mobile\BottomSheet.tsx`
+- **WeaR-Launch.ps1** (1 connections) — `D:\Claude WeaR\WeaR-Launch.ps1`
+- **Test-ServerRunning()** (1 connections) — `D:\Claude WeaR\WeaR-Launch.ps1`
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\mobile\BottomSheet.tsx`
+- `D:\Claude WeaR\WeaR-Launch.ps1`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

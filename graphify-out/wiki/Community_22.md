@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- **BottomSheet.tsx** (0 connections) — `D:\Claude WeaR\src\components\mobile\BottomSheet.tsx`
+- **eslint.config.js** (0 connections) — `D:\Claude WeaR\eslint.config.js`
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\mobile\BottomSheet.tsx`
+- `D:\Claude WeaR\eslint.config.js`
 
 ## Audit Trail
 

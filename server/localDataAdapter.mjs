@@ -1,5 +1,5 @@
 import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto';
-import { mkdir, readFile, rename, rm, stat, unlink, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, rename, rm, stat, unlink, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 14;
@@ -131,7 +131,16 @@ export function createLocalDevAdapter(rootDir) {
     await ensureStorage();
     const tempPath = `${dbPath}.tmp`;
     await writeFile(tempPath, JSON.stringify(db, null, 2), 'utf8');
-    await rename(tempPath, dbPath);
+    try {
+      await rename(tempPath, dbPath);
+    } catch (error) {
+      if (!['EACCES', 'EPERM'].includes(error?.code)) {
+        throw error;
+      }
+      // Windows can refuse atomic replacement when the JSON file is briefly locked.
+      await copyFile(tempPath, dbPath);
+      await unlink(tempPath).catch(() => {});
+    }
   }
 
   async function withDb(mutator) {

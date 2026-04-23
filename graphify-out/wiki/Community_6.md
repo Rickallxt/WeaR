@@ -1,24 +1,27 @@
 # Community 6
 
-> 15 nodes · cohesion 0.20
+> 18 nodes · cohesion 0.24
 
 ## Key Concepts
 
-- **GenerateScreen.tsx** (20 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **resetGenerationFlow()** (4 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleItemUpload()** (3 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleSendChat()** (3 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **async()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **buildDemoOptions()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleBuildOptions()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleChatKeyDown()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleChipClick()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleClearSession()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **toggleSelection()** (2 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleAddSelectedExamples()** (1 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleGenerateImage()** (1 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **handleNewUpload()** (1 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
-- **toggleExampleSelection()** (1 connections) — `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
+- **freeImageProviders.mjs** (17 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **generateWithComfyUi()** (8 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **generateWithLocalAi()** (6 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **generateWithFreeImageProvider()** (5 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **normalizeBaseUrl()** (4 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **pollComfyResult()** (4 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **collectGarmentReferences()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **configuredProvider()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **fetchImageAsDataUrl()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **getFreeImageProviderStatus()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **imageResultToDataUrl()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **parseDataUrl()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **uploadComfyImage()** (3 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **buildLocalImagePrompt()** (2 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **collectPersonReferences()** (2 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **extractComfyImageRef()** (2 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **replaceTokens()** (2 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
+- **isDataImage()** (1 connections) — `D:\Claude WeaR\server\freeImageProviders.mjs`
 
 ## Relationships
 
@@ -26,11 +29,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\screens\GenerateScreen.tsx`
+- `D:\Claude WeaR\server\freeImageProviders.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 48 (100%)
+- EXTRACTED: 74 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

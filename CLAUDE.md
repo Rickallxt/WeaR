@@ -8,7 +8,7 @@ Before answering codebase or architecture questions:
 - treat `graphify-out/graph.json` as the machine-readable structure and `graphify-out/graph.html` as the visual map
 - check `graphify-out/BUILD_INFO.json` for the current snapshot scope and counts
 - note that the current snapshot is `code-structural`: it covers detected code files, not full semantic extraction of docs/images
-- read `docs/CODEX_CHANGE_NOTE_2026-04-13.md` for the latest mobile redesign and handoff context
+- read `docs/CODEX_CHANGE_NOTE_2026-04-21.md` for the latest chat-led mobile redesign handoff, then `docs/CODEX_CHANGE_NOTE_2026-04-13.md` for the prior zero-UI foundation
 
 After code changes:
 - run `python scripts/rebuild_graphify.py`

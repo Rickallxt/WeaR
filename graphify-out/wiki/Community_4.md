@@ -1,26 +1,30 @@
 # Community 4
 
-> 17 nodes · cohesion 0.12
+> 21 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- **OnboardingFlow.tsx** (12 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **Sidebar.tsx** (6 connections) — `D:\Claude WeaR\src\components\Sidebar.tsx`
-- **useMobileLayout.ts** (6 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
-- **cx.ts** (5 connections) — `D:\Claude WeaR\src\lib\cx.ts`
-- **AuthScreen.tsx** (4 connections) — `D:\Claude WeaR\src\components\AuthScreen.tsx`
-- **checkIsMobile()** (2 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
-- **checkIsNative()** (2 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
-- **handleSubmit()** (1 connections) — `D:\Claude WeaR\src\components\AuthScreen.tsx`
-- **cx()** (1 connections) — `D:\Claude WeaR\src\lib\cx.ts`
-- **cx()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **getStepMessage()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **nextStep()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **previousStep()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **ToggleChip()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **togglePreference()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- **cx()** (1 connections) — `D:\Claude WeaR\src\components\Sidebar.tsx`
-- **useMobileLayout()** (1 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
+- **MobileZeroUI.tsx** (26 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **sendMessage()** (5 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **resolveSelectedItems()** (3 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **buildCoverImage()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **buildGreeting()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **createId()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **dedupeItems()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **normalizeStoredMessages()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **optionToLook()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **readSessionAsChat()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **toSessionMessages()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **buildAttachmentFromWardrobeItem()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **buildFallbackUploadItem()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **buildIdentifiedUploadItem()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **daysSince()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **handleApprove()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **handleFiles()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **handleReject()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **mergeAttachments()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **src()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **uploadPromptForCount()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
 
 ## Relationships
 
@@ -28,15 +32,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\AuthScreen.tsx`
-- `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
-- `D:\Claude WeaR\src\components\Sidebar.tsx`
-- `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
-- `D:\Claude WeaR\src\lib\cx.ts`
+- `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
 
 ## Audit Trail
 
-- EXTRACTED: 47 (100%)
+- EXTRACTED: 60 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

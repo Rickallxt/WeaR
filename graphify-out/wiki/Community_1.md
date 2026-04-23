@@ -1,35 +1,35 @@
 # Community 1
 
-> 28 nodes · cohesion 0.10
+> 41 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- **WearAppRuntime.tsx** (43 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **runUploadReviewFromMedia()** (5 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **scheduleUploadMessage()** (4 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
+- **WearAppRuntime.tsx** (27 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
+- **WearDesktopApp.tsx** (19 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
+- **wardrobeDrafts.ts** (10 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
+- **ItemReviewModal.tsx** (8 connections) — `D:\Claude WeaR\src\components\ItemReviewModal.tsx`
+- **achievements.ts** (6 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
+- **Sidebar.tsx** (6 connections) — `D:\Claude WeaR\src\components\Sidebar.tsx`
+- **AchievementToast.tsx** (4 connections) — `D:\Claude WeaR\src\components\AchievementToast.tsx`
+- **CommandPalette.tsx** (4 connections) — `D:\Claude WeaR\src\components\CommandPalette.tsx`
+- **fileData.ts** (4 connections) — `D:\Claude WeaR\src\lib\fileData.ts`
+- **exampleWardrobe.ts** (3 connections) — `D:\Claude WeaR\src\data\exampleWardrobe.ts`
 - **LegacyImportPrompt.tsx** (3 connections) — `D:\Claude WeaR\src\components\LegacyImportPrompt.tsx`
-- **handleAuthAction()** (3 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleReviewConfirm()** (3 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **loadUserData()** (3 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
+- **buildWardrobeItem()** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
+- **normalizeTags()** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
+- **paletteFromColor()** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
 - **AppEntry.tsx** (2 connections) — `D:\Claude WeaR\src\AppEntry.tsx`
-- **bootstrap()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **createDraftFromIdentification()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleAddExampleItems()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleCreateFromMedia()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleDeleteMediaAsset()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleSignOut()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleUploadNewItem()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleUploadPhoto()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **persistWardrobe()** (2 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
+- **DesktopScreens.tsx** (2 connections) — `D:\Claude WeaR\src\components\screens\DesktopScreens.tsx`
+- **PresentationStage.tsx** (2 connections) — `D:\Claude WeaR\src\components\PresentationStage.tsx`
+- **SplashScreen.tsx** (2 connections) — `D:\Claude WeaR\src\components\SplashScreen.tsx`
+- **parseTags()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
+- **slug()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
+- **checkNewAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
+- **loadUnlockedAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
+- **saveUnlockedAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
 - **AppEntry()** (1 connections) — `D:\Claude WeaR\src\AppEntry.tsx`
-- **LegacyImportPrompt()** (1 connections) — `D:\Claude WeaR\src\components\LegacyImportPrompt.tsx`
-- **AppHeader()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **async()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleDismissAchievement()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleKeyDown()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleLegacyImport()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- **handleReviewChange()** (1 connections) — `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
-- *... and 3 more nodes in this community*
+- **handleKeyDown()** (1 connections) — `D:\Claude WeaR\src\components\CommandPalette.tsx`
+- *... and 16 more nodes in this community*
 
 ## Relationships
 
@@ -38,12 +38,24 @@
 ## Source Files
 
 - `D:\Claude WeaR\src\AppEntry.tsx`
+- `D:\Claude WeaR\src\components\AchievementToast.tsx`
+- `D:\Claude WeaR\src\components\CommandPalette.tsx`
+- `D:\Claude WeaR\src\components\ItemReviewModal.tsx`
 - `D:\Claude WeaR\src\components\LegacyImportPrompt.tsx`
+- `D:\Claude WeaR\src\components\PresentationStage.tsx`
+- `D:\Claude WeaR\src\components\Sidebar.tsx`
+- `D:\Claude WeaR\src\components\SplashScreen.tsx`
 - `D:\Claude WeaR\src\components\WearAppRuntime.tsx`
+- `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
+- `D:\Claude WeaR\src\components\screens\DesktopScreens.tsx`
+- `D:\Claude WeaR\src\data\exampleWardrobe.ts`
+- `D:\Claude WeaR\src\lib\achievements.ts`
+- `D:\Claude WeaR\src\lib\fileData.ts`
+- `D:\Claude WeaR\src\lib\wardrobeDrafts.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 95 (100%)
+- EXTRACTED: 136 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

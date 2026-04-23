@@ -1,20 +1,20 @@
 # Community 9
 
-> 11 nodes · cohesion 0.24
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- **MobileWorkspace.tsx** (13 connections) — `D:\Claude WeaR\src\components\mobile\MobileWorkspace.tsx`
-- **MobileChatScreen.tsx** (8 connections) — `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
-- **sendAiReply()** (3 connections) — `D:\Claude WeaR\src\components\mobile\MobileWorkspace.tsx`
-- **chatState.ts** (2 connections) — `D:\Claude WeaR\src\lib\chatState.ts`
-- **MobileHeader.tsx** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileHeader.tsx`
-- **handleChatSend()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileWorkspace.tsx`
-- **handleStartChat()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileWorkspace.tsx`
-- **handleFileInput()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
-- **handleWardrobeConfirm()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
-- **removeAttachment()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
-- **toggle()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
+- **localDataAdapter.mjs** (10 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **buildMediaResponse()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **createLocalDevAdapter()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **ensureDbShape()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **extensionForMime()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **hashSecret()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **nowIso()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **parseDataUrl()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **sanitizeUser()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **scryptPassword()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
+- **verifyPassword()** (1 connections) — `D:\Claude WeaR\server\localDataAdapter.mjs`
 
 ## Relationships
 
@@ -22,14 +22,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\mobile\MobileChatScreen.tsx`
-- `D:\Claude WeaR\src\components\mobile\MobileHeader.tsx`
-- `D:\Claude WeaR\src\components\mobile\MobileWorkspace.tsx`
-- `D:\Claude WeaR\src\lib\chatState.ts`
+- `D:\Claude WeaR\server\localDataAdapter.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

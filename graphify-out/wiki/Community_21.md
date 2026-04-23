@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- **vite-env.d.ts** (0 connections) — `D:\Claude WeaR\src\vite-env.d.ts`
+- **capacitor.config.ts** (0 connections) — `D:\Claude WeaR\capacitor.config.ts`
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\vite-env.d.ts`
+- `D:\Claude WeaR\capacitor.config.ts`
 
 ## Audit Trail
 

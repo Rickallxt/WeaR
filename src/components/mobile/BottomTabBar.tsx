@@ -5,43 +5,25 @@ function triggerHaptic() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Haptics = (window as any).Capacitor?.Plugins?.Haptics;
-    if (Haptics) {
-      void Haptics.impact({ style: 'LIGHT' });
-    }
-  } catch {
-    /* ignore — not in native context */
-  }
+    if (Haptics) void Haptics.impact({ style: 'LIGHT' });
+  } catch { /* ignore */ }
 }
 
-/* 4 tabs — "Style" is the hero action */
+/* 2 surfaces only — chat remains the hero action while wardrobe stays one tap away. */
 const TABS = [
-  {
-    screen: 'dashboard' as ScreenKey,
-    icon: 'home',
-    label: 'Home',
-    activeScreens: ['dashboard'] as ScreenKey[],
-    hero: false,
-  },
-  {
-    screen: 'generate' as ScreenKey,
-    icon: 'auto_awesome',
-    label: 'Style',
-    activeScreens: ['generate', 'studio'] as ScreenKey[],
-    hero: true,
-  },
   {
     screen: 'wardrobe' as ScreenKey,
     icon: 'checkroom',
-    label: 'Closet',
+    label: 'Wardrobe',
     activeScreens: ['wardrobe'] as ScreenKey[],
-    hero: false,
+    hero:          false,
   },
   {
-    screen: 'profile' as ScreenKey,
-    icon: 'person',
-    label: 'Me',
-    activeScreens: ['profile', 'saved', 'settings'] as ScreenKey[],
-    hero: false,
+    screen: 'chat' as ScreenKey,
+    icon: 'auto_awesome',
+    label: 'Chat',
+    activeScreens: ['chat', 'generate', 'studio', 'dashboard'] as ScreenKey[],
+    hero: true,
   },
 ];
 
@@ -54,59 +36,62 @@ export function BottomTabBar({
 }) {
   return (
     <nav
-      className="fixed bottom-0 left-0 w-full z-50 flex items-end justify-around px-2"
+      className="fixed bottom-0 left-0 z-50 flex w-full items-end justify-center px-5"
       style={{
-        paddingTop: '0.75rem',
-        paddingBottom: 'max(calc(var(--safe-bottom) + 0.5rem), 1.75rem)',
-        background: 'rgba(14,14,14,0.82)',
-        backdropFilter: 'blur(32px)',
-        WebkitBackdropFilter: 'blur(32px)',
-        borderTop: '1px solid rgba(73,68,84,0.18)',
+        paddingTop:    '0.75rem',
+        paddingBottom: 'max(calc(var(--safe-bottom, 0px) + 0.5rem), 1.75rem)',
+        background:    'rgba(13,13,13,0.86)',
+        backdropFilter:         'blur(36px)',
+        WebkitBackdropFilter:   'blur(36px)',
+        borderTop: '1px solid rgba(73,68,84,0.16)',
       }}
       aria-label="Main navigation"
     >
-      {TABS.map((tab) => {
-        const isActive = tab.activeScreens.includes(activeScreen);
+      <div
+        className="grid w-full max-w-[24rem] grid-cols-2 gap-3 rounded-[1.75rem] px-3 py-3"
+        style={{
+          background: 'rgba(20,19,25,0.92)',
+          border: '1px solid rgba(73,68,84,0.22)',
+          boxShadow: '0 18px 50px rgba(0,0,0,0.34)',
+        }}
+      >
+        {TABS.map((tab) => {
+          const isActive = tab.activeScreens.includes(activeScreen);
+          const accent = tab.hero ? '#4fdbc8' : '#d0bcff';
 
-        if (tab.hero) {
-          /* ── Hero "Style" tab ── */
           return (
             <button
               key={tab.screen}
               type="button"
               onClick={() => { triggerHaptic(); onSelect(tab.screen); }}
-              className="flex flex-col items-center justify-center transition-all duration-300 active:scale-95"
-              style={{ minWidth: '4.5rem' }}
+              className="flex items-center justify-center gap-2 rounded-[1.25rem] px-4 py-3 transition-all duration-300 active:scale-95"
+              style={{
+                minHeight: '3rem',
+                background: isActive
+                  ? tab.hero
+                    ? 'linear-gradient(135deg, rgba(79,219,200,0.24), rgba(121,121,255,0.14))'
+                    : 'linear-gradient(135deg, rgba(208,188,255,0.18), rgba(208,188,255,0.08))'
+                  : 'rgba(255,255,255,0.03)',
+                border: isActive
+                  ? `1px solid ${tab.hero ? 'rgba(79,219,200,0.32)' : 'rgba(208,188,255,0.28)'}`
+                  : '1px solid rgba(73,68,84,0.18)',
+                boxShadow: isActive ? `0 0 20px ${tab.hero ? 'rgba(79,219,200,0.18)' : 'rgba(208,188,255,0.16)'}` : 'none',
+              }}
               aria-label={tab.label}
               aria-current={isActive ? 'page' : undefined}
             >
-              <div
-                className="flex items-center justify-center rounded-2xl transition-all duration-300"
-                style={{
-                  width: '3.25rem',
-                  height: '2.25rem',
-                  background: isActive
-                    ? 'linear-gradient(135deg, rgba(79,219,200,0.25), rgba(79,219,200,0.12))'
-                    : 'rgba(73,68,84,0.18)',
-                  border: isActive
-                    ? '1px solid rgba(79,219,200,0.4)'
-                    : '1px solid rgba(73,68,84,0.2)',
-                  boxShadow: isActive ? '0 0 16px rgba(79,219,200,0.2)' : 'none',
-                }}
-              >
-                <MaterialIcon
-                  name={tab.icon}
-                  filled={isActive}
-                  size={22}
-                  style={{ color: isActive ? '#4fdbc8' : '#958ea0' }}
-                />
-              </div>
+              <MaterialIcon
+                name={tab.icon}
+                filled={isActive}
+                size={tab.hero ? 24 : 22}
+                style={{ color: isActive ? accent : '#8e8797' }}
+              />
               <span
-                className="mt-1.5 font-semibold uppercase"
+                className="font-semibold uppercase"
                 style={{
-                  fontSize: '0.625rem',
-                  letterSpacing: '0.1em',
-                  color: isActive ? '#4fdbc8' : '#6b6478',
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.12em',
+                  color: isActive ? accent : '#8e8797',
                   fontFamily: 'var(--font-body)',
                 }}
               >
@@ -114,44 +99,8 @@ export function BottomTabBar({
               </span>
             </button>
           );
-        }
-
-        /* ── Regular tab ── */
-        return (
-          <button
-            key={tab.screen}
-            type="button"
-            onClick={() => { triggerHaptic(); onSelect(tab.screen); }}
-            className="flex flex-col items-center justify-center transition-all duration-200 active:scale-95"
-            style={{ minWidth: '3.5rem' }}
-            aria-label={tab.label}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            <div
-              className="flex items-center justify-center transition-all duration-200"
-              style={{ width: '2.25rem', height: '2.25rem' }}
-            >
-              <MaterialIcon
-                name={tab.icon}
-                filled={isActive}
-                size={24}
-                style={{ color: isActive ? '#d0bcff' : '#6b6478' }}
-              />
-            </div>
-            <span
-              className="mt-1 font-medium uppercase"
-              style={{
-                fontSize: '0.625rem',
-                letterSpacing: '0.08em',
-                color: isActive ? '#d0bcff' : '#6b6478',
-                fontFamily: 'var(--font-body)',
-              }}
-            >
-              {tab.label}
-            </span>
-          </button>
-        );
-      })}
+        })}
+      </div>
     </nav>
   );
 }

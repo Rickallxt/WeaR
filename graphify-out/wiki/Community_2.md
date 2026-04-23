@@ -1,34 +1,33 @@
 # Community 2
 
-> 25 nodes · cohesion 0.10
+> 24 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- **WearDesktopApp.tsx** (30 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **achievements.ts** (6 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
-- **AchievementToast.tsx** (4 connections) — `D:\Claude WeaR\src\components\AchievementToast.tsx`
-- **CommandPalette.tsx** (4 connections) — `D:\Claude WeaR\src\components\CommandPalette.tsx`
-- **runUploadReview()** (4 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **exampleWardrobe.ts** (3 connections) — `D:\Claude WeaR\src\data\exampleWardrobe.ts`
-- **scheduleUploadMessage()** (3 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **DesktopScreens.tsx** (2 connections) — `D:\Claude WeaR\src\components\screens\DesktopScreens.tsx`
-- **SplashScreen.tsx** (2 connections) — `D:\Claude WeaR\src\components\SplashScreen.tsx`
-- **createDraftFromIdentification()** (2 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleAddExampleItems()** (2 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleReviewConfirm()** (2 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleUploadNewItem()** (2 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleUploadPhoto()** (2 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **checkNewAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
-- **loadUnlockedAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
-- **saveUnlockedAchievements()** (1 connections) — `D:\Claude WeaR\src\lib\achievements.ts`
-- **handleKeyDown()** (1 connections) — `D:\Claude WeaR\src\components\CommandPalette.tsx`
-- **AppHeader()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **DesktopWorkspace()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleDismissAchievement()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleKeyDown()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleOnboardingComplete()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleReviewChange()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- **handleScreenChange()** (1 connections) — `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
+- **appServer.mjs** (23 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **ollamaGenerate()** (5 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **handleIdentify()** (4 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **handleOptions()** (4 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **parseLlmOutput()** (4 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **requireAuth()** (4 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **fetchJson()** (3 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **handleChat()** (3 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **json()** (3 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **readBody()** (3 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **clearCookieHeader()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **extractBase64Image()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **getAiStatus()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **handleImage()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **hasModel()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **modelCandidates()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **parseCookies()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **readJson()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **resolveImageItems()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **sanitizeOptions()** (2 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **cookieHeader()** (1 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **fallbackIdsForIndex()** (1 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **parseMediaPath()** (1 connections) — `D:\Claude WeaR\server\appServer.mjs`
+- **sendBinary()** (1 connections) — `D:\Claude WeaR\server\appServer.mjs`
 
 ## Relationships
 
@@ -36,17 +35,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\AchievementToast.tsx`
-- `D:\Claude WeaR\src\components\CommandPalette.tsx`
-- `D:\Claude WeaR\src\components\SplashScreen.tsx`
-- `D:\Claude WeaR\src\components\WearDesktopApp.tsx`
-- `D:\Claude WeaR\src\components\screens\DesktopScreens.tsx`
-- `D:\Claude WeaR\src\data\exampleWardrobe.ts`
-- `D:\Claude WeaR\src\lib\achievements.ts`
+- `D:\Claude WeaR\server\appServer.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 79 (100%)
+- EXTRACTED: 80 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

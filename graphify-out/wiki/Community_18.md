@@ -1,10 +1,12 @@
 # Community 18
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- **vite-env.d.ts** (0 connections) — `D:\Claude WeaR\src\vite-env.d.ts`
+- **audit-lint.mjs** (2 connections) — `D:\Claude WeaR\scripts\audit-lint.mjs`
+- **addFailure()** (1 connections) — `D:\Claude WeaR\scripts\audit-lint.mjs`
+- **walk()** (1 connections) — `D:\Claude WeaR\scripts\audit-lint.mjs`
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\vite-env.d.ts`
+- `D:\Claude WeaR\scripts\audit-lint.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

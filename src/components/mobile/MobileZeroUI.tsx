@@ -1,720 +1,1616 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
-  alternateOutfits,
   resolveWardrobeImageSrc,
-  todayOutfit,
   type MediaAsset,
+  type SavedOutfit,
   type UserProfile,
   type WardrobeItem,
 } from '../../data/wearData';
-import type { GenerationStatus } from '../../lib/generationApi';
+import {
+  requestEventChat,
+  requestWardrobeIdentification,
+  requestWardrobeOptions,
+  type EventChatMessage,
+  type GeneratedWardrobeOption,
+  type GenerationStatus,
+} from '../../lib/generationApi';
 import type { EventSession } from '../../lib/persistence';
-import { MaterialIcon } from '../Chrome';
-import { getWardrobeItemsForOutfit } from '../screens/wardrobeUtils';
+import { MaterialIcon, SurfaceBadge } from '../Chrome';
+import { OutfitsGrid } from './OutfitsGrid';
 
-/* ──────────────────────────────────────────────────────────────
-   Data helpers (kept intact from previous implementation)
-   ────────────────────────────────────────────────────────────── */
+type StyleChatAttachmentSource = 'camera' | 'gallery' | 'wardrobe' | 'outfit';
 
-type HeroSuggestion = {
+type StyleChatAttachment = {
+  id: string;
+  source: StyleChatAttachmentSource;
+  label: string;
+  previewUrl?: string;
+  mediaAssetId?: string;
+  itemIds?: string[];
+};
+
+export type StyleChatComposerIntent =
+  | {
+      id: string;
+      kind: 'wardrobe-items';
+      itemIds: string[];
+    }
+  | {
+      id: string;
+      kind: 'outfit';
+      label: string;
+      previewUrl?: string;
+      itemIds: string[];
+    };
+
+type GeneratedStyleLook = {
   id: string;
   title: string;
   vibe: string;
-  note: string;
-  sentence: string;
-  pieces: WardrobeItem[];
-  anchorLabel: string;
-  dayPart: string;
-  weatherCue: string;
-  eventLabel: string;
+  rationale: string;
+  eventFit: string;
+  items: WardrobeItem[];
+  mode: 'local' | 'demo';
+  coverImageUrl?: string | null;
 };
 
-function buildDayPart(now = new Date()) {
-  const hour = now.getHours();
-  if (hour < 11) return 'Morning';
-  if (hour < 17) return 'Afternoon';
-  return 'Evening';
+type StyleChatMessage =
+  | {
+      id: string;
+      role: 'ai';
+      text: string;
+      looks?: GeneratedStyleLook[];
+      uploadPrompt?: string;
+    }
+  | {
+      id: string;
+      role: 'user';
+      text: string;
+      attachments?: StyleChatAttachment[];
+    };
+
+const ENTRY_CHIPS = [
+  { label: 'Meeting', icon: 'business_center' },
+  { label: 'Dinner', icon: 'restaurant' },
+  { label: 'Date', icon: 'favorite' },
+] as const;
+
+const CHAT_UPLOAD_CATEGORIES: WardrobeItem['category'][] = ['Outerwear', 'Tops', 'Bottoms', 'Shoes', 'Accessories'];
+
+function createId(prefix: string) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function buildWeatherCue(now = new Date()) {
-  const month = now.getMonth();
-  if ([11, 0, 1].includes(month)) return 'Cool air';
-  if ([5, 6, 7].includes(month)) return 'Warm air';
-  return 'Mild air';
+function daysSince(dateString?: string | null) {
+  if (!dateString) return null;
+  const parsed = Date.parse(dateString);
+  if (Number.isNaN(parsed)) return null;
+  return Math.floor((Date.now() - parsed) / (1000 * 60 * 60 * 24));
 }
 
-function buildEventLabel(eventSummary?: string) {
-  const cleaned = eventSummary?.trim();
-  if (!cleaned) return 'Today';
-  const shortLabel = cleaned.split(/[.!?]/)[0]?.trim() ?? cleaned;
-  return shortLabel.length > 32 ? `${shortLabel.slice(0, 29)}...` : shortLabel;
+function buildGreeting(name: string) {
+  return `Hey ${name || 'there'}. What are we styling today?`;
 }
 
-function buildHeroSuggestions(wardrobe: WardrobeItem[], eventSession: EventSession): HeroSuggestion[] {
-  const eventLabel = buildEventLabel(eventSession.eventSummary);
-  const dayPart = buildDayPart();
-  const weatherCue = buildWeatherCue();
-
-  return [todayOutfit, ...alternateOutfits].map((outfit) => {
-    const pieces = getWardrobeItemsForOutfit(wardrobe, outfit.pieces) as WardrobeItem[];
-    const anchorLabel = pieces[0]?.name ?? outfit.pieces[0] ?? 'hero layer';
-    const anchorCopy = anchorLabel.replace(/\b\w/g, (char) => char.toLowerCase());
-
-    return {
-      id: outfit.id,
-      title: outfit.title,
-      vibe: outfit.vibe,
-      note: outfit.note,
-      pieces,
-      anchorLabel,
-      dayPart,
-      weatherCue,
-      eventLabel,
-      sentence:
-        eventLabel === 'Today'
-          ? `${dayPart}'s plan feels strongest with the ${anchorCopy}.`
-          : `${eventLabel} calls for the ${anchorCopy}.`,
-    } satisfies HeroSuggestion;
-  });
+function normalizeStoredMessages(messages: EventSession['messages']): EventChatMessage[] {
+  return messages
+    .filter((message): message is EventChatMessage => message.role === 'user' || message.role === 'assistant')
+    .map((message) => ({
+      role: message.role,
+      content: message.content,
+    }));
 }
 
-function buildDecisionGroups(wardrobe: WardrobeItem[], heroSuggestion: HeroSuggestion) {
-  const heroIds = new Set(heroSuggestion.pieces.map((piece) => piece.id));
-  const frequentlyUsed = wardrobe.filter((item) => item.status === 'Repeat').slice(0, 6);
-  const suggestedToday = wardrobe.filter((item) => heroIds.has(item.id)).slice(0, 4);
-  const notWornRecently = wardrobe
-    .filter((item) => item.status === 'Occasion' || !heroIds.has(item.id))
-    .slice(0, 6);
-  const reviewQueue = wardrobe.filter(
-    (item) => item.detection?.state === 'auto-detected' || item.detection?.state === 'error',
-  );
-
-  return { suggestedToday, frequentlyUsed, notWornRecently, reviewQueue };
+function toSessionMessages(messages: StyleChatMessage[]): EventSession['messages'] {
+  return messages.map((message) => ({
+    role: message.role === 'ai' ? 'assistant' : 'user',
+    content: message.text,
+  }));
 }
 
-/* ──────────────────────────────────────────────────────────────
-   MobileHeroHome — Home screen: "What should I wear?"
-   Reference: home_refined_wear_2
-   ────────────────────────────────────────────────────────────── */
-export function MobileHeroHome({
-  profile: _profile,
-  wardrobe,
-  mediaAssets,
-  eventSession,
-  generationStatus: _generationStatus,
-  activeSuggestionIndex: _activeSuggestionIndex,
-  onChangeSuggestionIndex: _onChangeSuggestionIndex,
-  chatDraft,
-  onDraftChange,
-  onStartChat,
-  onOpenPalette: _onOpenPalette,
-  onOpenWardrobe: _onOpenWardrobe,
-  onOpenSaved,
-  onOpenProfile: _onOpenProfile,
+function uploadPromptForCount(itemCount: number) {
+  if (itemCount <= 0) {
+    return 'Add 4 to 6 pieces from your wardrobe or upload a few photos so I can lock the look quickly.';
+  }
+
+  const needed = Math.max(2, 4 - itemCount);
+  return `I can start with ${itemCount} piece${itemCount === 1 ? '' : 's'}, but add ${needed} more photo${needed === 1 ? '' : 's'} for a stronger outfit. Tops, bottoms, shoes, and one layer is the sweet spot.`;
+}
+
+function readSessionAsChat(profile: UserProfile, eventSession: EventSession): StyleChatMessage[] {
+  if (eventSession.messages.length === 0) {
+    return [
+      {
+        id: 'ai-greeting',
+        role: 'ai',
+        text: buildGreeting(profile.name),
+      },
+    ];
+  }
+
+  return eventSession.messages.map((message, index) => ({
+    id: `session-${index}`,
+    role: message.role === 'assistant' ? 'ai' : 'user',
+    text: message.content,
+  }));
+}
+
+function mergeAttachments(current: StyleChatAttachment[], incoming: StyleChatAttachment[]) {
+  const next = new Map(current.map((attachment) => [attachment.id, attachment]));
+  incoming.forEach((attachment) => next.set(attachment.id, attachment));
+  return Array.from(next.values());
+}
+
+function buildAttachmentFromWardrobeItem(item: WardrobeItem): StyleChatAttachment {
+  return {
+    id: `wardrobe-${item.id}`,
+    source: 'wardrobe',
+    label: item.name,
+    previewUrl: resolveWardrobeImageSrc(item) ?? undefined,
+    itemIds: [item.id],
+  };
+}
+
+function buildCoverImage(items: WardrobeItem[]) {
+  return items.map((item) => resolveWardrobeImageSrc(item)).find(Boolean) ?? null;
+}
+
+function buildFallbackUploadItem(attachment: StyleChatAttachment, index: number): WardrobeItem {
+  const category = CHAT_UPLOAD_CATEGORIES[index % CHAT_UPLOAD_CATEGORIES.length] ?? 'Tops';
+  return {
+    id: attachment.mediaAssetId ? `media-${attachment.mediaAssetId}` : `chat-${attachment.id}`,
+    name: attachment.label.replace(/\.[^.]+$/u, '') || `Uploaded piece ${index + 1}`,
+    category,
+    fit: 'AI-read fit',
+    material: 'Uploaded photo',
+    color: 'Auto palette',
+    tags: ['Session upload', 'Style chat'],
+    palette: 'from-[#d0bcff] via-[#f7f1ff] to-[#4fdbc8]',
+    status: index % 2 === 0 ? 'Core' : 'Occasion',
+    imageUrl: attachment.previewUrl?.startsWith('data:image') ? null : attachment.previewUrl ?? null,
+    imageDataUrl: attachment.previewUrl?.startsWith('data:image') ? attachment.previewUrl : null,
+    mediaAssetId: attachment.mediaAssetId ?? null,
+    source: 'upload',
+    styleNote: 'Temporary upload attached inside the style chat composer.',
+  };
+}
+
+function buildIdentifiedUploadItem(attachment: StyleChatAttachment, identified: Awaited<ReturnType<typeof requestWardrobeIdentification>>, index: number): WardrobeItem {
+  return {
+    id: attachment.mediaAssetId ? `media-${attachment.mediaAssetId}` : `chat-${attachment.id}`,
+    name: identified.name,
+    category: identified.category,
+    fit: identified.fit,
+    material: identified.material,
+    color: identified.color,
+    tags: identified.tags,
+    palette: 'from-[#d0bcff] via-[#f6f2ff] to-[#4fdbc8]',
+    status: index % 2 === 0 ? 'Core' : 'Occasion',
+    imageUrl: attachment.previewUrl?.startsWith('data:image') ? null : attachment.previewUrl ?? null,
+    imageDataUrl: attachment.previewUrl?.startsWith('data:image') ? attachment.previewUrl : null,
+    mediaAssetId: attachment.mediaAssetId ?? null,
+    source: 'upload',
+    styleNote: identified.styleNote,
+    detection: {
+      state: 'auto-detected',
+      mode: identified.mode,
+      confidence: identified.confidence,
+      note: identified.note,
+    },
+  };
+}
+
+function optionToLook(option: GeneratedWardrobeOption, selectedItems: WardrobeItem[], mode: 'local' | 'demo'): GeneratedStyleLook {
+  const byId = new Map(selectedItems.map((item) => [item.id, item]));
+  const items = option.itemIds.map((itemId) => byId.get(itemId)).filter((item): item is WardrobeItem => Boolean(item));
+  return {
+    id: option.id,
+    title: option.title,
+    vibe: option.vibe,
+    rationale: option.rationale,
+    eventFit: option.eventFit,
+    items,
+    mode,
+    coverImageUrl: buildCoverImage(items),
+  };
+}
+
+function dedupeItems(items: WardrobeItem[]) {
+  return Array.from(new Map(items.map((item) => [item.id, item])).values());
+}
+
+function AttachmentChip({
+  attachment,
+  onRemove,
 }: {
-  profile: UserProfile;
-  wardrobe: WardrobeItem[];
-  mediaAssets: MediaAsset[];
-  eventSession: EventSession;
-  generationStatus: GenerationStatus | null;
-  activeSuggestionIndex: number;
-  onChangeSuggestionIndex: (nextIndex: number) => void;
-  /** Controlled draft — lifted to MobileWorkspace so it survives navigation */
-  chatDraft: string;
-  onDraftChange: (v: string) => void;
-  /** Navigate to chat; if draft is non-empty, auto-send it */
-  onStartChat: (draft: string) => void;
-  onOpenPalette: () => void;
-  onOpenWardrobe: () => void;
-  onOpenSaved: () => void;
-  onOpenProfile: () => void;
+  attachment: StyleChatAttachment;
+  onRemove: (attachmentId: string) => void;
 }) {
-  void buildHeroSuggestions(wardrobe, eventSession); // kept for future use
-  const weatherCue = buildWeatherCue();
-  const recentItems = wardrobe.slice(0, 4);
-
-  const FALLBACK_IMAGES = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBCgcyMmfT-JkDqJGIYzMfSmjswjVxBXM11k_eGI9O0m-tUxobJdoKauFC-TQsgJKka8t7QyxRwZ9tDIHFXKdmGsworPxyZXafzKxZb0LlWQ636a9NvVNKaXd_0M6CTYBuer3GThMiDHqGAy4X3e1QKxN1Ehqq8-qsLg6dw5GZx6oic2WM1N36lMnhdIUBhMJTlGfuYKNV26N_zy6HJgCEhlXeP3ebW9OIy4tQ9JeEmfw8R_w6rDP6WTIYJSNGOdp46NfwKHPoBH77n',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBhgt3Q5KWNwoDhflBgkrQmX54EvicYEFXltmQXNdKAnuub8-NNTVLCRZAcQHte5SjeKsw22IiSJiXWqyKc9YQ3RXk-jcuAImP2dB5lHgO0L2aeO3lGYHnW_-Arz1zDmGBUceWxvhCh_Py6PZv_szaFr0vP0Jo7FhHDYiNv85lulobQ-yJYLWouRxyUcIPTTZUcedI8BjsGtdqzlVcSSPfDLV0erOjBi158pyLcrkNp1lzdhDJbh0VWkXSX3eTDZ3qkSR8GOYbCfwgi',
-  ];
-
   return (
-    <div className="min-h-[100dvh] pb-tab-bar" style={{ paddingTop: 'calc(var(--mobile-header-height) + var(--safe-top, 0px) + 2rem)' }}>
-      {/* Ambient glow */}
+    <div
+      className="flex items-center gap-2 rounded-2xl border px-2.5 py-2"
+      style={{
+        background: 'rgba(255,255,255,0.04)',
+        borderColor: 'rgba(73,68,84,0.22)',
+      }}
+    >
       <div
-        className="pointer-events-none fixed inset-0"
-        style={{ background: 'radial-gradient(circle at 50% 40%, rgba(208,188,255,0.12) 0%, rgba(79,219,200,0.04) 50%, transparent 100%)' }}
-      />
-
-      <div className="relative z-10 px-6">
-        {/* Weather/AI context pill */}
-        <div className="mb-6 flex items-center gap-3 w-fit rounded-full border px-4 py-2"
-             style={{ background: 'rgba(208,188,255,0.1)', borderColor: 'rgba(208,188,255,0.2)' }}>
-          <MaterialIcon name="thermostat" size={16} className="text-[#d0bcff]" />
-          <span className="text-xs font-semibold text-[#d0bcff]">
-            {weatherCue} {weatherCue === 'Cool air' ? '— How about a light layer?' : weatherCue === 'Warm air' ? '— Stay cool today.' : '— Perfect dressing weather.'}
-          </span>
-        </div>
-
-        {/* Hero heading */}
-        <h1
-          className="mb-8 text-4xl font-extrabold tracking-tight"
-          style={{ color: '#e5e2e1', fontFamily: 'var(--font-headline)' }}
-        >
-          What should I wear?
-        </h1>
-
-        {/* Search input */}
-        <div className="relative w-full group mb-10">
-          <div
-            className="absolute -inset-1 rounded-[1.75rem] opacity-0 transition-opacity duration-700 group-focus-within:opacity-30"
-            style={{ background: 'linear-gradient(90deg, rgba(208,188,255,0.4), rgba(79,219,200,0.4))', filter: 'blur(16px)' }}
-          />
-          <div
-            className="relative flex items-center gap-1 rounded-2xl p-2"
-            style={{ background: 'rgba(32,31,31,0.92)', backdropFilter: 'blur(12px)', border: '1px solid rgba(73,68,84,0.2)' }}
-          >
-            <MaterialIcon name="auto_awesome" size={20} className="mx-2 flex-shrink-0 text-[#d0bcff]" />
-            <input
-              type="text"
-              value={chatDraft}
-              onChange={(e) => onDraftChange(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') onStartChat(chatDraft); }}
-              onFocus={() => { if (!chatDraft) onStartChat(''); }}
-              placeholder="Tell me about your plans..."
-              className="flex-grow bg-transparent text-base outline-none border-none px-1"
-              style={{ color: '#e5e2e1', minWidth: 0 }}
-            />
-            <button
-              type="button"
-              onClick={() => onStartChat(chatDraft)}
-              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition-all active:scale-95"
-              style={{
-                background: '#d0bcff',
-                color: '#3c0091',
-                boxShadow: '0 0 14px rgba(208,188,255,0.4)',
-              }}
-              aria-label="Style me"
-            >
-              <MaterialIcon name="arrow_upward" size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* Quick action pills */}
-        <div className="mb-8 flex flex-wrap justify-center gap-3">
-          {[
-            { label: 'Work Event', icon: 'work' },
-            { label: 'Date Night', icon: 'favorite' },
-            { label: 'Weekend Chill', icon: 'local_cafe' },
-          ].map(({ label, icon }) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => onStartChat(label)}
-              className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all active:scale-95 hover:border-[rgba(208,188,255,0.3)]"
-              style={{ background: 'var(--surface)', color: '#cbc3d7', border: '1px solid rgba(73,68,84,0.3)', minHeight: 'var(--touch-target)' }}
-            >
-              <MaterialIcon name={icon} size={16} />
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* Recent Curation */}
-        <section className="mb-8">
-          <div className="mb-6 flex items-center justify-between px-1">
-            <h2
-              className="text-lg font-bold tracking-tight"
-              style={{ color: '#cbc3d7', fontFamily: 'var(--font-headline)' }}
-            >
-              Recent curation
-            </h2>
-            <button
-              type="button"
-              onClick={onOpenSaved}
-              className="text-xs font-bold uppercase tracking-widest transition-colors hover:text-[#d0bcff]"
-              style={{ color: '#958ea0' }}
-            >
-              View All
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {[0, 1].map((i) => {
-              const item = recentItems[i];
-              const src = item ? resolveWardrobeImageSrc(item) : null;
-              const fallback = FALLBACK_IMAGES[i];
-              const imgSrc = src ?? fallback;
-              const label = item?.name ?? (i === 0 ? 'Urban Minimalist' : 'Evening Gala');
-              const time = i === 0 ? '2 hours ago' : 'Oct 12';
-
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={onOpenSaved}
-                  className="group cursor-pointer text-left"
-                >
-                  <div className="aspect-[4/5] rounded-2xl overflow-hidden mb-3" style={{ background: 'var(--surface)' }}>
-                    {imgSrc ? (
-                      <img
-                        src={imgSrc}
-                        alt={label}
-                        className="w-full h-full object-cover transition-all duration-500 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100"
-                      />
-                    ) : (
-                      <div className="w-full h-full" style={{ background: 'var(--surface-high)' }} />
-                    )}
-                  </div>
-                  <h3
-                    className="font-bold text-sm transition-colors group-hover:text-[#e5e2e1]"
-                    style={{ color: '#cbc3d7' }}
-                  >
-                    {label}
-                  </h3>
-                  <p className="text-xs" style={{ color: '#958ea0' }}>{time}</p>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Upload strip */}
-        {mediaAssets.length > 0 && (
-          <section className="mb-6">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex -space-x-2">
-                {mediaAssets.slice(0, 4).map((asset) => (
-                  <img
-                    key={asset.id}
-                    src={asset.previewUrl}
-                    alt={asset.fileName}
-                    className="h-9 w-9 rounded-full border-2 object-cover"
-                    style={{ borderColor: '#131313' }}
-                  />
-                ))}
-              </div>
-              <p className="text-xs" style={{ color: '#958ea0' }}>
-                {mediaAssets.length} upload{mediaAssets.length !== 1 ? 's' : ''} ready
-              </p>
-            </div>
-          </section>
+        className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl"
+        style={{ background: 'var(--surface-high)' }}
+      >
+        {attachment.previewUrl ? (
+          <img src={attachment.previewUrl} alt={attachment.label} className="h-full w-full object-cover" />
+        ) : (
+          <MaterialIcon name={attachment.source === 'outfit' ? 'view_carousel' : 'checkroom'} size={18} className="text-[#cbc3d7]" />
         )}
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold" style={{ color: '#e5e2e1' }}>
+          {attachment.label}
+        </p>
+        <p className="text-[0.68rem] uppercase tracking-[0.2em]" style={{ color: '#958ea0' }}>
+          {attachment.source === 'outfit' ? 'Saved outfit' : attachment.source === 'wardrobe' ? 'Wardrobe' : 'Upload'}
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={() => onRemove(attachment.id)}
+        className="ml-auto flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+        style={{ color: '#958ea0' }}
+        aria-label={`Remove ${attachment.label}`}
+      >
+        <MaterialIcon name="close" size={18} />
+      </button>
+    </div>
+  );
+}
+
+function TypingBubble() {
+  return (
+    <div className="flex items-start gap-2.5">
+      <div
+        className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl"
+        style={{
+          background: 'linear-gradient(135deg, rgba(79,219,200,0.22), rgba(208,188,255,0.18))',
+          border: '1px solid rgba(79,219,200,0.28)',
+        }}
+      >
+        <MaterialIcon name="auto_awesome" size={15} filled style={{ color: '#4fdbc8' }} />
+      </div>
+      <div
+        className="flex items-center gap-1 rounded-[0.25rem_1.25rem_1.25rem_1.25rem] px-4 py-3"
+        style={{
+          background: 'var(--surface)',
+          border: '1px solid rgba(73,68,84,0.22)',
+        }}
+      >
+        {[0, 1, 2].map((index) => (
+          <span
+            key={index}
+            className="block h-[0.35rem] w-[0.35rem] rounded-full"
+            style={{
+              background: '#958ea0',
+              animation: `chat-bounce 1.2s ease-in-out ${index * 0.18}s infinite`,
+            }}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
+function EntryChips({ onSend }: { onSend: (label: string) => void }) {
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {ENTRY_CHIPS.map((chip) => (
+        <button
+          key={chip.label}
+          type="button"
+          onClick={() => onSend(chip.label)}
+          className="inline-flex min-h-[2.75rem] items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all active:scale-[0.98]"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(73,68,84,0.24)',
+            color: '#e5e2e1',
+          }}
+        >
+          <MaterialIcon name={chip.icon} size={16} />
+          {chip.label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
+function GeneratedStyleLookCard({
+  look,
+  onApprove,
+  onReject,
+}: {
+  look: GeneratedStyleLook;
+  onApprove: (look: GeneratedStyleLook) => void;
+  onReject: (look: GeneratedStyleLook) => void;
+}) {
+  return (
+    <div
+      className="mt-3 overflow-hidden rounded-[1.4rem] border"
+      style={{
+        background: 'rgba(19,19,19,0.82)',
+        borderColor: 'rgba(73,68,84,0.24)',
+        boxShadow: '0 16px 40px rgba(0,0,0,0.24)',
+      }}
+    >
+      <div className="relative overflow-hidden px-4 py-4">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,219,200,0.12),transparent_38%),radial-gradient(circle_at_left,rgba(208,188,255,0.12),transparent_42%)]" />
+        <div className="relative">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#4fdbc8' }}>
+                {look.mode === 'local' ? 'AI wardrobe pick' : 'Fallback wardrobe pick'}
+              </p>
+              <h3
+                className="mt-2 text-[1.05rem] font-bold leading-tight"
+                style={{ color: '#f5f2ee', fontFamily: 'var(--font-headline)' }}
+              >
+                {look.title}
+              </h3>
+              <p className="mt-1 text-sm" style={{ color: '#b9b1c3' }}>
+                {look.vibe}
+              </p>
+            </div>
+            <SurfaceBadge tone={look.mode === 'local' ? 'live' : 'fallback'}>{look.mode === 'local' ? 'Local AI' : 'Fallback'}</SurfaceBadge>
+          </div>
 
-/* ──────────────────────────────────────────────────────────────
-   MobileWardrobeGuide — Digital Closet screen
-   Reference: wardrobe_editorial_concierge + wardrobe_refined_wear_2
-   ────────────────────────────────────────────────────────────── */
+          <p className="mt-3 text-sm leading-6" style={{ color: '#d4ced9' }}>
+            {look.rationale}
+          </p>
+
+          <div className="mt-3 rounded-2xl border p-3" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(73,68,84,0.16)' }}>
+            <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#958ea0' }}>
+              Why it works
+            </p>
+            <p className="mt-1 text-sm" style={{ color: '#e5e2e1' }}>
+              {look.eventFit}
+            </p>
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+              {look.items.map((item) => {
+                const src = resolveWardrobeImageSrc(item);
+                return (
+                  <div key={item.id} className="min-w-[4.6rem]">
+                    <div
+                      className="flex aspect-square items-end overflow-hidden rounded-2xl"
+                      style={{ background: 'var(--surface-high)' }}
+                    >
+                      {src ? (
+                        <img src={src} alt={item.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className={`h-full w-full bg-gradient-to-br ${item.palette ?? 'from-[#232329] to-[#151519]'}`} />
+                      )}
+                    </div>
+                    <p className="mt-1.5 truncate text-[0.72rem] font-semibold" style={{ color: '#cbc3d7' }}>
+                      {item.name}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => onApprove(look)}
+              className="rounded-full px-4 py-3 text-sm font-bold text-[#10211f] transition-transform active:scale-[0.98]"
+              style={{
+                minHeight: '2.75rem',
+                background: 'linear-gradient(135deg, #4fdbc8 0%, #8ff3ea 100%)',
+              }}
+            >
+              Yes, remember
+            </button>
+            <button
+              type="button"
+              onClick={() => onReject(look)}
+              className="rounded-full px-4 py-3 text-sm font-bold transition-transform active:scale-[0.98]"
+              style={{
+                minHeight: '2.75rem',
+                background: 'rgba(255,255,255,0.06)',
+                color: '#e5e2e1',
+                border: '1px solid rgba(73,68,84,0.24)',
+              }}
+            >
+              No, adjust
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StyleAiMessage({
+  message,
+  showEntryChips,
+  onChipTap,
+  onApprove,
+  onReject,
+}: {
+  message: Extract<StyleChatMessage, { role: 'ai' }>;
+  showEntryChips: boolean;
+  onChipTap: (label: string) => void;
+  onApprove: (look: GeneratedStyleLook) => void;
+  onReject: (look: GeneratedStyleLook) => void;
+}) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <div
+        className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl"
+        style={{
+          background: 'linear-gradient(135deg, rgba(79,219,200,0.22), rgba(208,188,255,0.18))',
+          border: '1px solid rgba(79,219,200,0.28)',
+        }}
+      >
+        <MaterialIcon name="auto_awesome" size={15} filled style={{ color: '#4fdbc8' }} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div
+          className="rounded-[0.25rem_1.25rem_1.25rem_1.25rem] px-3.5 py-3"
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid rgba(73,68,84,0.22)',
+          }}
+        >
+          <p className="text-base leading-7" style={{ color: '#d9d4de' }}>
+            {message.text}
+          </p>
+        </div>
+        {showEntryChips ? <EntryChips onSend={onChipTap} /> : null}
+        {message.uploadPrompt ? (
+          <div
+            className="mt-3 rounded-2xl border px-3.5 py-3 text-sm leading-6"
+            style={{
+              background: 'rgba(208,188,255,0.08)',
+              borderColor: 'rgba(208,188,255,0.16)',
+              color: '#d0bcff',
+            }}
+          >
+            {message.uploadPrompt}
+          </div>
+        ) : null}
+        {message.looks?.map((look) => (
+          <GeneratedStyleLookCard key={look.id} look={look} onApprove={onApprove} onReject={onReject} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StyleUserMessage({ message }: { message: Extract<StyleChatMessage, { role: 'user' }> }) {
+  return (
+    <div className="flex justify-end">
+      <div className="max-w-[88%]">
+        <div
+          className="rounded-[1.25rem_0.3rem_1.25rem_1.25rem] px-3.5 py-3"
+          style={{
+            background: 'linear-gradient(135deg, rgba(208,188,255,0.18), rgba(79,219,200,0.12))',
+            border: '1px solid rgba(208,188,255,0.22)',
+          }}
+        >
+          <p className="text-base leading-7" style={{ color: '#f4f0fb' }}>
+            {message.text}
+          </p>
+        </div>
+        {message.attachments?.length ? (
+          <div className="mt-2 grid gap-2">
+            {message.attachments.map((attachment) => (
+              <div
+                key={attachment.id}
+                className="flex items-center gap-2 rounded-2xl border px-3 py-2"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  borderColor: 'rgba(73,68,84,0.2)',
+                }}
+              >
+                <div
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl"
+                  style={{ background: 'var(--surface-high)' }}
+                >
+                  {attachment.previewUrl ? (
+                    <img src={attachment.previewUrl} alt={attachment.label} className="h-full w-full object-cover" />
+                  ) : (
+                    <MaterialIcon name="checkroom" size={18} className="text-[#cbc3d7]" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold" style={{ color: '#e5e2e1' }}>
+                    {attachment.label}
+                  </p>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em]" style={{ color: '#958ea0' }}>
+                    {attachment.source === 'outfit' ? 'Saved outfit' : attachment.source === 'wardrobe' ? 'Wardrobe' : 'Upload'}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+type MobileStyleChatV2Props = {
+  profile: UserProfile;
+  wardrobe: WardrobeItem[];
+  eventSession: EventSession;
+  generationStatus: GenerationStatus | null;
+  composerIntent: StyleChatComposerIntent | null;
+  staleLaundryItems: WardrobeItem[];
+  onConsumeComposerIntent: (intentId: string) => void;
+  onOpenWardrobePicker: () => void;
+  onUploadChatAsset: (file: File) => Promise<MediaAsset>;
+  onEventSessionChange: (session: EventSession) => void;
+  onApproveLook: (payload: {
+    title: string;
+    vibe: string;
+    rationale: string;
+    items: WardrobeItem[];
+    eventSummary: string;
+    coverImageUrl?: string | null;
+  }) => Promise<void>;
+};
+
+export function MobileStyleChatV2({
+  profile,
+  wardrobe,
+  eventSession,
+  generationStatus,
+  composerIntent,
+  staleLaundryItems,
+  onConsumeComposerIntent,
+  onOpenWardrobePicker,
+  onUploadChatAsset,
+  onEventSessionChange,
+  onApproveLook,
+}: MobileStyleChatV2Props) {
+  const [messages, setMessages] = useState<StyleChatMessage[]>(() => readSessionAsChat(profile, eventSession));
+  const [draft, setDraft] = useState('');
+  const [attachments, setAttachments] = useState<StyleChatAttachment[]>([]);
+  const [typing, setTyping] = useState(false);
+  const [attachMenuOpen, setAttachMenuOpen] = useState(false);
+  const [eventSummary, setEventSummary] = useState(eventSession.eventSummary);
+  const [composerError, setComposerError] = useState('');
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const seenLaundryNudges = useRef<string>('');
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [messages, attachments, typing]);
+
+  useEffect(() => {
+    onEventSessionChange({
+      eventSummary,
+      messages: toSessionMessages(messages),
+    });
+  }, [eventSummary, messages, onEventSessionChange]);
+
+  useEffect(() => {
+    if (!composerIntent) return;
+
+    const nextAttachments =
+      composerIntent.kind === 'outfit'
+        ? [
+            {
+              id: `outfit-${composerIntent.id}`,
+              source: 'outfit' as const,
+              label: composerIntent.label,
+              previewUrl: composerIntent.previewUrl,
+              itemIds: composerIntent.itemIds,
+            },
+          ]
+        : composerIntent.itemIds
+            .map((itemId) => wardrobe.find((item) => item.id === itemId))
+            .filter((item): item is WardrobeItem => Boolean(item))
+            .map(buildAttachmentFromWardrobeItem);
+
+    setAttachments((current) => mergeAttachments(current, nextAttachments));
+    onConsumeComposerIntent(composerIntent.id);
+  }, [composerIntent, onConsumeComposerIntent, wardrobe]);
+
+  useEffect(() => {
+    const nudgeKey = staleLaundryItems.map((item) => item.id).join('|');
+    if (!nudgeKey || seenLaundryNudges.current === nudgeKey) return;
+
+    const labels = staleLaundryItems.slice(0, 2).map((item) => item.name).join(' and ');
+    setMessages((current) => [
+      ...current,
+      {
+        id: `laundry-${nudgeKey}`,
+        role: 'ai',
+        text: `${labels} ${staleLaundryItems.length > 1 ? 'have' : 'has'} been sitting in laundry for a while, so I will keep those out of today's picks until you bring them back.`,
+      },
+    ]);
+    seenLaundryNudges.current = nudgeKey;
+  }, [staleLaundryItems]);
+
+  const hasUserMessages = messages.some((message) => message.role === 'user');
+
+  async function handleFiles(files: FileList | null, source: 'gallery' | 'camera') {
+    const pickedFiles = Array.from(files ?? []);
+    if (pickedFiles.length === 0) return;
+
+    setComposerError('');
+
+    try {
+      const nextAttachments = await Promise.all(
+        pickedFiles.map(async (file) => {
+          const mediaAsset = await onUploadChatAsset(file);
+          return {
+            id: `upload-${mediaAsset.id}`,
+            source,
+            label: file.name,
+            previewUrl: mediaAsset.previewUrl,
+            mediaAssetId: mediaAsset.id,
+          } satisfies StyleChatAttachment;
+        }),
+      );
+
+      setAttachments((current) => mergeAttachments(current, nextAttachments));
+      setAttachMenuOpen(false);
+    } catch (error) {
+      setComposerError(error instanceof Error ? error.message : 'We could not attach that photo.');
+    }
+  }
+
+  async function resolveSelectedItems(messageAttachments: StyleChatAttachment[]) {
+    const selected: WardrobeItem[] = [];
+    const photoAttachments = messageAttachments.filter((attachment) => attachment.source === 'camera' || attachment.source === 'gallery');
+
+    for (const attachment of messageAttachments) {
+      if (!attachment.itemIds?.length) continue;
+      attachment.itemIds.forEach((itemId) => {
+        const item = wardrobe.find((wardrobeItem) => wardrobeItem.id === itemId);
+        if (item && !item.inLaundry) selected.push(item);
+      });
+    }
+
+    const identifiedUploads = await Promise.all(
+      photoAttachments.map(async (attachment, index) => {
+        try {
+          const identified = await requestWardrobeIdentification({
+            mediaAssetId: attachment.mediaAssetId,
+            imageDataUrl: attachment.previewUrl?.startsWith('data:image') ? attachment.previewUrl : undefined,
+            fileName: attachment.label,
+          });
+          return buildIdentifiedUploadItem(attachment, identified, index);
+        } catch {
+          return buildFallbackUploadItem(attachment, index);
+        }
+      }),
+    );
+
+    return dedupeItems([...selected, ...identifiedUploads]).filter((item) => !item.inLaundry);
+  }
+
+  async function sendMessage(nextText?: string) {
+    const trimmed = (nextText ?? draft).trim();
+    const outgoingAttachments = attachments;
+    const userText = trimmed || (outgoingAttachments.length > 0 ? 'Style these pieces.' : '');
+
+    if (!userText && outgoingAttachments.length === 0) return;
+
+    setComposerError('');
+    setAttachMenuOpen(false);
+
+    const userMessage: Extract<StyleChatMessage, { role: 'user' }> = {
+      id: createId('user'),
+      role: 'user',
+      text: userText,
+      attachments: outgoingAttachments.length ? outgoingAttachments : undefined,
+    };
+
+    const history = normalizeStoredMessages(toSessionMessages(messages));
+
+    setMessages((current) => [...current, userMessage]);
+    setDraft('');
+    setAttachments([]);
+    setTyping(true);
+
+    try {
+      const selectedItems = await resolveSelectedItems(outgoingAttachments);
+      const chatPromise = requestEventChat({
+        profile,
+        selectedItems,
+        messages: history,
+        userMessage: userText,
+      });
+
+      if (selectedItems.length >= 2) {
+        const [chatResponse, optionsResponse] = await Promise.all([
+          chatPromise,
+          requestWardrobeOptions({
+            profile,
+            selectedItems,
+            eventSummary: userText,
+            messages: history,
+          }),
+        ]);
+
+        const looks = optionsResponse.options.map((option) => optionToLook(option, selectedItems, optionsResponse.mode));
+        setEventSummary(chatResponse.summary || userText);
+        setMessages((current) => [
+          ...current,
+          {
+            id: createId('ai'),
+            role: 'ai',
+            text: chatResponse.reply,
+            looks,
+          },
+        ]);
+      } else {
+        const chatResponse = await chatPromise;
+        setEventSummary(chatResponse.summary || userText);
+        setMessages((current) => [
+          ...current,
+          {
+            id: createId('ai'),
+            role: 'ai',
+            text: chatResponse.reply,
+            uploadPrompt: uploadPromptForCount(selectedItems.length),
+          },
+        ]);
+      }
+    } catch (error) {
+      setMessages((current) => [
+        ...current,
+        {
+          id: createId('ai'),
+          role: 'ai',
+          text:
+            error instanceof Error
+              ? `${error.message} I can keep going once you add a few wardrobe pieces or another photo.`
+              : 'I lost the thread for a second. Add a few wardrobe pieces and I will rebuild the outfit.',
+          uploadPrompt: uploadPromptForCount(0),
+        },
+      ]);
+    } finally {
+      setTyping(false);
+    }
+  }
+
+  async function handleApprove(look: GeneratedStyleLook) {
+    await onApproveLook({
+      title: look.title,
+      vibe: look.vibe,
+      rationale: look.rationale,
+      items: look.items,
+      eventSummary: eventSummary || look.eventFit,
+      coverImageUrl: look.coverImageUrl,
+    });
+
+    setMessages((current) => [
+      ...current,
+      {
+        id: createId('ai'),
+        role: 'ai',
+        text: `Saved. I will remember ${look.title.toLowerCase()} and reuse that taste signal next time.`,
+      },
+    ]);
+  }
+
+  function handleReject(look: GeneratedStyleLook) {
+    const needsMorePieces = look.items.length < 3;
+    setMessages((current) => [
+      ...current,
+      {
+        id: createId('ai'),
+        role: 'ai',
+        text: needsMorePieces
+          ? 'I need a little more to work with. Add 2 to 3 more pieces so the next pass feels complete.'
+          : 'Tell me what to change and I will tighten the next pass fast.',
+        uploadPrompt: needsMorePieces ? uploadPromptForCount(look.items.length) : undefined,
+      },
+    ]);
+  }
+
+  return (
+    <div
+      className="flex h-[100dvh] min-h-0 flex-col overflow-hidden"
+      style={{
+        paddingTop: 'calc(var(--mobile-header-height, 3.5rem) + var(--safe-top, 0px) + 0.75rem)',
+        paddingBottom: 'calc(var(--tab-bar-height, 5rem) + max(var(--safe-bottom, 0px), 0px) + 1rem)',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div className="px-5">
+        <div
+          className="overflow-hidden rounded-[1.7rem] border px-4 py-4"
+          style={{
+            background: 'linear-gradient(180deg, rgba(19,19,22,0.94), rgba(16,16,18,0.88))',
+            borderColor: 'rgba(73,68,84,0.18)',
+            boxShadow: '0 20px 48px rgba(0,0,0,0.28)',
+          }}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em]" style={{ color: '#4fdbc8' }}>
+                Hero state
+              </p>
+              <h1
+                className="mt-2 text-[1.65rem] font-bold tracking-tight"
+                style={{ color: '#f4f0eb', fontFamily: 'var(--font-headline)' }}
+              >
+                {eventSummary || 'Start with the moment.'}
+              </h1>
+              <p className="mt-2 text-sm leading-6" style={{ color: '#b9b1c3' }}>
+                One conversation. One decision. Your stylist will narrow the outfit without making you configure the app.
+              </p>
+            </div>
+            <SurfaceBadge tone={generationStatus?.connected ? 'live' : 'fallback'}>
+              {generationStatus?.connected ? 'Local AI' : 'Fallback'}
+            </SurfaceBadge>
+          </div>
+        </div>
+      </div>
+
+      {/* `min-h-0` keeps the scroll region from pushing the composer below the visible phone viewport. */}
+      <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-4 pt-4">
+        <div className="mx-auto flex w-full max-w-[42rem] flex-col gap-4">
+          {messages.map((message, index) =>
+            message.role === 'ai' ? (
+              <StyleAiMessage
+                key={message.id}
+                message={message}
+                showEntryChips={index === 0 && !hasUserMessages}
+                onChipTap={(label) => {
+                  void sendMessage(label);
+                }}
+                onApprove={(look) => void handleApprove(look)}
+                onReject={handleReject}
+              />
+            ) : (
+              <StyleUserMessage key={message.id} message={message} />
+            ),
+          )}
+          {typing ? <TypingBubble /> : null}
+          <div ref={endRef} />
+        </div>
+      </div>
+
+      <div className="sticky bottom-0 z-10 flex-shrink-0 px-5">
+        <div
+          className="mx-auto max-w-[42rem] rounded-[1.7rem] border px-4 pb-4 pt-3"
+          style={{
+            background: 'rgba(32,31,31,0.72)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
+            borderColor: 'rgba(73,68,84,0.22)',
+          }}
+        >
+          {attachments.length > 0 ? (
+            <div className="mb-3 grid gap-2">
+              {attachments.map((attachment) => (
+                <AttachmentChip
+                  key={attachment.id}
+                  attachment={attachment}
+                  onRemove={(attachmentId) =>
+                    setAttachments((current) => current.filter((item) => item.id !== attachmentId))
+                  }
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {composerError ? (
+            <div
+              className="mb-3 rounded-2xl border px-3.5 py-3 text-sm"
+              style={{
+                background: 'rgba(255,180,171,0.08)',
+                borderColor: 'rgba(255,180,171,0.16)',
+                color: '#ffb4ab',
+              }}
+            >
+              {composerError}
+            </div>
+          ) : null}
+
+          <div className="flex items-end gap-3">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setAttachMenuOpen((open) => !open)}
+                className="flex h-11 w-11 items-center justify-center rounded-2xl transition-transform active:scale-[0.97]"
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(73,68,84,0.22)',
+                  color: '#d0bcff',
+                }}
+                aria-label="Add attachment"
+              >
+                <MaterialIcon name="add" size={22} />
+              </button>
+
+              <AnimatePresence>
+                {attachMenuOpen ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute bottom-[calc(100%+0.75rem)] left-0 z-20 w-[17rem] overflow-hidden rounded-[1.3rem] border"
+                    style={{
+                      background: 'rgba(20,19,24,0.96)',
+                      borderColor: 'rgba(73,68,84,0.24)',
+                      boxShadow: '0 22px 48px rgba(0,0,0,0.32)',
+                    }}
+                  >
+                    {[
+                      {
+                        id: 'wardrobe',
+                        title: 'Choose from Wardrobe',
+                        detail: 'Attach owned pieces without leaving chat.',
+                        icon: 'checkroom',
+                        action: () => {
+                          setAttachMenuOpen(false);
+                          onOpenWardrobePicker();
+                        },
+                      },
+                      {
+                        id: 'gallery',
+                        title: 'Upload Photo',
+                        detail: 'Bring in a fresh wardrobe image from your library.',
+                        icon: 'photo_library',
+                        action: () => {
+                          setAttachMenuOpen(false);
+                          galleryInputRef.current?.click();
+                        },
+                      },
+                      {
+                        id: 'camera',
+                        title: 'Open Camera',
+                        detail: 'Snap a piece right now and I will read it.',
+                        icon: 'photo_camera',
+                        action: () => {
+                          setAttachMenuOpen(false);
+                          cameraInputRef.current?.click();
+                        },
+                      },
+                    ].map((action, index) => (
+                      <button
+                        key={action.id}
+                        type="button"
+                        onClick={action.action}
+                        className="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5"
+                        style={{
+                          borderTop: index === 0 ? 'none' : '1px solid rgba(73,68,84,0.16)',
+                        }}
+                      >
+                        <div
+                          className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl"
+                          style={{
+                            background: action.id === 'camera' ? 'rgba(79,219,200,0.12)' : 'rgba(208,188,255,0.12)',
+                            color: action.id === 'camera' ? '#4fdbc8' : '#d0bcff',
+                          }}
+                        >
+                          <MaterialIcon name={action.icon} size={18} />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold" style={{ color: '#f4f0eb' }}>
+                            {action.title}
+                          </p>
+                          <p className="mt-1 text-xs leading-5" style={{ color: '#958ea0' }}>
+                            {action.detail}
+                          </p>
+                        </div>
+                      </button>
+                    ))}
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+
+            <label className="sr-only" htmlFor="style-chat-input">
+              Tell WeaR about your plans
+            </label>
+            <textarea
+              id="style-chat-input"
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  void sendMessage();
+                }
+              }}
+              placeholder="Tell me about your plans..."
+              rows={1}
+              className="min-h-[2.75rem] flex-1 resize-none bg-transparent px-1 py-2 text-base outline-none placeholder:text-[#8d8696]"
+              style={{ color: '#f4f0eb' }}
+            />
+
+            <button
+              type="button"
+              onClick={() => {
+                void sendMessage();
+              }}
+              disabled={!draft.trim() && attachments.length === 0}
+              className="flex h-11 w-11 items-center justify-center rounded-2xl transition-all active:scale-[0.97] disabled:opacity-45"
+              style={{
+                background: 'linear-gradient(135deg, rgba(208,188,255,0.96), rgba(160,120,255,0.96))',
+                boxShadow: '0 12px 26px rgba(160,120,255,0.24)',
+                color: '#23005c',
+              }}
+              aria-label="Send message"
+            >
+              <MaterialIcon name="north_east" size={22} filled />
+            </button>
+          </div>
+
+          <input
+            ref={galleryInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(event) => {
+              void handleFiles(event.target.files, 'gallery');
+              event.target.value = '';
+            }}
+          />
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(event) => {
+              void handleFiles(event.target.files, 'camera');
+              event.target.value = '';
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WardrobeStat({
+  label,
+  value,
+  tone = 'default',
+}: {
+  label: string;
+  value: string;
+  tone?: 'default' | 'accent' | 'danger';
+}) {
+  return (
+    <div
+      className="rounded-[1.35rem] border px-4 py-4"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        borderColor:
+          tone === 'accent'
+            ? 'rgba(79,219,200,0.18)'
+            : tone === 'danger'
+              ? 'rgba(255,180,171,0.18)'
+              : 'rgba(73,68,84,0.18)',
+      }}
+    >
+      <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#958ea0' }}>
+        {label}
+      </p>
+      <p className="mt-2 text-lg font-bold" style={{ color: '#f5f2ee', fontFamily: 'var(--font-headline)' }}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function WardrobeItemCard({
+  item,
+  staleLaundry,
+  onUse,
+  onToggleLaundry,
+}: {
+  item: WardrobeItem;
+  staleLaundry: boolean;
+  onUse: () => void;
+  onToggleLaundry: (nextValue: boolean) => void;
+}) {
+  const image = resolveWardrobeImageSrc(item);
+  const laundryDays = daysSince(item.laundrySince);
+
+  return (
+    <div
+      className="overflow-hidden rounded-[1.45rem] border"
+      style={{
+        background: 'rgba(19,19,19,0.82)',
+        borderColor: item.inLaundry ? 'rgba(79,219,200,0.22)' : 'rgba(73,68,84,0.22)',
+        opacity: item.inLaundry ? 0.84 : 1,
+      }}
+    >
+      <div className="relative aspect-[0.94/1] overflow-hidden" style={{ background: 'var(--surface-high)' }}>
+        {image ? (
+          <img src={image} alt={item.name} className="h-full w-full object-cover" />
+        ) : (
+          <div className={`h-full w-full bg-gradient-to-br ${item.palette ?? 'from-[#26262d] to-[#15151a]'}`} />
+        )}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.55))]" />
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+          {item.inLaundry ? (
+            <span
+              className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em]"
+              style={{
+                background: 'rgba(79,219,200,0.14)',
+                color: '#4fdbc8',
+                border: '1px solid rgba(79,219,200,0.2)',
+              }}
+            >
+              <MaterialIcon name="local_laundry_service" size={12} />
+              In Laundry
+            </span>
+          ) : null}
+          {staleLaundry ? (
+            <span className="flex h-3 w-3 items-center justify-center rounded-full bg-[#ff8b7b] shadow-[0_0_0_6px_rgba(255,139,123,0.16)]" />
+          ) : null}
+        </div>
+        <div className="absolute bottom-3 left-3 right-3">
+          <p className="truncate text-sm font-semibold text-white">{item.name}</p>
+          <p className="mt-1 text-[0.72rem]" style={{ color: 'rgba(255,255,255,0.72)' }}>
+            {item.category} · {item.color}
+            {item.inLaundry && laundryDays !== null ? ` · ${laundryDays} day${laundryDays === 1 ? '' : 's'} away` : ''}
+          </p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-2 p-3">
+        <button
+          type="button"
+          onClick={onUse}
+          className="rounded-full px-3 py-2.5 text-sm font-semibold transition-transform active:scale-[0.98]"
+          style={{
+            minHeight: '2.75rem',
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(73,68,84,0.22)',
+            color: '#f5f2ee',
+          }}
+        >
+          Use in chat
+        </button>
+        <button
+          type="button"
+          onClick={() => onToggleLaundry(!item.inLaundry)}
+          className="rounded-full px-3 py-2.5 text-sm font-semibold transition-transform active:scale-[0.98]"
+          style={{
+            minHeight: '2.75rem',
+            background: item.inLaundry ? 'rgba(79,219,200,0.12)' : 'rgba(208,188,255,0.12)',
+            border: item.inLaundry ? '1px solid rgba(79,219,200,0.2)' : '1px solid rgba(208,188,255,0.18)',
+            color: item.inLaundry ? '#4fdbc8' : '#d0bcff',
+          }}
+        >
+          {item.inLaundry ? 'Back in closet' : 'Move to laundry'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+type MobileWardrobeGuideProps = {
+  wardrobe: WardrobeItem[];
+  outfits: SavedOutfit[];
+  mediaAssets: MediaAsset[];
+  onOpenChat: () => void;
+  onUseWardrobeItems: (itemIds: string[]) => void;
+  onUseOutfit: (outfit: SavedOutfit) => void;
+  onDeleteOutfit: (outfit: SavedOutfit) => void;
+  onUploadNewItem: (file: File) => Promise<void>;
+  onCreateFromMedia: (mediaAssetId: string, targetItemId?: string | null) => Promise<void>;
+  onToggleLaundry: (itemId: string, nextValue: boolean) => Promise<void>;
+};
+
 export function MobileWardrobeGuide({
   wardrobe,
+  outfits,
   mediaAssets,
-  eventSession,
-  activeSuggestionIndex,
-  onOpenGenerate,
+  onOpenChat,
+  onUseWardrobeItems,
+  onUseOutfit,
+  onDeleteOutfit,
   onUploadNewItem,
   onCreateFromMedia,
-}: {
-  wardrobe: WardrobeItem[];
-  mediaAssets: MediaAsset[];
-  eventSession: EventSession;
-  activeSuggestionIndex: number;
-  onOpenGenerate: () => void;
-  onUploadNewItem: (file: File) => Promise<void>;
-  onCreateFromMedia?: (mediaAssetId: string, targetItemId?: string | null) => Promise<void>;
-}) {
-  const [activeTab, setActiveTab] = useState<'closet' | 'uploads' | 'review'>('closet');
+  onToggleLaundry,
+}: MobileWardrobeGuideProps) {
+  const [activeTab, setActiveTab] = useState<'items' | 'outfits' | 'laundry'>('items');
   const [uploadError, setUploadError] = useState('');
-  const suggestions = buildHeroSuggestions(wardrobe, eventSession);
-  const activeSuggestion = suggestions[activeSuggestionIndex] ?? suggestions[0];
-  const groups = buildDecisionGroups(wardrobe, activeSuggestion);
 
-  const reviewQueue = wardrobe.filter(
-    (item) => item.detection?.state === 'auto-detected' || item.detection?.state === 'error',
+  const availableItems = useMemo(
+    () => wardrobe.filter((item) => !item.inLaundry),
+    [wardrobe],
   );
 
-  const AI_SUGGESTIONS_MAP = [
-    { label: 'PERFECT FOR TODAY', tone: 'primary' as const },
-    { label: 'Paired often', tone: 'teal' as const },
-    { label: 'Not worn recently', tone: 'danger' as const },
-    { label: null, tone: null },
-  ];
+  const reviewQueue = useMemo(
+    () => wardrobe.filter((item) => item.detection?.state === 'auto-detected' || item.detection?.state === 'error'),
+    [wardrobe],
+  );
 
-  const HERO_IMG = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDZkgapTQ9KtNzuIFkdsdvvX3BAoHyIWcYie2F3ER-TC40PrbAgpw3-iKnLsQapBSjrsdsFZz9usTXSuFx1rXJf2vDvuY6rzqJWLuT4WSTbIFcRB3PuuBxLVKYPByi2ZgtkPzB0kT682FKyV2e9fryANia8g62lOyQQDNH9b-TwP1GdJ18rYevhy1rLH-7cR0ChS1UYzpkxR7sMP1YAoIUA1pQDmnDadZQlI0tmAeGUP4kQFRwCNRqRsd54nViYjIz9kHxAD0OFjmCe';
+  const suggestedToday = useMemo(
+    () => availableItems.filter((item) => item.status !== 'Occasion').slice(0, 4),
+    [availableItems],
+  );
+
+  const notWornRecently = useMemo(
+    () =>
+      availableItems
+        .slice()
+        .sort((left, right) => (Date.parse(left.lastWornAt ?? '1970-01-01') || 0) - (Date.parse(right.lastWornAt ?? '1970-01-01') || 0))
+        .slice(0, 6),
+    [availableItems],
+  );
+
+  const inLaundryItems = useMemo(
+    () => wardrobe.filter((item) => item.inLaundry),
+    [wardrobe],
+  );
+
+  const frequentItems = useMemo(
+    () => availableItems.filter((item) => item.status === 'Repeat').slice(0, 4),
+    [availableItems],
+  );
 
   return (
     <div
       className="min-h-[100dvh] pb-tab-bar"
-      style={{ paddingTop: 'calc(var(--mobile-header-height) + var(--safe-top, 0px) + 1rem)' }}
+      style={{
+        paddingTop: 'calc(var(--mobile-header-height, 3.5rem) + var(--safe-top, 0px) + 0.75rem)',
+        paddingBottom: 'calc(var(--tab-bar-height, 5rem) + max(var(--safe-bottom, 0px), 0px) + 1rem)',
+      }}
     >
-      <div className="px-6">
-        {/* Sub-header */}
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <h1
-              className="text-xl font-bold"
-              style={{ color: '#e5e2e1', fontFamily: 'var(--font-headline)' }}
-            >
-              Digital Closet
-            </h1>
-            <span className="text-sm" style={{ color: '#958ea0' }}>
-              {wardrobe.length || 142} Active Pieces
-            </span>
-          </div>
-          {/* Daily insight chip */}
-          <div
-            className="flex items-center gap-2 w-fit rounded-full border px-4 py-2 mb-4"
-            style={{ background: 'rgba(208,188,255,0.1)', borderColor: 'rgba(208,188,255,0.2)' }}
-          >
-            <MaterialIcon name="lightbulb" size={14} className="text-[#d0bcff]" />
-            <span className="text-xs font-medium text-[#d0bcff]">
-              Monochromatic pieces are trending this season
-            </span>
-          </div>
-          {/* CTA */}
-          <button
-            type="button"
-            onClick={onOpenGenerate}
-            className="w-full rounded-full py-3 font-bold text-[#23005c] transition-all active:scale-98"
-            style={{
-              background: 'linear-gradient(135deg, #d0bcff 0%, #a078ff 100%)',
-              boxShadow: '0 10px 20px -5px rgba(160,120,255,0.4)',
-            }}
-          >
-            Style Today's Look
-          </button>
-        </div>
-
-        {/* Segmented tabs */}
-        <div className="flex gap-1 mb-6 p-1 rounded-full" style={{ background: 'var(--surface)' }}>
-          {(['closet', 'uploads', 'review'] as const).map((tab) => (
+      <div className="space-y-5 px-5">
+        <div
+          className="overflow-hidden rounded-[1.7rem] border px-4 py-4"
+          style={{
+            background: 'linear-gradient(180deg, rgba(19,19,22,0.94), rgba(16,16,18,0.88))',
+            borderColor: 'rgba(73,68,84,0.18)',
+          }}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em]" style={{ color: '#d0bcff' }}>
+                Decision support
+              </p>
+              <h1
+                className="mt-2 text-[1.6rem] font-bold tracking-tight"
+                style={{ color: '#f4f0eb', fontFamily: 'var(--font-headline)' }}
+              >
+                Wardrobe, not warehouse.
+              </h1>
+              <p className="mt-2 text-sm leading-6" style={{ color: '#b9b1c3' }}>
+                Keep your best pieces close, your reusable outfits ready, and anything in laundry out of the AI path.
+              </p>
+            </div>
             <button
-              key={tab}
               type="button"
-              onClick={() => setActiveTab(tab)}
-              className="flex-1 rounded-full py-2 text-xs font-semibold capitalize transition-all"
+              onClick={onOpenChat}
+              className="flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-[#10211f] transition-transform active:scale-[0.98]"
               style={{
-                background: activeTab === tab ? 'var(--surface-high)' : 'transparent',
-                color: activeTab === tab ? '#e5e2e1' : '#958ea0',
+                minHeight: '2.75rem',
+                background: 'linear-gradient(135deg, #4fdbc8 0%, #8ff3ea 100%)',
               }}
             >
-              {tab === 'review' ? 'Review Queue' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              {tab === 'review' && reviewQueue.length > 0 && (
-                <span className="ml-1 text-[#ffb4ab]">({reviewQueue.length})</span>
-              )}
+              <MaterialIcon name="auto_awesome" size={16} />
+              Chat now
             </button>
-          ))}
+          </div>
+
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            <WardrobeStat label="Available" value={String(availableItems.length)} tone="accent" />
+            <WardrobeStat label="Outfits" value={String(outfits.length)} />
+            <WardrobeStat label="Laundry" value={String(inLaundryItems.length)} tone={inLaundryItems.length ? 'danger' : 'default'} />
+          </div>
         </div>
 
-        {/* CLOSET TAB */}
-        {activeTab === 'closet' && (
-          <div className="space-y-6">
-            {/* Most Frequent */}
-            {groups.frequentlyUsed.length > 0 && (
-              <section>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: '#cbc3d7' }}>
-                    Most Frequent
-                  </h3>
-                  <MaterialIcon name="arrow_forward" size={16} className="text-[#958ea0]" />
-                </div>
-                <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2">
-                  {groups.frequentlyUsed.map((item, i) => {
-                    const src = resolveWardrobeImageSrc(item);
-                    return (
-                      <div key={item.id} className="relative flex-shrink-0" style={{ width: '7rem' }}>
-                        <div
-                          className="aspect-square rounded-2xl overflow-hidden"
-                          style={{ background: 'var(--surface)' }}
-                        >
-                          {src ? (
-                            <img src={src} alt={item.name} className="w-full h-full object-cover" />
-                          ) : (
-                            <div className={`w-full h-full bg-gradient-to-br ${item.palette ?? 'from-gray-700 to-gray-800'}`} />
-                          )}
-                        </div>
-                        {i === 0 && (
-                          <div
-                            className="absolute -top-1 -right-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
-                            style={{ background: '#d0bcff', color: '#23005c' }}
-                          >
-                            TOP
-                          </div>
-                        )}
-                        <p className="mt-1.5 text-xs font-medium truncate" style={{ color: '#cbc3d7' }}>{item.name}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            )}
-
-            {/* Daily Suggestion hero */}
-            {activeSuggestion.pieces.length > 0 && (
-              <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: '#cbc3d7' }}>
-                  Daily Suggestion
-                </h3>
-                <div
-                  className="relative overflow-hidden cursor-pointer"
-                  style={{ aspectRatio: '4/3', borderRadius: '1.5rem', background: 'var(--surface)' }}
-                  onClick={onOpenGenerate}
-                >
-                  {(() => {
-                    const heroSrc = resolveWardrobeImageSrc(activeSuggestion.pieces[0]!) ?? HERO_IMG;
-                    return (
-                      <img src={heroSrc} alt={activeSuggestion.title} className="w-full h-full object-cover" />
-                    );
-                  })()}
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)' }} />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
-                    <div>
-                      <div
-                        className="inline-flex items-center gap-1 rounded-full px-3 py-1 mb-2 text-xs font-bold uppercase tracking-widest"
-                        style={{ background: 'rgba(79,219,200,0.9)', color: '#003731' }}
-                      >
-                        <MaterialIcon name="auto_awesome" size={12} filled />
-                        AI STYLIST PICK
-                      </div>
-                      <p className="text-sm font-semibold text-white">{activeSuggestion.title}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); onOpenGenerate(); }}
-                      className="rounded-full px-4 py-2 text-xs font-bold text-[#23005c]"
-                      style={{ background: '#d0bcff' }}
-                    >
-                      Wear It
-                    </button>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Everything Else grid */}
-            {groups.notWornRecently.length > 0 && (
-              <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: '#cbc3d7' }}>
-                  Everything Else
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {groups.notWornRecently.slice(0, 6).map((item, i) => {
-                    const src = resolveWardrobeImageSrc(item);
-                    const badge = AI_SUGGESTIONS_MAP[i % AI_SUGGESTIONS_MAP.length];
-                    const isPerfect = badge?.tone === 'primary';
-
-                    return (
-                      <div
-                        key={item.id}
-                        className="relative overflow-hidden"
-                        style={{
-                          borderRadius: '1.25rem',
-                          background: 'var(--surface)',
-                          ...(isPerfect ? {
-                            transform: 'scale(1.03)',
-                            boxShadow: '0 0 0 2px #d0bcff, 0 20px 40px rgba(208,188,255,0.2)',
-                          } : {}),
-                        }}
-                      >
-                        <div className="aspect-square overflow-hidden" style={{ borderRadius: '1.25rem 1.25rem 0 0' }}>
-                          {src ? (
-                            <img src={src} alt={item.name} className="w-full h-full object-cover" />
-                          ) : (
-                            <div className={`w-full h-full bg-gradient-to-br ${item.palette ?? 'from-gray-700 to-gray-800'}`} />
-                          )}
-                        </div>
-                        <div className="p-3">
-                          <p className="text-xs font-semibold truncate" style={{ color: '#e5e2e1' }}>{item.name}</p>
-                          {badge?.label && (
-                            <div
-                              className="mt-1.5 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide"
-                              style={{
-                                background: badge.tone === 'primary'
-                                  ? 'rgba(208,188,255,0.2)'
-                                  : badge.tone === 'teal'
-                                    ? 'rgba(79,219,200,0.15)'
-                                    : 'rgba(255,180,171,0.15)',
-                                color: badge.tone === 'primary'
-                                  ? '#d0bcff'
-                                  : badge.tone === 'teal'
-                                    ? '#4fdbc8'
-                                    : '#ffb4ab',
-                              }}
-                            >
-                              {badge.label}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            )}
-
-            {wardrobe.length === 0 && (
-              <div
-                className="flex flex-col items-center justify-center py-16 text-center"
-                style={{ color: '#958ea0' }}
+        <div className="grid grid-cols-3 gap-2 rounded-full border p-1" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(73,68,84,0.18)' }}>
+          {(['items', 'outfits', 'laundry'] as const).map((tab) => {
+            const active = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className="rounded-full px-3 py-2.5 text-sm font-semibold capitalize transition-all"
+                style={{
+                  minHeight: '2.75rem',
+                  background: active ? 'rgba(255,255,255,0.08)' : 'transparent',
+                  color: active ? '#f5f2ee' : '#958ea0',
+                }}
               >
-                <MaterialIcon name="checkroom" size={48} className="mb-4 opacity-30" />
-                <p className="text-sm">Your wardrobe is empty.</p>
-                <p className="text-xs mt-1">Upload items to get started.</p>
-              </div>
-            )}
-          </div>
-        )}
+                {tab}
+              </button>
+            );
+          })}
+        </div>
 
-        {/* UPLOADS TAB */}
-        {activeTab === 'uploads' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <p className="text-sm" style={{ color: '#958ea0' }}>{mediaAssets.length} uploaded photos</p>
-              <label
-                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold cursor-pointer transition-all hover:opacity-90"
-                style={{ background: 'var(--surface-high)', color: '#e5e2e1', border: '1px solid rgba(73,68,84,0.3)', minHeight: 'var(--touch-target)' }}
-              >
-                <MaterialIcon name="add" size={16} />
-                Upload
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={async (event) => {
-                    const file = event.target.files?.[0];
-                    if (!file) return;
-                    try {
-                      await onUploadNewItem(file);
-                      setUploadError('');
-                    } catch (error) {
-                      setUploadError(error instanceof Error ? error.message : 'Upload failed.');
-                    }
-                    event.target.value = '';
-                  }}
-                />
-              </label>
-            </div>
-
-            {uploadError && (
-              <div className="rounded-2xl p-3 text-sm" style={{ background: 'rgba(147,0,10,0.2)', color: '#ffb4ab', border: '1px solid rgba(255,180,171,0.2)' }}>
-                {uploadError}
-              </div>
-            )}
-
-            <div className="grid grid-cols-3 gap-2">
-              {mediaAssets.length > 0 ? (
-                mediaAssets.map((asset) => (
-                  <div key={asset.id} className="relative overflow-hidden rounded-2xl aspect-square group cursor-pointer" style={{ background: 'var(--surface)' }}>
-                    <img src={asset.previewUrl} alt={asset.fileName} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center">
-                      {onCreateFromMedia && (
-                        <button
-                          type="button"
-                          onClick={() => void onCreateFromMedia(asset.id)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity rounded-full px-3 py-1 text-xs font-bold"
-                          style={{ background: '#d0bcff', color: '#23005c' }}
-                        >
-                          Review
-                        </button>
-                      )}
-                    </div>
-                    {asset.linkedItemId && (
-                      <div className="absolute top-1.5 right-1.5 h-5 w-5 rounded-full flex items-center justify-center"
-                           style={{ background: '#4fdbc8' }}>
-                        <MaterialIcon name="check" size={12} className="text-[#003731]" />
-                      </div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="col-span-3 flex flex-col items-center justify-center py-16 text-center" style={{ color: '#958ea0' }}>
-                  <MaterialIcon name="photo_camera" size={48} className="mb-4 opacity-30" />
-                  <p className="text-sm">No uploads yet.</p>
-                  <p className="text-xs mt-1">Upload your wardrobe photos to get started.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* REVIEW QUEUE TAB */}
-        {activeTab === 'review' && (
-          <div className="space-y-3">
+        {activeTab === 'items' ? (
+          <div className="space-y-5">
             {reviewQueue.length > 0 ? (
-              reviewQueue.map((item) => {
-                const src = resolveWardrobeImageSrc(item);
-                return (
-                  <div
-                    key={item.id}
-                    className="flex items-center gap-4 rounded-2xl p-4"
-                    style={{ background: 'var(--surface)', border: '1px solid rgba(73,68,84,0.2)' }}
+              <div
+                className="rounded-[1.45rem] border px-4 py-4"
+                style={{
+                  background: 'rgba(255,180,171,0.06)',
+                  borderColor: 'rgba(255,180,171,0.16)',
+                }}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#ffb4ab' }}>
+                      Review queue
+                    </p>
+                    <p className="mt-2 text-sm leading-6" style={{ color: '#f4f0eb' }}>
+                      {reviewQueue.length} piece{reviewQueue.length === 1 ? '' : 's'} still need confirmation before they become reliable AI picks.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const firstPending = reviewQueue[0];
+                      if (!firstPending?.mediaAssetId) return;
+                      void onCreateFromMedia(firstPending.mediaAssetId, firstPending.id);
+                    }}
+                    className="rounded-full px-4 py-2 text-sm font-semibold transition-transform active:scale-[0.98]"
+                    style={{
+                      minHeight: '2.75rem',
+                      background: 'rgba(255,255,255,0.08)',
+                      color: '#ffb4ab',
+                      border: '1px solid rgba(255,180,171,0.16)',
+                    }}
                   >
-                    <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl" style={{ background: 'var(--surface-high)' }}>
-                      {src ? (
-                        <img src={src} alt={item.name} className="h-full w-full object-cover" />
-                      ) : (
-                        <div className={`h-full w-full bg-gradient-to-br ${item.palette ?? 'from-gray-700 to-gray-800'}`} />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold truncate" style={{ color: '#e5e2e1' }}>{item.name}</p>
-                      <p className="text-xs mt-0.5" style={{ color: '#958ea0' }}>
-                        {item.detection?.state === 'error' ? 'Detection failed' : 'Auto-detected — confirm?'}
-                      </p>
-                    </div>
-                    <div
-                      className="rounded-full px-3 py-1 text-xs font-bold uppercase"
+                    Review first
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <section>
+              <div className="mb-3 flex items-center justify-between">
+                <div>
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#4fdbc8' }}>
+                    Suggested today
+                  </p>
+                  <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                    The strongest ready-to-use pieces right now.
+                  </p>
+                </div>
+                <label
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90"
+                  style={{
+                    minHeight: '2.75rem',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(73,68,84,0.22)',
+                    color: '#f5f2ee',
+                  }}
+                >
+                  <MaterialIcon name="add" size={16} />
+                  Add piece
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+                      try {
+                        setUploadError('');
+                        await onUploadNewItem(file);
+                      } catch (error) {
+                        setUploadError(error instanceof Error ? error.message : 'Upload failed.');
+                      }
+                      event.target.value = '';
+                    }}
+                  />
+                </label>
+              </div>
+
+              {uploadError ? (
+                <div
+                  className="mb-3 rounded-2xl border px-3.5 py-3 text-sm"
+                  style={{
+                    background: 'rgba(255,180,171,0.08)',
+                    borderColor: 'rgba(255,180,171,0.16)',
+                    color: '#ffb4ab',
+                  }}
+                >
+                  {uploadError}
+                </div>
+              ) : null}
+
+              <div className="grid grid-cols-2 gap-3">
+                {suggestedToday.map((item) => (
+                  <WardrobeItemCard
+                    key={item.id}
+                    item={item}
+                    staleLaundry={false}
+                    onUse={() => {
+                      onUseWardrobeItems([item.id]);
+                      onOpenChat();
+                    }}
+                    onToggleLaundry={(nextValue) => {
+                      void onToggleLaundry(item.id, nextValue);
+                    }}
+                  />
+                ))}
+              </div>
+            </section>
+
+            {frequentItems.length > 0 ? (
+              <section>
+                <div className="mb-3">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#d0bcff' }}>
+                    Frequently used
+                  </p>
+                  <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                    Reliable anchors when you need a fast decision.
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {frequentItems.map((item) => (
+                    <WardrobeItemCard
+                      key={item.id}
+                      item={item}
+                      staleLaundry={false}
+                      onUse={() => {
+                        onUseWardrobeItems([item.id]);
+                        onOpenChat();
+                      }}
+                      onToggleLaundry={(nextValue) => {
+                        void onToggleLaundry(item.id, nextValue);
+                      }}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {mediaAssets.length > 0 ? (
+              <section>
+                <div className="mb-3">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#4fdbc8' }}>
+                    Recent uploads
+                  </p>
+                  <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                    Turn uploaded photos into wardrobe pieces when you are ready.
+                  </p>
+                </div>
+                <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+                  {mediaAssets.slice(0, 6).map((asset) => (
+                    <button
+                      key={asset.id}
+                      type="button"
+                      onClick={() => {
+                        void onCreateFromMedia(asset.id);
+                      }}
+                      className="min-w-[6.75rem] overflow-hidden rounded-[1.3rem] border text-left transition-transform active:scale-[0.98]"
                       style={{
-                        background: item.detection?.state === 'error' ? 'rgba(255,180,171,0.15)' : 'rgba(230,199,122,0.15)',
-                        color: item.detection?.state === 'error' ? '#ffb4ab' : '#e6c77a',
+                        background: 'rgba(255,255,255,0.03)',
+                        borderColor: 'rgba(73,68,84,0.2)',
                       }}
                     >
-                      {item.detection?.state === 'error' ? 'Error' : 'Review'}
-                    </div>
-                  </div>
-                );
-              })
+                      <div className="aspect-square overflow-hidden">
+                        <img src={asset.previewUrl} alt={asset.fileName} className="h-full w-full object-cover" />
+                      </div>
+                      <div className="px-3 py-2">
+                        <p className="truncate text-xs font-semibold" style={{ color: '#f5f2ee' }}>
+                          {asset.fileName}
+                        </p>
+                        <p className="mt-1 text-[0.68rem] uppercase tracking-[0.2em]" style={{ color: '#958ea0' }}>
+                          Review
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {notWornRecently.length > 0 ? (
+              <section>
+                <div className="mb-3">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#d0bcff' }}>
+                    Not worn recently
+                  </p>
+                  <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                    Quiet options to rotate back into the mix.
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {notWornRecently.map((item) => (
+                    <WardrobeItemCard
+                      key={item.id}
+                      item={item}
+                      staleLaundry={false}
+                      onUse={() => {
+                        onUseWardrobeItems([item.id]);
+                        onOpenChat();
+                      }}
+                      onToggleLaundry={(nextValue) => {
+                        void onToggleLaundry(item.id, nextValue);
+                      }}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+        ) : null}
+
+        {activeTab === 'outfits' ? (
+          <div className="space-y-4">
+            <div>
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#4fdbc8' }}>
+                Saved outfits
+              </p>
+              <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                Reuse what already worked and send it back into chat as one grouped attachment.
+              </p>
+            </div>
+            <OutfitsGrid
+              outfits={outfits}
+              wardrobe={wardrobe}
+              onUseInChat={(outfit) => {
+                onUseOutfit(outfit);
+                onOpenChat();
+              }}
+              onDelete={onDeleteOutfit}
+            />
+          </div>
+        ) : null}
+
+        {activeTab === 'laundry' ? (
+          <div className="space-y-4">
+            <div>
+              <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em]" style={{ color: '#ffb4ab' }}>
+                Laundry hold
+              </p>
+              <p className="mt-1 text-sm" style={{ color: '#958ea0' }}>
+                Anything marked here stays out of AI picks until you bring it back.
+              </p>
+            </div>
+            {inLaundryItems.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3">
+                {inLaundryItems.map((item) => (
+                  <WardrobeItemCard
+                    key={item.id}
+                    item={item}
+                    staleLaundry={(daysSince(item.laundrySince) ?? 0) > 7}
+                    onUse={() => {
+                      onUseWardrobeItems([item.id]);
+                      onOpenChat();
+                    }}
+                    onToggleLaundry={(nextValue) => {
+                      void onToggleLaundry(item.id, nextValue);
+                    }}
+                  />
+                ))}
+              </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-center" style={{ color: '#958ea0' }}>
-                <MaterialIcon name="check_circle" size={48} className="mb-4 opacity-30" />
-                <p className="text-sm">No items need review.</p>
-                <p className="text-xs mt-1">All your wardrobe items are confirmed.</p>
+              <div
+                className="rounded-[1.45rem] border px-5 py-8 text-center"
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  borderColor: 'rgba(73,68,84,0.18)',
+                }}
+              >
+                <MaterialIcon name="local_laundry_service" size={30} className="mb-3 text-[#4fdbc8]" />
+                <p className="text-base font-semibold" style={{ color: '#f5f2ee' }}>
+                  Nothing is in laundry right now.
+                </p>
+                <p className="mt-2 text-sm leading-6" style={{ color: '#958ea0' }}>
+                  Mark pieces here whenever they leave the closet so the stylist does not recommend them by mistake.
+                </p>
               </div>
             )}
           </div>
-        )}
-      </div>
-
-      {/* FAB */}
-      <div className="fixed right-6" style={{ bottom: 'calc(var(--tab-bar-height) + max(var(--safe-bottom), 0px) + 1rem)' }}>
-        <label
-          className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full shadow-[0_10px_20px_rgba(160,120,255,0.4)] transition-transform active:scale-95"
-          style={{ background: 'linear-gradient(135deg, #d0bcff 0%, #a078ff 100%)' }}
-          aria-label="Add wardrobe item"
-        >
-          <MaterialIcon name="add" size={28} className="text-[#23005c]" />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={async (event) => {
-              const file = event.target.files?.[0];
-              if (!file) return;
-              try {
-                await onUploadNewItem(file);
-              } catch {
-                /* ignore */
-              }
-              event.target.value = '';
-            }}
-          />
-        </label>
+        ) : null}
       </div>
     </div>
   );

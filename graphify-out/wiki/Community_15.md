@@ -1,10 +1,13 @@
 # Community 15
 
-> 1 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- **capacitor.config.ts** (0 connections) — `D:\Claude WeaR\capacitor.config.ts`
+- **wardrobeVisuals.ts** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
+- **createFashionMockImage()** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
+- **garmentMarkup()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
+- **svgToDataUrl()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
 
 ## Relationships
 
@@ -12,11 +15,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\capacitor.config.ts`
+- `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,23 +1,24 @@
 # Community 7
 
-> 14 nodes · cohesion 0.23
+> 15 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- **generationApi.ts** (14 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **MobileZeroUI.tsx** (11 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- **requestJson()** (6 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **buildHeroSuggestions()** (4 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- **apiContract.ts** (2 connections) — `D:\Claude WeaR\src\lib\apiContract.ts`
-- **fetchGenerationStatus()** (2 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **requestEventChat()** (2 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **requestWardrobeIdentification()** (2 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **requestWardrobeImage()** (2 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **requestWardrobeOptions()** (2 connections) — `D:\Claude WeaR\src\lib\generationApi.ts`
-- **buildDayPart()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- **buildEventLabel()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- **buildWeatherCue()** (2 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- **buildDecisionGroups()** (1 connections) — `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
+- **OnboardingFlow.tsx** (13 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **useMobileLayout.ts** (7 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
+- **AuthScreen.tsx** (4 connections) — `D:\Claude WeaR\src\components\AuthScreen.tsx`
+- **checkIsMobile()** (3 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
+- **checkIsNative()** (2 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
+- **isPresentation()** (2 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
+- **handleSubmit()** (1 connections) — `D:\Claude WeaR\src\components\AuthScreen.tsx`
+- **cx()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **getStepMessage()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **nextStep()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **previousStep()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **saveFacePhoto()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **ToggleChip()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **togglePreference()** (1 connections) — `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- **useMobileLayout()** (1 connections) — `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
 
 ## Relationships
 
@@ -25,13 +26,13 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\components\mobile\MobileZeroUI.tsx`
-- `D:\Claude WeaR\src\lib\apiContract.ts`
-- `D:\Claude WeaR\src\lib\generationApi.ts`
+- `D:\Claude WeaR\src\components\AuthScreen.tsx`
+- `D:\Claude WeaR\src\components\OnboardingFlow.tsx`
+- `D:\Claude WeaR\src\hooks\useMobileLayout.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 54 (100%)
+- EXTRACTED: 40 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

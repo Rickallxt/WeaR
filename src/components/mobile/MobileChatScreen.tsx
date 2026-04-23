@@ -19,7 +19,11 @@ function WardrobePicker({
   function toggle(id: string) {
     setSelected((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   }
@@ -273,6 +277,18 @@ export function MobileChatScreen({
 
   function removeAttachment(id: string) {
     onAttachmentsChange(attachments.filter((a) => a.id !== id));
+  }
+
+  function handleAttachAction(kind: 'camera' | 'gallery' | 'wardrobe') {
+    if (kind === 'camera') {
+      cameraRef.current?.click();
+    } else if (kind === 'gallery') {
+      uploadRef.current?.click();
+    } else {
+      setShowWardrobePicker(true);
+    }
+
+    setShowAttachMenu(false);
   }
 
   const canSend = draft.trim().length > 0 || attachments.length > 0;
@@ -559,25 +575,25 @@ export function MobileChatScreen({
                   icon: 'camera_alt',
                   label: 'Take a Photo',
                   sub: 'Use your camera',
-                  action: () => { cameraRef.current?.click(); setShowAttachMenu(false); },
+                  kind: 'camera' as const,
                 },
                 {
                   icon: 'photo_library',
                   label: 'Upload from Gallery',
                   sub: 'Choose an image',
-                  action: () => { uploadRef.current?.click(); setShowAttachMenu(false); },
+                  kind: 'gallery' as const,
                 },
                 {
                   icon: 'checkroom',
                   label: 'Choose from Wardrobe',
                   sub: `${wardrobe.length} item${wardrobe.length !== 1 ? 's' : ''} available`,
-                  action: () => { setShowWardrobePicker(true); setShowAttachMenu(false); },
+                  kind: 'wardrobe' as const,
                 },
-              ].map(({ icon, label, sub, action }) => (
+              ].map(({ icon, label, sub, kind }) => (
                 <button
                   key={label}
                   type="button"
-                  onClick={action}
+                  onClick={() => handleAttachAction(kind)}
                   className="flex items-center gap-4 rounded-2xl px-4 py-3.5 text-left transition-all active:scale-95"
                   style={{ background: 'var(--surface-high)' }}
                 >

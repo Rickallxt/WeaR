@@ -1,13 +1,17 @@
 # Community 12
 
-> 4 nodes · cohesion 0.83
+> 8 nodes · cohesion 0.43
 
 ## Key Concepts
 
-- **wardrobeVisuals.ts** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
-- **createFashionMockImage()** (3 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
-- **garmentMarkup()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
-- **svgToDataUrl()** (2 connections) — `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
+- **server.mjs** (7 connections) — `D:\Claude WeaR\server.mjs`
+- **openAIResponses()** (6 connections) — `D:\Claude WeaR\server.mjs`
+- **handleChat()** (2 connections) — `D:\Claude WeaR\server.mjs`
+- **handleIdentify()** (2 connections) — `D:\Claude WeaR\server.mjs`
+- **handleImage()** (2 connections) — `D:\Claude WeaR\server.mjs`
+- **handleOptions()** (2 connections) — `D:\Claude WeaR\server.mjs`
+- **json()** (2 connections) — `D:\Claude WeaR\server.mjs`
+- **readJson()** (1 connections) — `D:\Claude WeaR\server.mjs`
 
 ## Relationships
 
@@ -15,11 +19,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\src\lib\wardrobeVisuals.ts`
+- `D:\Claude WeaR\server.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

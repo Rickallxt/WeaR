@@ -8,6 +8,7 @@ import {
   parseJsonFromText,
 } from '../server/wardrobeEngine.mjs';
 import { buildFallbackIdentification } from '../server/wardrobeIdentify.mjs';
+import { buildLocalImagePrompt } from '../server/freeImageProviders.mjs';
 
 const sampleItems = [
   { id: 'w1', name: 'Bone cropped bomber', imageDataUrl: 'data:image/png;base64,abc' },
@@ -40,7 +41,7 @@ test('buildFallbackChat keeps the event summary and wardrobe context', () => {
   });
 
   assert.equal(chat.summary, 'Outdoor wedding at sunset');
-  assert.match(chat.reply, /prioritize pieces/i);
+  assert.match(chat.reply, /build the paths/i);
   assert.match(chat.reply, /Bone cropped bomber/);
 });
 
@@ -59,8 +60,8 @@ test('buildFallbackImage always returns a renderable data URL', () => {
 
   assert.match(emptyImage.imageDataUrl, /^data:image\/svg\+xml;base64,/);
   assert.match(filledImage.imageDataUrl, /^data:image\/svg\+xml;base64,/);
-  assert.equal(emptyImage.mode, 'demo');
-  assert.equal(filledImage.revisedPrompt, 'Demo mode preview using Event-ready edit.');
+  assert.equal(emptyImage.mode, 'local');
+  assert.equal(filledImage.revisedPrompt, 'Local collage preview using Event-ready edit.');
 });
 
 test('buildFallbackIdentification infers wardrobe traits from the upload name', () => {
@@ -92,4 +93,18 @@ test('buildFallbackIdentification respects existing wardrobe context when availa
   assert.equal(identification.category, 'Outerwear');
   assert.equal(identification.fit, 'Structured relaxed');
   assert.match(identification.tags.join(' '), /Uploaded piece/);
+});
+
+test('buildLocalImagePrompt keeps local generation wardrobe-first', () => {
+  const prompt = buildLocalImagePrompt({
+    selectedItems: sampleItems,
+    option: { title: 'Dinner edit', vibe: 'sharp but soft', eventFit: 'Date night' },
+    eventSummary: 'Dinner downtown',
+    profile: { tasteNotes: ['prefers quiet structure'] },
+  });
+
+  assert.match(prompt, /provided wardrobe pieces/i);
+  assert.match(prompt, /neutral fashion mannequin/i);
+  assert.match(prompt, /Bone cropped bomber/);
+  assert.match(prompt, /prefers quiet structure/);
 });

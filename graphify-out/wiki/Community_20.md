@@ -1,10 +1,11 @@
 # Community 20
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- **vite.config.ts** (0 connections) — `D:\Claude WeaR\vite.config.ts`
+- **useAndroidKeyboard.ts** (1 connections) — `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
+- **useAndroidKeyboard()** (1 connections) — `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\vite.config.ts`
+- `D:\Claude WeaR\src\hooks\useAndroidKeyboard.ts`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,12 @@
 # Community 16
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- **eslint.config.js** (0 connections) — `D:\Claude WeaR\eslint.config.js`
+- **dev-electron.mjs** (2 connections) — `D:\Claude WeaR\dev-electron.mjs`
+- **shutdown()** (1 connections) — `D:\Claude WeaR\dev-electron.mjs`
+- **startProcess()** (1 connections) — `D:\Claude WeaR\dev-electron.mjs`
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- `D:\Claude WeaR\eslint.config.js`
+- `D:\Claude WeaR\dev-electron.mjs`
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

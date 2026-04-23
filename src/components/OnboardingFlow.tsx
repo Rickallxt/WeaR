@@ -5,6 +5,7 @@ import {
   fitModes,
   onboardingOccasions,
   onboardingStyleOptions,
+  type FacePhotoAngle,
   type UserProfile,
 } from '../data/wearData';
 import { cx } from '../lib/cx';
@@ -18,6 +19,12 @@ const confidenceGoals = [
   'Look sharper and more body-aware.',
   'Reuse more of my wardrobe with confidence.',
   'Build stronger looks for going out.',
+];
+
+const facePhotoSlots: Array<{ angle: FacePhotoAngle; label: string; helper: string }> = [
+  { angle: 'front', label: 'Front', helper: 'Face the camera' },
+  { angle: 'left-side', label: 'Left side', helper: 'Turn slightly left' },
+  { angle: 'right-side', label: 'Right side', helper: 'Turn slightly right' },
 ];
 
 function ToggleChip({
@@ -61,6 +68,7 @@ export function OnboardingFlow({
     { label: 'Taste', title: 'Set the taste level, not just the trend.' },
     { label: 'Occasions', title: 'Tell WeaR where these outfits need to go.' },
     { label: 'Goal', title: 'Finish with the styling outcome you want.' },
+    { label: 'Face', title: 'Add face references for future outfit previews.' },
   ];
 
   function togglePreference(field: 'stylePreferences' | 'occasions', value: string) {
@@ -72,6 +80,32 @@ export function OnboardingFlow({
 
       return { ...current, [field]: nextValues };
     });
+  }
+
+  function saveFacePhoto(angle: FacePhotoAngle, file?: File) {
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageDataUrl = String(event.target?.result ?? '');
+      if (!imageDataUrl) return;
+
+      const slot = facePhotoSlots.find((item) => item.angle === angle);
+      setProfile((current) => ({
+        ...current,
+        // These references are stored in profile memory so later image generation can use the user's face context.
+        facePhotos: [
+          ...current.facePhotos.filter((photo) => photo.angle !== angle),
+          {
+            angle,
+            label: slot?.label ?? angle,
+            imageDataUrl,
+            capturedAt: new Date().toISOString(),
+          },
+        ],
+      }));
+    };
+    reader.readAsDataURL(file);
   }
 
   function getStepMessage(currentStep: number) {
@@ -102,6 +136,15 @@ export function OnboardingFlow({
 
     if (currentStep === 5 && !profile.confidenceGoal.trim()) {
       return 'Pick the styling outcome you want WeaR to optimize for first.';
+    }
+
+    if (currentStep === 6) {
+      const hasFront = profile.facePhotos.some((photo) => photo.angle === 'front');
+      const hasSide = profile.facePhotos.some((photo) => photo.angle === 'left-side' || photo.angle === 'right-side');
+
+      if (!hasFront || !hasSide) {
+        return 'Add a front photo and at least one side angle so generated outfits can look like you.';
+      }
     }
 
     return '';
@@ -481,6 +524,83 @@ export function OnboardingFlow({
                       <p className="mt-6 text-sm leading-7 text-[var(--muted)]">
                         Your dashboard will prioritize outfit generation from owned pieces, fit logic based on your frame, and saved looks grouped by real occasions.
                       </p>
+                    </Panel>
+                  </div>
+                )}
+
+                {step === 6 && (
+                  <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                    <Panel className="p-6 xl:p-8">
+                      <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted-strong)]">Face reference</p>
+                      <h3 className="mt-4 font-display text-[2rem] tracking-[-0.06em] text-[var(--text)]">
+                        So outfit previews can look like you.
+                      </h3>
+                      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                        {facePhotoSlots.map((slot) => {
+                          const photo = profile.facePhotos.find((item) => item.angle === slot.angle);
+
+                          return (
+                            <label
+                              key={slot.angle}
+                              className={cx(
+                                'group relative flex min-h-[11rem] cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border p-4 transition duration-300',
+                                photo
+                                  ? 'border-[rgba(79,219,200,0.34)] bg-[rgba(79,219,200,0.08)]'
+                                  : 'border-[var(--line)] bg-[var(--surface)] hover:border-[rgba(143,150,255,0.34)]',
+                              )}
+                            >
+                              {photo ? (
+                                <img
+                                  src={photo.imageDataUrl}
+                                  alt={`${slot.label} face reference`}
+                                  className="absolute inset-0 h-full w-full object-cover opacity-80"
+                                />
+                              ) : null}
+                              <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.05),rgba(0,0,0,0.55))]" />
+                              <span className="relative z-10 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(208,188,255,0.16)] text-[var(--text)]">
+                                {photo ? 'OK' : '+'}
+                              </span>
+                              <span className="relative z-10">
+                                <span className="block text-sm font-semibold text-[var(--text)]">{slot.label}</span>
+                                <span className="mt-1 block text-xs leading-5 text-[var(--muted)]">{slot.helper}</span>
+                              </span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                capture="user"
+                                className="sr-only"
+                                onChange={(event) => {
+                                  saveFacePhoto(slot.angle, event.target.files?.[0]);
+                                  event.target.value = '';
+                                }}
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </Panel>
+
+                    <Panel className="p-6 xl:p-8" variant="solid">
+                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted-strong)]">Privacy-minded memory</p>
+                      <div className="mt-5 space-y-3">
+                        {[
+                          'Used only as styling context inside your account.',
+                          'Helps future previews place outfits on your own face and frame.',
+                          'You can replace these references later from your profile.',
+                        ].map((item) => (
+                          <div key={item} className="rounded-[20px] border border-[var(--line)] bg-[var(--surface)] px-4 py-4">
+                            <p className="text-sm leading-6 text-[var(--text)]">{item}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-6 flex flex-wrap gap-2">
+                        <SurfaceBadge tone={profile.facePhotos.some((photo) => photo.angle === 'front') ? 'accent' : 'default'}>
+                          Front
+                        </SurfaceBadge>
+                        <SurfaceBadge tone={profile.facePhotos.some((photo) => photo.angle === 'left-side' || photo.angle === 'right-side') ? 'accent' : 'default'}>
+                          Side angle
+                        </SurfaceBadge>
+                      </div>
                     </Panel>
                   </div>
                 )}

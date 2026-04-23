@@ -50,7 +50,14 @@ startProcess('vite', npm, ['run', 'dev:web'], shellOpt);
 
 /* 3. Electron — give Vite ~3 s to start before opening the window */
 setTimeout(() => {
-  startProcess('electron', npm, ['exec', 'electron', '--', '.'], shellOpt);
+  startProcess('electron', npm, ['exec', 'electron', '--', '.'], {
+    ...shellOpt,
+    env: {
+      ...process.env,
+      WEAR_EXTERNAL_API: '1',
+      PORT: '8787',
+    },
+  });
 }, 3000);
 
 process.on('SIGINT',  () => shutdown('SIGINT'));

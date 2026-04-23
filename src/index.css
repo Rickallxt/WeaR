@@ -367,12 +367,12 @@ input::placeholder, textarea::placeholder {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ── Safe area / mobile layout utilities ──────────────────── */
-.pt-safe  { padding-top:    max(var(--safe-top),    0px); }
-.pb-safe  { padding-bottom: max(var(--safe-bottom), 0px); }
+.pt-safe  { padding-top:    max(var(--safe-top, 0px),    0px); }
+.pb-safe  { padding-bottom: max(var(--safe-bottom, 0px), 0px); }
 .pl-safe  { padding-left:   max(var(--safe-left),   0px); }
 .pr-safe  { padding-right:  max(var(--safe-right),  0px); }
-.pb-tab-bar { padding-bottom: calc(var(--tab-bar-height) + max(var(--safe-bottom), 0px)); }
-.h-tab-bar  { height:         calc(var(--tab-bar-height) + max(var(--safe-bottom), 0px)); }
+.pb-tab-bar { padding-bottom: calc(var(--tab-bar-height) + max(var(--safe-bottom, 0px), 0px)); }
+.h-tab-bar  { height:         calc(var(--tab-bar-height) + max(var(--safe-bottom, 0px), 0px)); }
 
 .mobile-card {
   border-radius: 1.25rem;

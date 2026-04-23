@@ -4,9 +4,12 @@ import { exampleWardrobeItems } from '../data/exampleWardrobe';
 import {
   baseProfile,
   savedCollections,
+  withProfileDefaults,
+  wardrobeItems,
   type AuthSession,
   type MediaAsset,
   type SavedCollection,
+  type SavedOutfit,
   type ScreenKey,
   type UserProfile,
   type WardrobeItem,
@@ -33,7 +36,15 @@ import {
   uploadMediaAsset,
   type AppSession,
 } from '../lib/appClient';
-import { clearLegacySnapshot, hasLegacySnapshot, readLegacySnapshot, type EventSession } from '../lib/persistence';
+import {
+  clearLegacySnapshot,
+  hasLegacySnapshot,
+  loadOutfits,
+  migrateCollectionsToOutfits,
+  readLegacySnapshot,
+  saveOutfits,
+  type EventSession,
+} from '../lib/persistence';
 import { fetchGenerationStatus, requestWardrobeIdentification, type GenerationStatus, type WardrobeIdentification } from '../lib/generationApi';
 import {
   checkNewAchievements,
@@ -50,6 +61,7 @@ import { ItemReviewModal } from './ItemReviewModal';
 import { LegacyImportPrompt } from './LegacyImportPrompt';
 import { MobileWorkspace } from './mobile/MobileWorkspace';
 import { OnboardingFlow } from './OnboardingFlow';
+import { PresentationStage } from './PresentationStage';
 import { Sidebar } from './Sidebar';
 import { SplashScreen } from './SplashScreen';
 import { useMobileLayout } from '../hooks/useMobileLayout';
@@ -234,6 +246,7 @@ function DesktopWorkspace({
           />
         );
       case 'generate':
+      case 'chat':
         return (
           <GenerateScreen
             profile={profile}
@@ -307,6 +320,7 @@ function DesktopWorkspace({
 export function WearAppRuntime() {
   const reduceMotion = useReducedMotion();
   const isMobile = useMobileLayout();
+  const isPresent = new URLSearchParams(location.search).get('present') === '1';
   const [showSplash, setShowSplash] = useState(true);
   const [session, setSession] = useState<AuthSession>({ authenticated: false, user: null });
   const [authChecking, setAuthChecking] = useState(true);
@@ -316,9 +330,10 @@ export function WearAppRuntime() {
   const [profile, setProfile] = useState<UserProfile>(baseProfile);
   const [wardrobe, setWardrobe] = useState<WardrobeItem[]>([]);
   const [collections, setCollections] = useState<SavedCollection[]>(savedCollections);
+  const [outfits, setOutfits] = useState<SavedOutfit[]>([]);
   const [mediaAssets, setMediaAssets] = useState<MediaAsset[]>([]);
   const [eventSession, setEventSession] = useState<EventSession>({ messages: [], eventSummary: '' });
-  const [activeScreen, setActiveScreen] = useState<ScreenKey>('dashboard');
+  const [activeScreen, setActiveScreen] = useState<ScreenKey>(isMobile ? 'chat' : 'generate');
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus | null>(null);
   const [uploadReview, setUploadReview] = useState<UploadReviewState | null>(null);
   const [uploadMessage, setUploadMessage] = useState('');
@@ -348,6 +363,14 @@ export function WearAppRuntime() {
   }, []);
 
   useEffect(() => {
+    // ?demo=1 — bypass auth for design preview / screenshots
+    if (new URLSearchParams(location.search).get('demo') === '1') {
+      setSession({ authenticated: true, user: { id: 'demo', email: 'demo@wear.app', name: 'Demo User', onboarded: true, createdAt: new Date().toISOString(), importedLegacyData: false } });
+      setWardrobe(wardrobeItems);
+      setAuthChecking(false);
+      return;
+    }
+
     let ignore = false;
 
     async function bootstrap() {
@@ -431,9 +454,19 @@ export function WearAppRuntime() {
       getMediaAssets(),
     ]);
 
-    setProfile((profilePayload.profile as UserProfile | null) ?? baseProfile);
+    const normalizedProfile = withProfileDefaults(profilePayload.profile as Partial<UserProfile> | null);
+    const nextCollections = collectionPayload.length > 0 ? collectionPayload : savedCollections;
+    const storedOutfits = loadOutfits(wardrobePayload);
+    const nextOutfits = storedOutfits ?? migrateCollectionsToOutfits(collectionPayload, wardrobePayload);
+
+    if (!storedOutfits && nextOutfits.length > 0) {
+      saveOutfits(nextOutfits);
+    }
+
+    setProfile(normalizedProfile);
     setWardrobe(wardrobePayload);
-    setCollections(collectionPayload.length > 0 ? collectionPayload : savedCollections);
+    setCollections(nextCollections);
+    setOutfits(nextOutfits);
     setEventSession(eventSessionPayload);
     setMediaAssets(mediaPayload);
   }
@@ -447,13 +480,14 @@ export function WearAppRuntime() {
   }
 
   async function persistProfile(nextProfile: UserProfile, onboarded?: boolean) {
-    setProfile(nextProfile);
-    await saveProfile(nextProfile as unknown as Record<string, unknown>, {
+    const normalizedProfile = withProfileDefaults(nextProfile);
+    setProfile(normalizedProfile);
+    await saveProfile(normalizedProfile as unknown as Record<string, unknown>, {
       onboarded,
     });
     setSession((current) =>
       current.authenticated && current.user
-        ? { ...current, user: { ...current.user, name: nextProfile.name, onboarded: onboarded ?? current.user.onboarded } }
+        ? { ...current, user: { ...current.user, name: normalizedProfile.name, onboarded: onboarded ?? current.user.onboarded } }
         : current,
     );
   }
@@ -461,6 +495,11 @@ export function WearAppRuntime() {
   async function persistCollections(nextCollections: SavedCollection[]) {
     setCollections(nextCollections);
     await saveCollections(nextCollections as unknown[]);
+  }
+
+  function persistOutfits(nextOutfits: SavedOutfit[]) {
+    setOutfits(nextOutfits);
+    saveOutfits(nextOutfits);
   }
 
   async function persistEventSession(nextSession: EventSession) {
@@ -473,6 +512,93 @@ export function WearAppRuntime() {
     await saveWardrobe(nextWardrobe as unknown[]);
   }
 
+  function sameOutfitItems(left: string[], right: string[]) {
+    if (left.length !== right.length) return false;
+    const leftSorted = [...left].sort();
+    const rightSorted = [...right].sort();
+    return leftSorted.every((itemId, index) => itemId === rightSorted[index]);
+  }
+
+  async function handleApproveLook(payload: {
+    title: string;
+    vibe: string;
+    rationale: string;
+    items: WardrobeItem[];
+    eventSummary: string;
+    coverImageUrl?: string | null;
+  }) {
+    const approvedAt = new Date().toISOString();
+    const itemIds = payload.items.map((item) => item.id);
+    const approvedLook = {
+      id: `approved-${Date.now()}`,
+      title: payload.title,
+      eventSummary: payload.eventSummary,
+      itemIds,
+      imageDataUrl: payload.coverImageUrl ?? undefined,
+      approvedAt,
+    };
+
+    const nextProfile = withProfileDefaults({
+      ...profile,
+      approvedLooks: [approvedLook, ...profile.approvedLooks].slice(0, 30),
+      tasteNotes: Array.from(new Set([payload.vibe, payload.rationale, ...profile.tasteNotes].filter(Boolean))).slice(0, 18),
+    });
+
+    await persistProfile(nextProfile);
+
+    // Reusing the same SavedOutfit record for a repeated item combination keeps wear history stable
+    // instead of creating duplicate outfit groups every time the user approves the same look again.
+    const existingOutfit = outfits.find((outfit) => sameOutfitItems(outfit.itemIds, itemIds));
+    const nextOutfit: SavedOutfit = existingOutfit
+      ? {
+          ...existingOutfit,
+          name: payload.title,
+          vibe: payload.vibe || existingOutfit.vibe,
+          coverImageDataUrl: payload.coverImageUrl ?? existingOutfit.coverImageDataUrl,
+          timesWorn: existingOutfit.timesWorn + 1,
+          lastWornAt: approvedAt,
+        }
+      : {
+          id: `outfit-${Date.now()}`,
+          name: payload.title,
+          itemIds,
+          createdAt: approvedAt,
+          coverImageDataUrl: payload.coverImageUrl ?? undefined,
+          vibe: payload.vibe,
+          timesWorn: 1,
+          lastWornAt: approvedAt,
+        };
+
+    persistOutfits([nextOutfit, ...outfits.filter((outfit) => outfit.id !== existingOutfit?.id)]);
+
+    const usedItemIds = new Set(itemIds);
+    await persistWardrobe(
+      wardrobe.map((item) =>
+        usedItemIds.has(item.id)
+          ? {
+              ...item,
+              lastWornAt: approvedAt,
+            }
+          : item,
+      ),
+    );
+  }
+
+  async function handleToggleLaundry(itemId: string, nextValue: boolean) {
+    const toggledAt = new Date().toISOString();
+    await persistWardrobe(
+      wardrobe.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              inLaundry: nextValue,
+              laundrySince: nextValue ? item.laundrySince ?? toggledAt : undefined,
+            }
+          : item,
+      ),
+    );
+  }
+
   async function handleAuthAction(action: () => Promise<AppSession>) {
     setAuthLoading(true);
     setAuthError('');
@@ -482,6 +608,7 @@ export function WearAppRuntime() {
       setDevResetToken('');
       if (nextSession.authenticated) {
         await loadUserData();
+        setActiveScreen(isMobile ? 'chat' : 'generate');
       }
     } catch (error) {
       setAuthError(error instanceof Error ? error.message : 'Unable to complete that action.');
@@ -495,9 +622,10 @@ export function WearAppRuntime() {
     setProfile(baseProfile);
     setWardrobe([]);
     setCollections(savedCollections);
+    setOutfits([]);
     setMediaAssets([]);
     setEventSession({ messages: [], eventSummary: '' });
-    setActiveScreen('dashboard');
+    setActiveScreen(isMobile ? 'chat' : 'generate');
   }
 
   async function runUploadReviewFromMedia({
@@ -598,6 +726,12 @@ export function WearAppRuntime() {
     await runUploadReviewFromMedia({ targetItemId: null, mediaAsset });
   }
 
+  async function handleUploadChatAsset(file: File) {
+    const mediaAsset = await uploadMediaAsset(file, { kind: 'wardrobe-upload' });
+    setMediaAssets((current) => [mediaAsset, ...current]);
+    return mediaAsset;
+  }
+
   async function handleCreateFromMedia(mediaAssetId: string, targetItemId: string | null = null) {
     const mediaAsset = mediaAssets.find((asset) => asset.id === mediaAssetId);
     if (!mediaAsset) return;
@@ -694,7 +828,7 @@ export function WearAppRuntime() {
           onboarded: snapshot.onboarded,
           importedLegacyData: true,
         });
-        setProfile(snapshot.profile);
+        setProfile(withProfileDefaults(snapshot.profile));
       }
       if (snapshot.wardrobe) {
         await saveWardrobe(snapshot.wardrobe as unknown[]);
@@ -703,6 +837,11 @@ export function WearAppRuntime() {
       if (snapshot.collections) {
         await saveCollections(snapshot.collections as unknown[]);
         setCollections(snapshot.collections);
+      }
+      if (snapshot.outfits) {
+        persistOutfits(snapshot.outfits);
+      } else if (snapshot.collections && snapshot.wardrobe) {
+        persistOutfits(migrateCollectionsToOutfits(snapshot.collections, snapshot.wardrobe));
       }
       if (snapshot.eventSession) {
         await saveEventSession(snapshot.eventSession);
@@ -730,8 +869,8 @@ export function WearAppRuntime() {
 
   const legacySnapshot = readLegacySnapshot();
 
-  return (
-    <main className="desktop-canvas relative min-h-screen overflow-hidden">
+  const appContent = (
+    <main className={`relative overflow-hidden${isPresent ? ' h-full w-full' : ' desktop-canvas min-h-screen'}`}>
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
       <div className="ambient ambient-three" />
@@ -745,23 +884,21 @@ export function WearAppRuntime() {
                 session={session}
                 profile={profile}
                 wardrobe={wardrobe}
-                collections={collections}
+                outfits={outfits}
                 mediaAssets={mediaAssets}
                 eventSession={eventSession}
                 generationStatus={generationStatus}
                 activeScreen={activeScreen}
                 onScreenChange={(screen) => startTransition(() => setActiveScreen(screen))}
-                onUploadPhoto={handleUploadPhoto}
                 onUploadNewItem={handleUploadNewItem}
-                onAddExampleItems={handleAddExampleItems}
+                onUploadChatAsset={handleUploadChatAsset}
                 onCreateFromMedia={handleCreateFromMedia}
-                onDeleteMediaAsset={handleDeleteMediaAsset}
-                onCollectionsChange={(nextCollections) => void persistCollections(nextCollections)}
                 onEventSessionChange={(nextSession) => void persistEventSession(nextSession)}
-                onProfileSave={(nextProfile, onboarded) => persistProfile(nextProfile, onboarded)}
+                onApproveLook={handleApproveLook}
+                onToggleLaundry={handleToggleLaundry}
+                onDeleteOutfit={(outfit) => persistOutfits(outfits.filter((entry) => entry.id !== outfit.id))}
                 onSignOut={handleSignOut}
                 onRequestPasswordReset={requestPasswordReset}
-                onOpenPalette={() => setPaletteOpen(true)}
               />
             ) : (
               <DesktopWorkspace
@@ -789,16 +926,16 @@ export function WearAppRuntime() {
             )
           ) : (
             <OnboardingFlow
-              onComplete={(nextProfile) => {
-                void persistProfile(nextProfile, true);
-                setSession((current) =>
-                  current.authenticated && current.user
-                    ? { ...current, user: { ...current.user, onboarded: true, name: nextProfile.name } }
-                    : current,
-                );
-                startTransition(() => setActiveScreen('dashboard'));
-              }}
-            />
+                onComplete={(nextProfile) => {
+                  void persistProfile(nextProfile, true);
+                  setSession((current) =>
+                    current.authenticated && current.user
+                      ? { ...current, user: { ...current.user, onboarded: true, name: nextProfile.name } }
+                      : current,
+                  );
+                  startTransition(() => setActiveScreen(isMobile ? 'chat' : 'generate'));
+                }}
+              />
           )
         ) : (
           <AuthScreen
@@ -875,4 +1012,8 @@ export function WearAppRuntime() {
       </AnimatePresence>
     </main>
   );
+
+  return isPresent ? (
+    <PresentationStage>{appContent}</PresentationStage>
+  ) : appContent;
 }
